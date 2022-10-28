@@ -1,12 +1,12 @@
-
 function convertToRoman(num : number) :string {
-    const romanLookup : object= {M: 1000, D: 500, C: 100, L: 50, X: 10, V: 5, I: 1}; //enum, // create type
-    const romanKeys : string[] = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
-    let romanNumber : string = '';
-    let index : number;
-    let count : number = 0;
+    enum romanLookup  {M = 1000, D = 500, C = 100, L = 50, X = 10, V = 5, I = 1}
+    const romanKeys   : string[] = Object.keys(romanLookup).filter(x => !(parseInt(x) >= 0));
+    let romanNumber   : string = '';
+    let index         : number;
+    let count         : number = 0;
+
     for (let key in romanLookup) {
-        let curValue : number = romanLookup[key];
+        let curValue : number = parseInt(romanLookup[key]);
         index = romanKeys.indexOf(key);
         while (num >= curValue) {
             if (count < 3) {
@@ -32,6 +32,6 @@ function convertToRoman(num : number) :string {
     return romanNumber;
 }
 
-console.log(convertToRoman(4104));
+console.log(convertToRoman(4001));
 
 
