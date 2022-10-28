@@ -13,6 +13,6 @@ root.render(
         {/*<LiftingStateUp/>*/}
         {/*<TickTacToe/>*/}
         {/*<HandleEvent/>*/}
-        {/*<LifeCycleMethods/>*/}
+        <LifeCycleMethods/>
     </div>
 )

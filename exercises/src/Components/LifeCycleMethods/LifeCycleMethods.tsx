@@ -8,13 +8,12 @@ class LifeCycleMethods extends React.Component<any, appState> {
     constructor(props: any) {
         super(props);
         this.state = {count: 0}
-        // console.log("Constructor call")
-        // this.handleClick = this.handleClick.bind(this)
+        console.log("Constructor")
     }
 
 
     componentDidMount() {
-        // console.log("componentDidMount call")
+        console.log("componentDidMount")
     }
 
     handleClick = () =>{
@@ -23,6 +22,7 @@ class LifeCycleMethods extends React.Component<any, appState> {
 
 
     render() {
+        console.log("Inside render")
         return (
             <div>
                 <Count num = {this.state.count}></Count>
