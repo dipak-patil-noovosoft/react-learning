@@ -1,6 +1,6 @@
 
 function convertToRoman(num : number) :string {
-    const romanLookup : object= {M: 1000, D: 500, C: 100, L: 50, X: 10, V: 5, I: 1};
+    const romanLookup : object= {M: 1000, D: 500, C: 100, L: 50, X: 10, V: 5, I: 1}; //enum, // create type
     const romanKeys : string[] = ['M', 'D', 'C', 'L', 'X', 'V', 'I'];
     let romanNumber : string = '';
     let index : number;

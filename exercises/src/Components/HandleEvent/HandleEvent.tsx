@@ -1,21 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 
 //Class Bsase component
-interface mystate {
+interface IGreetState { // IMyState
     name: string,
     isSubmit : boolean
 }
 
-class Greet extends React.Component<any, mystate> {
-    constructor(props:any) {
+class Greet extends React.Component<{}, IGreetState> {
+    constructor(props:{}) {
         super(props);
         this.state = {name: "",isSubmit:false}
-        this.inputHandler = this.inputHandler.bind(this)
-        this.onclickHandler = this.onclickHandler.bind(this)
     }
 
-    inputHandler = (e:any) => {
+    inputHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
         this.setState({...this.state,name: e.target.value,isSubmit:false});
     }
     onclickHandler = () => {
@@ -33,7 +30,4 @@ class Greet extends React.Component<any, mystate> {
 
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
-root.render(
-    <Greet/>
-)
+export default Greet;

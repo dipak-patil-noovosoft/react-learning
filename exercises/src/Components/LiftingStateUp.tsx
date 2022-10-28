@@ -1,13 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React, {ChangeEventHandler} from 'react';
 
 
-
-interface tempProp {
+interface ITempProp {
     temperature: string,
-    onTemperatureChange : (x:any) => void,
+    onTemperatureChange : (x:string) => void,
     scale :string
 }
+type scale ={c : string,f : string}
 const scaleNames : any = {
     c: 'Celsius',
     f: 'Fahrenheit'
@@ -46,19 +45,19 @@ function BoilingVerdict(props :{celsius:number}) {
 }
 
 
-class TemperatureInput extends React.Component<tempProp, any> {
-    constructor(props:tempProp) {
+class TemperatureInput extends React.Component<ITempProp,{} > {
+    constructor(props:ITempProp) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(e:any) {
+    handleChange(e:React.ChangeEvent<HTMLInputElement>) {
         this.props.onTemperatureChange(e.target.value);
     }
 
     render() {
         const temperature = this.props.temperature;
-        const scale = this.props.scale;
+        const scale  = this.props.scale;
         return (
             <fieldset>
                 <legend>Enter temperature in {scaleNames[scale]}:</legend>
@@ -70,8 +69,8 @@ class TemperatureInput extends React.Component<tempProp, any> {
 }
 
 
-class Calculator extends React.Component<any, calState> {
-    constructor(props:any) {
+class Calculator extends React.Component<{} , calState> {
+    constructor(props: {}) {
         super(props);
         this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
         this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
@@ -108,9 +107,5 @@ class Calculator extends React.Component<any, calState> {
         );
     }
 }
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-    <Calculator></Calculator>
-);
+
+export default Calculator;

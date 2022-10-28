@@ -1,10 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import './index.css'
 
+type ISquareProps = {
+    onClick:()=>void;
+    value?:string
+}
+interface IBoardProps {
+    squares : [],
+    onClick : (x:any)=>void
+}
 
-
-//
 function calculateWinner(squares : number[]) {
     const lines :number[][] =  [
         [0, 1, 2],
@@ -26,7 +31,7 @@ function calculateWinner(squares : number[]) {
 }
 
 
-class Square extends React.Component<any, any> {
+class Square extends React.Component<ISquareProps , {}> {
     render() {
         return (
             <button
@@ -39,8 +44,8 @@ class Square extends React.Component<any, any> {
     }
 }
 
-class Board extends React.Component<any, any> {
-    renderSquare(i:any) {
+class Board extends React.Component<IBoardProps, { }> {
+    renderSquare(i:number) {
         return (
             <Square
                 value={this.props.squares[i]}
@@ -50,30 +55,36 @@ class Board extends React.Component<any, any> {
     }
 
     render() {
-            return (
-                <div>
-                    <div className="board-row">
-                        {this.renderSquare(0)}
-                        {this.renderSquare(1)}
-                        {this.renderSquare(2)}
-                    </div>
-                    <div className="board-row">
-                        {this.renderSquare(3)}
-                        {this.renderSquare(4)}
-                        {this.renderSquare(5)}
-                    </div>
-                    <div className="board-row">
-                        {this.renderSquare(6)}
-                        {this.renderSquare(7)}
-                        {this.renderSquare(8)}
-                    </div>
+        return (
+            <div>
+                <div className="board-row">
+                    {this.renderSquare(0)}
+                    {this.renderSquare(1)}
+                    {this.renderSquare(2)}
                 </div>
-            );
-        }
+                <div className="board-row">
+                    {this.renderSquare(3)}
+                    {this.renderSquare(4)}
+                    {this.renderSquare(5)}
+                </div>
+                <div className="board-row">
+                    {this.renderSquare(6)}
+                    {this.renderSquare(7)}
+                    {this.renderSquare(8)}
+                </div>
+            </div>
+        );
+    }
 }
-
-class Game extends React.Component<any, any> {
-    constructor(props : any) {
+interface IGameState {
+    history : {
+        squares: any ;
+    }[],
+    stepNumber : number,
+    xIsNext : boolean
+}
+class Game extends React.Component<{}, IGameState> {
+    constructor(props : {}) {
         super(props);
         this.state = {
             history: [
@@ -86,7 +97,7 @@ class Game extends React.Component<any, any> {
         };
     }
 
-    handleClick(i :any) {
+    handleClick(i :number) {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
@@ -105,9 +116,8 @@ class Game extends React.Component<any, any> {
         });
     }
 
-    jumpTo(step : any)  {
-        this.setState({
-            stepNumber: step,
+    jumpTo(step : number)  {
+        this.setState({...this.state,stepNumber: step,
             xIsNext: (step % 2) === 0
         });
     }
@@ -140,7 +150,7 @@ class Game extends React.Component<any, any> {
                 <div className="game-board">
                     <Board
                         squares={current.squares}
-                        onClick={(i:any) => this.handleClick(i)}
+                        onClick={(i:number) => this.handleClick(i)}
                     />
                 </div>
                 <div className="game-info">
@@ -152,9 +162,4 @@ class Game extends React.Component<any, any> {
     }
 }
 
-const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement
-);
-root.render(
-    <Game></Game>
-);
+export default Game;
