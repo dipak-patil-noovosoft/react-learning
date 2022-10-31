@@ -5,7 +5,8 @@ import {themeContext, themes,themeType} from "../Context/ThemeContext";
 import UseContext from "./UseContext";
 import UseReducerDemo from "./UseReducerDemo";
 import CustomHook from "./CustomHook";
-
+import {UseRef} from "./UseRef";
+import './App.css'
 export const App : React.FC = () => {
     const [theme, setTheme] = useState(themes.light);
     const [themesType, setThemesType] = useState(themeType);
@@ -30,6 +31,7 @@ export const App : React.FC = () => {
 
             <UseReducerDemo/>
             <CustomHook/>
+            <UseRef/>
         </div>
     );
 };
