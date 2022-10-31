@@ -1,13 +1,14 @@
 function convertToRoman(num : number) :string {
     enum romanLookup  {M = 1000, D = 500, C = 100, L = 50, X = 10, V = 5, I = 1}
-    const romanKeys   : string[] = Object.keys(romanLookup).filter(x => !(parseInt(x) >= 0));
+    type keyType = keyof typeof romanLookup;
+    const romanKeys    = Object.keys(romanLookup).filter(x => !(parseInt(x) >= 0)) as keyType[];
     let romanNumber   : string = '';
     let index         : number;
     let count         : number = 0;
 
     for (let key in romanLookup) {
         let curValue : number = parseInt(romanLookup[key]);
-        index = romanKeys.indexOf(key);
+        index = romanKeys.indexOf(key as keyType);
         while (num >= curValue) {
             if (count < 3) {
                 romanNumber += (key);
