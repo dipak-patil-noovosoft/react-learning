@@ -4,6 +4,7 @@ import UseEffect from "./UseEffect";
 import {themeContext, themes,themeType} from "../Context/ThemeContext";
 import UseContext from "./UseContext";
 import UseReducerDemo from "./UseReducerDemo";
+import CustomHook from "./CustomHook";
 
 export const App : React.FC = () => {
     const [theme, setTheme] = useState(themes.light);
@@ -28,6 +29,7 @@ export const App : React.FC = () => {
             </themeContext.Provider>
 
             <UseReducerDemo/>
+            <CustomHook/>
         </div>
     );
 };
