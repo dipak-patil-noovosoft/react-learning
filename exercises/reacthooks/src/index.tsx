@@ -11,3 +11,4 @@ root.render(
         <App></App>
     </React.StrictMode>
 );
+//hi vishva, i am trying to use Usereducer, but it only expect expext 3 paremetr not 2

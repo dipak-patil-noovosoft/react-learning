@@ -3,6 +3,7 @@ import UseState from "./UseState";
 import UseEffect from "./UseEffect";
 import {themeContext, themes,themeType} from "../Context/ThemeContext";
 import UseContext from "./UseContext";
+import UseReducerDemo from "./UseReducerDemo";
 
 export const App : React.FC = () => {
     const [theme, setTheme] = useState(themes.light);
@@ -25,6 +26,8 @@ export const App : React.FC = () => {
                 } }}>
                 <UseContext/>
             </themeContext.Provider>
+
+            <UseReducerDemo/>
         </div>
     );
 };
