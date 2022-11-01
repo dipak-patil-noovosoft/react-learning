@@ -12,7 +12,9 @@ const UseCallback:React.FC = () => {
         [todo],
     );
 
-
+    // const addTodo = () => {
+    //     setTodo([...todo,`New Item`]);
+    // }
     return (
         <div>
             <TodoDemo todo = {todo} add = {addTodo}></TodoDemo>
