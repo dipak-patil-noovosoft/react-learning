@@ -1,9 +1,10 @@
 import {TodoContext, todoList} from './TodoContext'
 import { v4 as uuidv4 } from 'uuid';
-import {useState} from "react";
+import React, {useState} from "react";
 
 
-const TodoContextProvider = (props: any) => {
+const TodoContextProvider : React.FC<{children:React.ReactNode}> = (props) => {
+
     const [todo, setTodo] = useState(todoList);
     const add = (todoItem:string) =>{
         console.log("todo :",todo);
