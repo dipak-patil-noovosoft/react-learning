@@ -17,7 +17,6 @@ export const Todo = () => {
     const handleDelete = (id:string) =>{
         // delete (id);
         deleteItem(id);
-        console.log(id)
     }
     return (
         <div>
