@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {log} from "util";
 
 const useUserData = (userID :number) =>{
     const [userData, setUserData] = useState({firstname:"",lastname :""});
