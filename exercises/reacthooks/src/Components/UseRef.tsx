@@ -1,21 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 export const UseRef = () => {
-    // const count = useRef(0);
-    // const [input, setInput] = useState("");
-    //
-    // useEffect(() => {
-    //     count.current+=1;
-    // }, [input]);
-    // console.log(count)
-    // return (
-    //   <>
-    //       <div>
-    //        {/*<p>   count : {count}</p>*/}
-    //           <input type="text" onChange={(e)=>setInput(e.target.value)}/>
-    //       </div>
-    //   </>
-    // );
+
     const divEl = useRef<HTMLDivElement|null>(null);
     const click = () => {
         if (null !== divEl.current) {

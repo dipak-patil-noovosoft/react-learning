@@ -5,10 +5,8 @@ const UseState : React.FC = (props) =>  {
     return (
         <div>
             <h1>Hello,{name.name}</h1>
-            <input type="text" onChange={(e)=>setName({name : e.target.value})}/>
-            <button type="submit" onClick={()=>{
+            Enter name : <input type="text" onChange={(e)=>setName({name : e.target.value})}/>
 
-            }}>click</button>
         </div>
     );
 }
