@@ -4,7 +4,7 @@ interface Iuser {
     firstName:string
 }
 const useUser = ()=>{
-    const [user, setUser] = useState<Iuser>({id:0,firstName:""});
+    const [user, setUser] = useState<Iuser>({id:1,firstName:""});
 
     useEffect(() => {
         const getUser = async () =>{

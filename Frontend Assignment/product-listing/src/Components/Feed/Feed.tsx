@@ -5,27 +5,14 @@ import {NavBar} from "../NavBar/NavBar";
 import useProduct from "../CustomHooks/useProducts";
 import Product from "./Product";
 import useUser from "../CustomHooks/useUser";
-import useCart, {ICart} from "../CustomHooks/useCart";
-export interface IProduct{
-    "id": number,
-    "title": string,
-    "description": string,
-    "price": number,
-    "discountPercentage": number,
-    "rating": number,
-    "stock": number,
-    "brand": string,
-    "category": string,
-    "thumbnail": string,
-    "images": string[]
-}
+import  useCart from "../CustomHooks/useCart";
+import {ICart} from "../types";
 function Feed() {
     const [searchProduct, setSearchProduct] = useState("");
     const [category, setCategory] = useState("All");
 
     const user = useUser();
-    const cart = useCart(5);
-
+    const {cart,addToCart,removeFromCard} = useCart(user.id);
 
     const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) =>{
         setSearchProduct(e.target.value)
@@ -40,7 +27,7 @@ function Feed() {
                       user = {user}
                      cart={cart}
             ></NavBar>
-            <Product search = {searchProduct} category={category} cart={cart}></Product>
+            <Product search = {searchProduct} category={category} cart={cart} addToCart = {addToCart} removeFromCard={removeFromCard}></Product>
         </div>
     );
 }

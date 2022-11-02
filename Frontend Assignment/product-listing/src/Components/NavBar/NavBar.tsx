@@ -1,14 +1,14 @@
 import React from 'react';
 import './Navbar.css'
 import useCategories from "../CustomHooks/useCategories";
-import {ICart, ICartProduct} from "../CustomHooks/useCart";
-import {IProduct} from "../Feed/Feed";
+import {ICartProducts} from "../types";
+
 interface INavprops{
     onSearch : (e:React.ChangeEvent<HTMLInputElement>)=>void,
     searchItem : string,
     changeCategory : (e:React.ChangeEvent<HTMLSelectElement>) =>void;
-    user : {id:number, firstName :string} | null
-    cart :ICartProduct[]
+    user : {id:number, firstName :string}
+    cart :ICartProducts[]
 }
 export const NavBar:React.FC<INavprops> = (props) => {
 

@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 
 const useCategories = () =>{
-    const [category, setCategory] = useState(['All']);
+
+const [category, setCategory] = useState(['All']);
 
     useEffect(() => {
         const getAllCategory = async () =>{
@@ -13,5 +14,9 @@ const useCategories = () =>{
 
     }, []);
     return category;
+}
+
+const addToCart = ()=>{
+    console.log("hell0");
 }
 export default useCategories;
