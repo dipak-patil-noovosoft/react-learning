@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import Products from "./Products";
+import ProductsItems from "./ProductsItems";
 import {log} from "util";
 import {NavBar} from "../NavBar/NavBar";
-import useGetProduct from "../CustomHooks/useGetProducts";
+import useProduct from "../CustomHooks/useProducts";
+import Product from "./Product";
+import useUser from "../CustomHooks/useUser";
+import useCart, {ICart} from "../CustomHooks/useCart";
 export interface IProduct{
     "id": number,
     "title": string,
@@ -17,36 +20,27 @@ export interface IProduct{
     "images": string[]
 }
 function Feed() {
-    const [products, setProducts] = useState<IProduct[]>([]);
-    const [searchProduct, setSearchProduct] = useState(" ");
-    //Custom Hook
-    useGetProduct(setProducts);
+    const [searchProduct, setSearchProduct] = useState("");
+    const [category, setCategory] = useState("All");
 
-    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) =>{
+    const user = useUser();
+    const cart = useCart(5);
+
+
+    const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) =>{
         setSearchProduct(e.target.value)
-          const getAllProduct = async () =>{
-            const response = await fetch(`https://dummyjson.com/products/search?q=${searchProduct}`);
-            const data = await response.json();
-            if (data.products)setProducts(data.products);
-        }
-        getAllProduct();
     }
     const handleCategory = (e:React.ChangeEvent<HTMLSelectElement>) =>{
-        const category  = (e.target.value)
-        const getAllProduct = async () =>{
-            const response = await fetch(`https://dummyjson.com/products/category/${category}`);
-            const data = await response.json();
-            if (data.products)setProducts(data.products);
-        }
-        getAllProduct();
+        setCategory(e.target.value);
     }
 
     return (
         <div>
-            <NavBar search={handleChange} searchtext={searchProduct}  changeCategory={handleCategory}></NavBar>
-            {products.map((e)=>{
-                return <Products key={e["id"]} product={e} ></Products>
-            })}
+            <NavBar  searchItem={searchProduct}  onSearch={handleSearch}  changeCategory={handleCategory}
+                      user = {user}
+                     cart={cart}
+            ></NavBar>
+            <Product search = {searchProduct} category={category} cart={cart}></Product>
         </div>
     );
 }

@@ -1,36 +1,37 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './Navbar.css'
+import useCategories from "../CustomHooks/useCategories";
+import {ICart, ICartProduct} from "../CustomHooks/useCart";
+import {IProduct} from "../Feed/Feed";
 interface INavprops{
-    search : (e:React.ChangeEvent<HTMLInputElement>)=>void,
-    searchtext : string,
+    onSearch : (e:React.ChangeEvent<HTMLInputElement>)=>void,
+    searchItem : string,
     changeCategory : (e:React.ChangeEvent<HTMLSelectElement>) =>void;
+    user : {id:number, firstName :string} | null
+    cart :ICartProduct[]
 }
 export const NavBar:React.FC<INavprops> = (props) => {
 
-    const [category, setCategory] = useState([]);
-    const {search,searchtext,changeCategory} = props;
-    useEffect(() => {
-        const getAllCategory = async () =>{
-            const response = await  fetch(`https://dummyjson.com/products/categories`)
-            const data = await  response.json();
-            setCategory(data)
-        }
-        getAllCategory()
-
-    }, []);
-
-
-
+    const {onSearch,searchItem,changeCategory,user,cart} = props;
+    let cardItemCount = (cart.length)
+    const category = useCategories();
     return (
         <nav className="navBar">
-            <input className="searchInput" value={searchtext} type="text" onChange={search}/>
-            <label htmlFor="products">Category</label>
-
-            <select name="products" id="products" onChange={changeCategory}>
-                {category.map((e,index)=>{
-                    return <option key={index} value={e}>{e}</option>
-                })}
-            </select>
+            <div className="searchInput">
+                <input className="searchInput" value={searchItem} type="text" onChange={onSearch}/>
+            </div>
+            <div className="categories">
+                <label htmlFor="products">Category</label>
+                <select name="products" id="products" onChange={changeCategory}>
+                    {category.map((e, index) => {
+                        return <option key={index} value={e}>{e}</option>
+                    })}
+                </select>
+            </div>
+            <div className="cart">
+                <h4>{user?user.firstName:''}'s cart</h4>
+                <span>{cardItemCount} items</span>
+            </div>
 
         </nav>
     );

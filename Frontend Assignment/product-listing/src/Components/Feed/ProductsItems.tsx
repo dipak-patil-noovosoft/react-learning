@@ -1,11 +1,14 @@
 import React from 'react';
 import './product.css'
 import  {IProduct} from './Feed'
+import {ICartProduct} from "../CustomHooks/useCart";
 interface IProductProp{
     product : IProduct
+    status :boolean;
 }
-function Products(props :IProductProp) {
+function ProductsItems(props :IProductProp) {
     const {id,title,description,price,category,thumbnail,discountPercentage} = props.product;
+    const {status} = props;
 
     return (
         <div>
@@ -22,7 +25,7 @@ function Products(props :IProductProp) {
                         <span> <b>description</b> : {description}</span>
                     </div>
                     <div className="cardItemsRight">
-                        <button type="submit">Add to cart</button>
+                        <button type="submit">{status?`remove`: 'Add to cart'}</button>
                     </div>
 
                 </div>
@@ -32,4 +35,4 @@ function Products(props :IProductProp) {
     );
 }
 
-export default Products;
+export default ProductsItems;
