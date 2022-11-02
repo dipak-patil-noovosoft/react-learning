@@ -24,15 +24,25 @@ const useCart = (id: number) =>{
         setCart([...cart,data.products[0]])
     }
 
-    const removeFromCard = async () =>{
-        console.log("remove")
+    const removeFromCard = async (cardID:number) =>{
+        const testDatat = cart.filter((e)=>(e.id)!== cardID);
+        // const response = await fetch(`https://dummyjson.com/carts/${cardID}`, {
+        //     method: 'PUT', /* or PATCH */
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         products: cart,
+        //         userId : 5
+        //     })
+        // })
+        // const delData = await response.json();
+        setCart(testDatat)
     }
     useEffect(() => {
         const getUserCart = async ()=>{
             const response = await fetch(`https://dummyjson.com/carts/user/${id}`);
             let data = await response.json();
             console.log(data.carts[0])
-            setCart(data.carts?.[0].products??[])
+            setCart(data.carts?.[0]?.products??[])
         }
         getUserCart()
     }, [id]);

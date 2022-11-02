@@ -16,7 +16,4 @@ const [category, setCategory] = useState(['All']);
     return category;
 }
 
-const addToCart = ()=>{
-    console.log("hell0");
-}
 export default useCategories;

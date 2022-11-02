@@ -1,7 +1,5 @@
 import {useEffect, useState} from "react";
 const useProduct = (search:string,category:string) =>{
-
-
     const [product, setProducts] = useState([]);
     useEffect(() => {
 

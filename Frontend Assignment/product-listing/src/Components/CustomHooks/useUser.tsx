@@ -8,7 +8,7 @@ const useUser = ()=>{
 
     useEffect(() => {
         const getUser = async () =>{
-            const response = await fetch(`https://dummyjson.com/users/${'5'}`)
+            const response = await fetch(`https://dummyjson.com/users/${'1'}`)
             const userInfo = await response.json();
 
             setUser({id :userInfo.id,firstName : userInfo.firstName})

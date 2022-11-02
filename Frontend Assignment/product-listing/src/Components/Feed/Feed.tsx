@@ -27,7 +27,7 @@ function Feed() {
                       user = {user}
                      cart={cart}
             ></NavBar>
-            <Product search = {searchProduct} category={category} cart={cart} addToCart = {addToCart} removeFromCard={removeFromCard}></Product>
+            <Product user = {user} search = {searchProduct} category={category} cart={cart} addToCart = {addToCart} removeFromCard={removeFromCard}></Product>
         </div>
     );
 }

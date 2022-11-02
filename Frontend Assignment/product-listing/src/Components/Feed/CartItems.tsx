@@ -1,27 +1,22 @@
 import React from 'react';
-import './product.css'
-import  {IProduct} from '../types'
-// import useCart, {ICartProduct} from "../CustomHooks/useCart";
-interface IProductProp{
+import {ICart, ICartProducts, IProduct} from "../types";
+interface ICartItemProps{
     product : IProduct
-    status :boolean;
-    addToCart :(id:number)=>void;
     removeFromCard : (id:number)=>void;
     user : {id:number, firstName :string}
 }
-function ProductsItems(props :IProductProp) {
-    const {id,title,description,price,category,thumbnail,discountPercentage} = props.product;
-    const {status,addToCart,removeFromCard,user} = props;
+const  CartItems:React.FC<ICartItemProps> = (props) => {
+    const {user,removeFromCard} = props;
+    const {id,title,price,discountPercentage,category,thumbnail,brand} = props.product;
     const discountPrice = ( price- (discountPercentage/100)*price);
     const handleCartClick = () =>{
-        if (!status)addToCart(id);
-        else removeFromCard(id);
-
+        removeFromCard(id);
     }
     return (
         <div>
             <div className="card">
-                <h4>{title}</h4>
+                <h4>{title} ({brand})</h4>
+
                 <div className="cardItems">
                     <div className="cardItemsLeft">
                         <img src={thumbnail} alt=""/>
@@ -30,14 +25,13 @@ function ProductsItems(props :IProductProp) {
                         {/*<span > Name : {} </span>*/}
                         <span> <b>Price</b> : {`$ ${ discountPrice }`} <i>  <s> ({price})</s></i></span>
                         <span><b>category</b> : {category}</span>
-                        <span> <b>description</b> : {description}</span>
                     </div>
                     {/**/}
                     <div className="cardItemsRight">
                         <button type="submit"
-                            onClick={handleCartClick}
+                                onClick={handleCartClick}
                         >
-                            {status?`remove`: 'Add to cart'} </button>
+                            remove </button>
                     </div>
 
                 </div>
@@ -47,4 +41,4 @@ function ProductsItems(props :IProductProp) {
     );
 }
 
-export default ProductsItems;
+export default CartItems;
