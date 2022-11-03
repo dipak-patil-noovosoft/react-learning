@@ -29,10 +29,13 @@ const  Product :React.FC<IProductProps> = (props) =>{
             {products.slice(paginateCount,paginateCount+5).map((e)=>{
                 return <ProductsItems key={e["id"]} user={user} product={e} addToCart={addToCart} removeFromCard={removeFromCard} status={compare(cart,e) } ></ProductsItems>
             })}
+            <div className="productsPagination">
+
             <button type="submit" onClick={()=>{
                 if (paginateCount>1) setPaginateCount(paginateCount-5)
             }}>Preveus </button>
             <button type="submit" onClick={()=>setPaginateCount(paginateCount+5)} >Next</button>
+            </div>
         </div>
     );
 }
