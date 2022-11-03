@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-const useProduct = (search:string,category:string) =>{
+const useProduct = (search:string = "",category:string= "All") =>{
     const [product, setProducts] = useState([]);
     useEffect(() => {
 

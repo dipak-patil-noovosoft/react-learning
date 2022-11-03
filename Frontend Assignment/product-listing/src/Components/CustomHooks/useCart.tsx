@@ -4,44 +4,45 @@ import {ICardFetch, ICart, ICartProducts} from "../types";
 
 const useCart = (id: number) =>{
     const [cart, setCart] = useState<ICartProducts[]>([]);
+    const [cartID, setCartID] = useState(0);
 
     const addToCart = async (id:number) =>{
-        console.log(id)
-       const response = (await fetch('https://dummyjson.com/carts/add', {
-           method: 'POST',
-           headers: {'Content-Type': 'application/json'},
-           body: JSON.stringify({
-               userId: 5,
-               products: [
-                   {
-                       id: id,
-                       quantity: 1,
-                   },
-               ]
-           })
-       }))
-       const data = await response.json();
-        setCart([...cart,data.products[0]])
+       const response = await fetch(`https://dummyjson.com/carts/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                products: [
+                    {
+                        id : id,
+                    },
+                    cart
+                ]
+
+            })
+        })
+        const data = await response.json();
+
+       setCart([...cart,data.products[0]]);
     }
 
-    const removeFromCard = async (cardID:number) =>{
-        const testDatat = cart.filter((e)=>(e.id)!== cardID);
-        // const response = await fetch(`https://dummyjson.com/carts/${cardID}`, {
-        //     method: 'PUT', /* or PATCH */
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({
-        //         products: cart,
-        //         userId : 5
-        //     })
-        // })
-        // const delData = await response.json();
-        setCart(testDatat)
+    const removeFromCard = async (productId:number) =>{
+        const cartFilterData = cart.filter((e)=>(e.id)!== productId);
+        const response = await fetch(`https://dummyjson.com/carts/${cartID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                products: cartFilterData,
+            })
+        })
+        const delData = await response.json();
+        setCart(delData.products)
     }
     useEffect(() => {
         const getUserCart = async ()=>{
             const response = await fetch(`https://dummyjson.com/carts/user/${id}`);
             let data = await response.json();
-            console.log(data.carts[0])
+            // console.log(data.carts[0].id)
+            setCartID(data.carts[0].id)
             setCart(data.carts?.[0]?.products??[])
         }
         getUserCart()

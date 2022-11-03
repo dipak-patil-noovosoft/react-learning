@@ -8,7 +8,8 @@ interface ICartItemProps{
 const  CartItems:React.FC<ICartItemProps> = (props) => {
     const {user,removeFromCard} = props;
     const {id,title,price,discountPercentage,category,thumbnail,brand} = props.product;
-    const discountPrice = ( price- (discountPercentage/100)*price);
+    const discountPrice = ( price- (discountPercentage/100)*price).toFixed(2);
+
     const handleCartClick = () =>{
         removeFromCard(id);
     }
@@ -28,7 +29,7 @@ const  CartItems:React.FC<ICartItemProps> = (props) => {
                     </div>
                     {/**/}
                     <div className="cardItemsRight">
-                        <button type="submit"
+                        <button type="submit" className={"btnCart btnStatustrue"}
                                 onClick={handleCartClick}
                         >
                             remove </button>

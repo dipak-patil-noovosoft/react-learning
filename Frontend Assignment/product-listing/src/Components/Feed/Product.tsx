@@ -25,10 +25,7 @@ const  Product :React.FC<IProductProps> = (props) =>{
             {products.slice(0,5).map((e)=>{
                 return <ProductsItems key={e["id"]} user={user} product={e} addToCart={addToCart} removeFromCard={removeFromCard} status={compare(cart,e) } ></ProductsItems>
             })}
-            <h1 style={{textAlign:"center"}}>Cart</h1>
-            {cartItems.map((e)=>{
-                return <CartItems key={e["id"]} user={user} product={e} removeFromCard={removeFromCard} ></CartItems>
-            })}
+
         </div>
     );
 }

@@ -7,11 +7,13 @@ import Product from "./Product";
 import useUser from "../CustomHooks/useUser";
 import  useCart from "../CustomHooks/useCart";
 import {ICart} from "../types";
+import Cart from "./Cart";
 function Feed() {
     const [searchProduct, setSearchProduct] = useState("");
     const [category, setCategory] = useState("All");
 
-    const user = useUser();
+
+    const user = useUser(5);
     const {cart,addToCart,removeFromCard} = useCart(user.id);
 
     const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) =>{
@@ -28,6 +30,7 @@ function Feed() {
                      cart={cart}
             ></NavBar>
             <Product user = {user} search = {searchProduct} category={category} cart={cart} addToCart = {addToCart} removeFromCard={removeFromCard}></Product>
+            <Cart cart={cart} user={user} removeFromCard={removeFromCard}></Cart>
         </div>
     );
 }

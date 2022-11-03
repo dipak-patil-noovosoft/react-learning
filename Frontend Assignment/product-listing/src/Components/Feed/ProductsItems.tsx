@@ -12,8 +12,9 @@ interface IProductProp{
 function ProductsItems(props :IProductProp) {
     const {id,title,description,price,category,thumbnail,discountPercentage} = props.product;
     const {status,addToCart,removeFromCard,user} = props;
-    const discountPrice = ( price- (discountPercentage/100)*price);
-    const handleCartClick = () =>{
+    const discountPrice = ( price- (discountPercentage/100)*price).toFixed(2);
+    const btnStatus = "btnStatus"+status;
+    const handleCartClick = (e:any) =>{
         if (!status)addToCart(id);
         else removeFromCard(id);
 
@@ -24,7 +25,7 @@ function ProductsItems(props :IProductProp) {
                 <h4>{title}</h4>
                 <div className="cardItems">
                     <div className="cardItemsLeft">
-                        <img src={thumbnail} alt=""/>
+                        <img src={thumbnail} alt="Loading"/>
                     </div>
                     <div className="cardItemsMidd">
                         {/*<span > Name : {} </span>*/}
@@ -32,9 +33,8 @@ function ProductsItems(props :IProductProp) {
                         <span><b>category</b> : {category}</span>
                         <span> <b>description</b> : {description}</span>
                     </div>
-                    {/**/}
-                    <div className="cardItemsRight">
-                        <button type="submit"
+                    <div className={"cardItemsRight "} >
+                        <button type="submit" className={"btnCart "+(btnStatus)}
                             onClick={handleCartClick}
                         >
                             {status?`remove`: 'Add to cart'} </button>

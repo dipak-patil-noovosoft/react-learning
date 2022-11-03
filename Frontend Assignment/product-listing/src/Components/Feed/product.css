@@ -2,9 +2,9 @@
     border: 2px solid black;
     height: 200px;
     width: 60%;
-    margin: auto;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    margin:20px auto ;
+    /*margin-bottom: 20px;*/
+    /*margin-top: 20px;*/
 }
 .card h4{
     text-align: center;
@@ -32,8 +32,14 @@
     flex-direction: column;
     justify-content: space-around;
     padding-left: 20px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+
 }
 .cardItemsRight {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
     width: 10%;
     height: 100%;
     /*background: red;*/
@@ -45,9 +51,30 @@
     width: 60%;
     height: 40%;
 }
-@media only screen and (max-width: 600px) {
-    body {
-        background-color: lightblue;
+.btnCart{
+    font-size: 12px;
+    font-weight: 700;
+    border-radius:22px ;
+    /*background: none;*/
+    width: 6em;
+    height: 4em;
+    color: green;
+    border: 2px solid green;
+    /*color: red;*/
+    position: relative;
+    margin-top: 0.8em;
+    cursor: pointer;
+}
+.btnStatustrue{
+    border-color: red;
+    color: red;
+   /*background-color: #3b3b3b;*/
+}
+button:hover{
+}
+@media only screen and (max-width: 900px) {
+    .card{
+        width: 90%;
     }
     .cardItemsRight{
         width: 20%;
