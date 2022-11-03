@@ -4,7 +4,7 @@ const useProduct = (search:string = "",category:string= "All") =>{
     useEffect(() => {
 
     const getAllProduct = async () =>{
-        const response = await fetch(`https://dummyjson.com/products/search?q=${search}&limit=500`);
+        const response = await fetch(`https://dummyjson.com/products/search?q=${search}&limit=100`);
         let data = await response.json();
         setProducts(data.products.filter((e:any)=> {
             if (category === 'All') return true;

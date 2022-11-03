@@ -1,9 +1,12 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import UserContext from "../../Context/UserContext";
 interface Iuser {
     id  :number,
     firstName:string
 }
 const useUser = (id:number)=>{
+    const userCon = useContext(UserContext);
+
     const [user, setUser] = useState<Iuser>({id:id,firstName:""});
 
     useEffect(() => {
@@ -14,7 +17,6 @@ const useUser = (id:number)=>{
         }
         getUser();
     }, [id]);
-
     return user;
 }
 export default useUser;

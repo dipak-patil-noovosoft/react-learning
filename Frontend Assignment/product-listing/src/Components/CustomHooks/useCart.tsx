@@ -5,6 +5,18 @@ import {ICardFetch, ICart, ICartProducts} from "../types";
 const useCart = (id: number) =>{
     const [cart, setCart] = useState<ICartProducts[] | []>([]);
     const [cartID, setCartID] = useState(0);
+
+    useEffect(() => {
+        const getUserCart = async ()=>{
+            const response = await fetch(`https://dummyjson.com/carts/user/${id}`);
+            let data = await response.json();
+            setCartID(data.carts[0]?.id)
+            setCart(data.carts[0]?.products??[]);
+                    }
+        getUserCart()
+    }, [id])
+
+
     const addToCart = async (id:number) =>{
        const response = await fetch(`https://dummyjson.com/carts/${id}`, {
             method: 'PUT',
@@ -16,11 +28,9 @@ const useCart = (id: number) =>{
                     },
                     cart
                 ]
-
             })
         })
         const data = await response.json();
-
        setCart([...cart,data.products[0]]);
     }
 
@@ -37,16 +47,11 @@ const useCart = (id: number) =>{
         // const delData = await response.json();
         // setCart(delData.products)
         setCart(cartFilterData);
+        localStorage.setItem(JSON.stringify(id),JSON.stringify(cart))
     }
-    useEffect(() => {
-        const getUserCart = async ()=>{
-            const response = await fetch(`https://dummyjson.com/carts/user/${id}`);
-            let data = await response.json();
-            setCartID(data.carts[0]?.id)
-            setCart(data.carts[0]?.products??[])
-        }
-        getUserCart()
-    }, [id]);
+
+        localStorage.setItem(JSON.stringify(id),JSON.stringify(cart))
+
 
     return {cart,addToCart,removeFromCard}
 }

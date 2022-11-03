@@ -1,18 +1,19 @@
 import React from 'react';
 import {ICart, ICartProducts, IProduct} from "../types";
+import useCart from "../CustomHooks/useCart";
 interface ICartItemProps{
     product : IProduct
     removeFromCard : (id:number)=>void;
     user : {id:number, firstName :string}
 }
 const  CartItems:React.FC<ICartItemProps> = (props) => {
-    const {user,removeFromCard} = props;
     const {id,title,price,discountPercentage,category,thumbnail,brand} = props.product;
     const discountPrice = ( price- (discountPercentage/100)*price).toFixed(2);
-
     const handleCartClick = () =>{
+        console.log("remove")
         removeFromCard(id);
     }
+    const {removeFromCard}= useCart(id);
     return (
         <div>
             <div className="card">

@@ -2,6 +2,7 @@ import React from 'react';
 import './Navbar.css'
 import useCategories from "../CustomHooks/useCategories";
 import {ICartProducts} from "../types";
+import {Link} from "react-router-dom";
 
 interface INavprops{
     onSearch? : (e:React.ChangeEvent<HTMLInputElement>)=>void,
@@ -15,7 +16,8 @@ interface INavprops{
 export const NavBar:React.FC<INavprops> = (props) => {
 
     const {onSearch,searchItem,changeCategory,user,cart,usersNames,changeUser} = props;
-    let cardItemCount = (cart?.length)
+    const carts = localStorage.getItem(JSON.stringify(user?.id))
+    const cartCount = carts?JSON.parse(carts).length:0;
     const category = useCategories();
     return (
         <nav className="navBar">
@@ -31,8 +33,11 @@ export const NavBar:React.FC<INavprops> = (props) => {
                 </select>
             </div>
             <div className="cart">
+                <Link to={"/cart"}>
+
                 <h4>{user?user.firstName:''}'s cart</h4>
-                <span>{cardItemCount} items</span>
+                <span>{cartCount} items</span>
+                </Link>
             </div>
             <div className="usersDropDown">
                 <label htmlFor="products">users</label>
