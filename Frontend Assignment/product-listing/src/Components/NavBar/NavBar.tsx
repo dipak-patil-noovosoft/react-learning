@@ -7,12 +7,14 @@ interface INavprops{
     onSearch? : (e:React.ChangeEvent<HTMLInputElement>)=>void,
     searchItem? : string,
     changeCategory? : (e:React.ChangeEvent<HTMLSelectElement>) =>void;
+    changeUser? : (e:React.ChangeEvent<HTMLSelectElement>) =>void;
     user? : {id:number, firstName :string}
     cart ?:ICartProducts[]
+    usersNames:any
 }
 export const NavBar:React.FC<INavprops> = (props) => {
 
-    const {onSearch,searchItem,changeCategory,user,cart} = props;
+    const {onSearch,searchItem,changeCategory,user,cart,usersNames,changeUser} = props;
     let cardItemCount = (cart?.length)
     const category = useCategories();
     return (
@@ -31,6 +33,15 @@ export const NavBar:React.FC<INavprops> = (props) => {
             <div className="cart">
                 <h4>{user?user.firstName:''}'s cart</h4>
                 <span>{cardItemCount} items</span>
+            </div>
+            <div className="usersDropDown">
+                <label htmlFor="products">users</label>
+
+                <select  name="users" id="users" onChange={changeUser}>
+                    {usersNames.map((users:any)=>{
+                        return <option key={users.id} value={users.id}>{users.firstName}</option>
+                    })}
+                </select>
             </div>
 
         </nav>

@@ -3,11 +3,29 @@
     height: 50px;
     background: #999999;
     display: flex;
+    align-items: center;
+}
+.searchInput{
+    margin: 10px;
+    /*flex-grow: ;*/
+}
+.categories{
+    margin: 10px;
+    flex-grow: 5;
 }
 .cart{
+    flex-grow: 0.1;
     height: 50px;
     border: 1px solid black;
     text-align: start;
-    position: absolute;
-    right: 0;
+    /*position: absolute;*/
+    /*right: 0;*/
+    margin: 10px;
+}
+.usersDropDown{
+    margin: 10px;
+    width: 100px;
+}
+.usersDropDown select{
+    width: 90px;
 }
