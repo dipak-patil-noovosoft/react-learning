@@ -1,11 +1,6 @@
 import React, {useState} from 'react';
-import UseState from "./UseState";
-import UseEffect from "./UseEffect";
-import {themeContext, themes,themeType} from "../Context/ThemeContext";
-import UseContext from "./UseContext";
-import UseReducerDemo from "./UseReducerDemo";
-import CustomHook from "./CustomHook";
-import {UseRef} from "./UseRef";
+import { themes,themeType} from "../Context/ThemeContext";
+
 import './App.css'
 import UseCallback from "./UseCallback";
 export const App : React.FC = () => {

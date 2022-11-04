@@ -1,5 +1,5 @@
 import React from 'react';
-import {ICart, ICartProducts, IProduct} from "../types";
+import { IProduct} from "../types";
 interface ICartItemProps{
     product : IProduct
     removeFromCard : (id:number)=>void;

@@ -1,17 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import UserContext from "./UserContext";
 
 function UserContextProvider(props:any) {
     const [user, setUser] = useState({
-        id:0,
-        firstName:""
+        id:1,
+        firstName:"Terry"
     });
 
     const setCurrentUser = (userInfo:any) =>{
         setUser(userInfo)
     }
+
     return (
-        <UserContext.Provider value={{user,setCurrentUser}}>
+        <UserContext.Provider value={{user : user,setCurrentUser:setCurrentUser}}>
             {props.children}
         </UserContext.Provider>
     );

@@ -1,7 +1,5 @@
 import {useEffect, useState} from "react";
-import {ICardFetch, ICart, ICartProducts} from "../types";
-import cartItems from "../Cart/CartItems";
-
+import { ICartProducts} from "../types";
 
 const useCart = (id: number) =>{
     const [cart, setCart] = useState<ICartProducts[]>([]);
@@ -11,10 +9,9 @@ const useCart = (id: number) =>{
         const getUserCart = async ()=>{
             const response = await fetch(`https://dummyjson.com/carts/user/${id}`);
             let data = await response.json();
-
             setCartID(data.carts[0]?.id)
             setCart(data.carts[0]?.products??[]);
-            localStorage.setItem(id.toString(),JSON.stringify({cartId: data.carts[0]?.id??0,cartItems :data.carts[0]?.products ?? []}))
+            localStorage.setItem(id.toString(),JSON.stringify({cartId: data.carts[0]?.id ?? 0, cartItems :data.carts[0]?.products ?? []}))
         }
             const localStorageCartData = localStorage.getItem(id.toString());
             if (localStorageCartData){
@@ -26,13 +23,8 @@ const useCart = (id: number) =>{
             getUserCart()
     }, [id])
 
-
     const addToCart = async (productId:number) =>{
-
-        // console.log(cart)
-
         if (cartID && cartID!==21){
-            console.log({err : "inside",cartID});
             const response = await fetch(`https://dummyjson.com/carts/${cartID}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -45,10 +37,12 @@ const useCart = (id: number) =>{
                     ]
                 })
             })
-        const data = await response.json();
-        setCart(data.products);
-        localStorage.setItem(JSON.stringify(id), JSON.stringify({cartId: cartID,cartItems :data.products}))
-
+            if (response.ok){
+                const data = await response.json();
+                const cartFilterData = data.products.filter((e:any)=>(e.id) === productId);
+                setCart([...cart,...cartFilterData]);
+                localStorage.setItem(JSON.stringify(id), JSON.stringify({cartId: cartID,cartItems :[...cart,...cartFilterData]}))
+            }
         }
         else{
             const response = await fetch('https://dummyjson.com/carts/add', {
@@ -62,12 +56,9 @@ const useCart = (id: number) =>{
             })
             const data = await response.json();
             setCartID(data.id);
-            console.log(data)
-            const ss = data.products;
-            console.log(ss)
+            setCart([...cart,...data.products]);
             localStorage.setItem(JSON.stringify(id), JSON.stringify({cartId: data.id,
                 cartItems :[...cart, ...data.products]}))
-            setCart([...cart,...data.products]);
 
         }
 
@@ -78,12 +69,8 @@ const useCart = (id: number) =>{
         const cartFilterData = cart.cartItems.filter((e:any)=>(e.id)!== productId);
         setCart(cartFilterData);
         localStorage.setItem((id).toString(),JSON.stringify({cartId: cartID,cartItems:cartFilterData}))
-        // // if (isExist.length !== 0){
-        //     setCart(cartFilterData)
-        //     console.log({productId,cartFilterData})
-        //     // localStorage.setItem(JSON.stringify(id), JSON.stringify(cart));
-        // // }
-        //
+
+
         // // const response = await fetch(`https://dummyjson.com/carts/${cartID}`, {
         // //     method: 'PUT',
         // //     headers: { 'Content-Type': 'application/json' },
@@ -92,8 +79,6 @@ const useCart = (id: number) =>{
         // //     })
         // // })
         // // const delData = await response.json();
-
-
     }
     return {cart,addToCart,removeFromCard}
 }

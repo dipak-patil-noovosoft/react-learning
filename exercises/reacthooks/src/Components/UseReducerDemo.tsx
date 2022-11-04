@@ -1,5 +1,4 @@
 import {useReducer} from 'react'
-import {Interface} from "readline";
 
 interface  ICounter {
     count : number

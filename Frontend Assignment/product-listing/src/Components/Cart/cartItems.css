@@ -6,3 +6,6 @@
     align-items: center;
     justify-content: space-between;
 }
+.homeLink{
+    text-decoration: none;
+}

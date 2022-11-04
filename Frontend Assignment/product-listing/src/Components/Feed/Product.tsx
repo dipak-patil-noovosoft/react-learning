@@ -2,14 +2,10 @@ import React, {useContext, useState} from 'react';
 import useProduct from "../CustomHooks/useProducts";
 import ProductsItems from "./ProductsItems";
 import {ICartProducts, IProduct} from "../types";
-import CartItems from "../Cart/CartItems";
-import {NavBar} from "../NavBar/NavBar";
-import useCart from "../CustomHooks/useCart";
 import userContext from "../../Context/UserContext";
 interface IProductProps {
     search: string
     category: string
-    cart: ICartProducts[]
     addToCart: (id: number) => void;
     user : {id:number, firstName :string}
     removeFromCard: (id:number) => void

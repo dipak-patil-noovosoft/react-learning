@@ -1,27 +1,27 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './Navbar.css'
 import useCategories from "../CustomHooks/useCategories";
-import {ICartProducts} from "../types";
 import {Link} from "react-router-dom";
+import userContext from "../../Context/UserContext";
 
 interface INavprops{
-    onSearch? : (e:React.ChangeEvent<HTMLInputElement>)=>void,
-    searchItem? : string,
+    onSearch : (e:React.ChangeEvent<HTMLInputElement>)=>void,
+    searchItem : string,
     changeCategory? : (e:React.ChangeEvent<HTMLSelectElement>) =>void;
-    changeUser? : (e:React.ChangeEvent<HTMLSelectElement>) =>void;
-    user? : {id:number, firstName :string}
-    cart ?:ICartProducts[]
+    changeUser : (e:React.ChangeEvent<HTMLSelectElement>) =>void;
     userList:any
 }
 export const NavBar:React.FC<INavprops> = (props) => {
 
-    const {onSearch,searchItem,changeCategory,user,cart,userList,changeUser} = props;
-    const locatStorage = localStorage.getItem(JSON.stringify(user?.id));
+    const {onSearch,searchItem,changeCategory,userList,changeUser} = props;
+    const user = useContext(userContext);
+    const locatStorage = localStorage.getItem(JSON.stringify(user.user.id));
     let cartCount = 0
     if (locatStorage){
         const carts = JSON.parse(locatStorage);
         cartCount = carts.cartItems.length;
     }
+
     const category = useCategories();
     return (
         <nav className="navBar">
@@ -39,7 +39,7 @@ export const NavBar:React.FC<INavprops> = (props) => {
             <div className="cart">
                 <Link to={"/cart"}>
 
-                <h4>{user?user.firstName:''}'s cart</h4>
+                <h4>{user.user.firstName}'s cart</h4>
                 <span>{cartCount} items</span>
                 </Link>
             </div>

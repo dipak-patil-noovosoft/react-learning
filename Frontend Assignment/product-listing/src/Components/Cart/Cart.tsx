@@ -1,12 +1,11 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import useProduct from "../CustomHooks/useProducts";
 import {ICartProducts, IProduct} from "../types";
 import CartItems from "./CartItems";
-import useUser from "../CustomHooks/useUser";
 import useCart from "../CustomHooks/useCart";
 import userContext from "../../Context/UserContext";
-import cartItems from "./CartItems";
 import './cartItems.css'
+import {Link} from "react-router-dom";
 
 interface ICartProps{
     cart?: ICartProducts[]
@@ -26,11 +25,16 @@ const Cart:React.FC<ICartProps> = (props) => {
         return (
             <div>
                 <div className="cartNav">
+                    <h2>
+                        <Link className="homeLink" to='/'>
+                            Home
+                        </Link>
+                    </h2>
 \                    <div className="cartUser">
                         <h1>{currentUser.user.firstName}'s Cart</h1>
                     </div>
                     <div className="cartCount">
-                       <h2>{carts.length} Items</h2>
+                       <h2>{carts.cartItems.length} Items</h2>
                     </div>
                 </div>
 

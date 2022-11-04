@@ -4,7 +4,6 @@ import Product from "./Product";
 import useUser from "../CustomHooks/useUser";
 import  useCart from "../CustomHooks/useCart";
 import userContext from "../../Context/UserContext";
-import Cart from "../Cart/Cart";
 
 function Feed() {
 
@@ -28,10 +27,11 @@ function Feed() {
 
 
     const user = useUser(currentUser);
-    const {cart,addToCart,removeFromCard} = useCart(user.id);
+    const {addToCart,removeFromCard} = useCart(user.id);
     useEffect(() => {
         userCont.setCurrentUser(user);
     }, [user]);
+
 
     const handleSearch = (e:React.ChangeEvent<HTMLInputElement>) =>{
         setSearchProduct(e.target.value)
@@ -45,12 +45,10 @@ function Feed() {
     return (
         <div>
             <NavBar  searchItem={searchProduct}  onSearch={handleSearch}  changeCategory={handleCategory}
-                     user = {user}
                      userList = {users}
-                     cart={cart}
                      changeUser ={changeUser}
             ></NavBar>
-            <Product user = {user} search = {searchProduct} category={category} cart={cart} addToCart = {addToCart} removeFromCard={removeFromCard}></Product>
+            <Product user = {user} search = {searchProduct} category={category}  addToCart = {addToCart} removeFromCard={removeFromCard}></Product>
         </div>
     );
 }

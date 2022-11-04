@@ -1,7 +1,6 @@
 import React from 'react';
 import './product.css'
 import  {IProduct} from '../types'
-// import useCart, {ICartProduct} from "../CustomHooks/useCart";
 interface IProductProp{
     product : IProduct
     status :boolean;
