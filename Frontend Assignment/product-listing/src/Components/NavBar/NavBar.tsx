@@ -11,13 +11,17 @@ interface INavprops{
     changeUser? : (e:React.ChangeEvent<HTMLSelectElement>) =>void;
     user? : {id:number, firstName :string}
     cart ?:ICartProducts[]
-    usersNames:any
+    userList:any
 }
 export const NavBar:React.FC<INavprops> = (props) => {
 
-    const {onSearch,searchItem,changeCategory,user,cart,usersNames,changeUser} = props;
-    const carts = localStorage.getItem(JSON.stringify(user?.id))
-    const cartCount = carts?JSON.parse(carts).length:0;
+    const {onSearch,searchItem,changeCategory,user,cart,userList,changeUser} = props;
+    const locatStorage = localStorage.getItem(JSON.stringify(user?.id));
+    let cartCount = 0
+    if (locatStorage){
+        const carts = JSON.parse(locatStorage);
+        cartCount = carts.cartItems.length;
+    }
     const category = useCategories();
     return (
         <nav className="navBar">
@@ -43,7 +47,7 @@ export const NavBar:React.FC<INavprops> = (props) => {
                 <label htmlFor="products">users</label>
 
                 <select  name="users" id="users" onChange={changeUser}>
-                    {usersNames.map((users:any)=>{
+                    {userList.map((users:any)=>{
                         return <option key={users.id} value={users.id}>{users.firstName}</option>
                     })}
                 </select>

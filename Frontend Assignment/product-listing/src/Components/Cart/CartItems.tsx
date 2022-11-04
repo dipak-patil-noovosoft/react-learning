@@ -1,6 +1,5 @@
 import React from 'react';
 import {ICart, ICartProducts, IProduct} from "../types";
-import useCart from "../CustomHooks/useCart";
 interface ICartItemProps{
     product : IProduct
     removeFromCard : (id:number)=>void;
@@ -9,11 +8,11 @@ interface ICartItemProps{
 const  CartItems:React.FC<ICartItemProps> = (props) => {
     const {id,title,price,discountPercentage,category,thumbnail,brand} = props.product;
     const discountPrice = ( price- (discountPercentage/100)*price).toFixed(2);
+    const {removeFromCard}= props;
+
     const handleCartClick = () =>{
-        console.log("remove")
         removeFromCard(id);
     }
-    const {removeFromCard}= useCart(id);
     return (
         <div>
             <div className="card">
@@ -28,7 +27,6 @@ const  CartItems:React.FC<ICartItemProps> = (props) => {
                         <span> <b>Price</b> : {`$ ${ discountPrice }`} <i>  <s> ({price})</s></i></span>
                         <span><b>category</b> : {category}</span>
                     </div>
-                    {/**/}
                     <div className="cardItemsRight">
                         <button type="submit" className={"btnCart btnStatustrue"}
                                 onClick={handleCartClick}

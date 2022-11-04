@@ -19,11 +19,12 @@ function compare (cart:ICartProducts[],e:ICartProducts){
 }
 const  Product :React.FC<IProductProps> = (props) =>{
     const [paginateCount, setPaginateCount] = useState(0);
-    const {search,category,cart,user,addToCart,removeFromCard} = props
-    // const {search,category,user} = props
+    const {search,category,user,addToCart,removeFromCard} = props
+    const context = useContext(userContext)
+    const locatStorageUser = (JSON.parse(localStorage.getItem(context.user.id.toString())??'{"cartItems":[]}'));
+    const cart = locatStorageUser.cartItems;
     const products = useProduct(search,category);
 
-    const cartItems = products.filter((ele:IProduct)=>cart.find(({id}) =>ele.id ===id));
     return (
         <div>
             {products.slice(paginateCount,paginateCount+5).map((e)=>{

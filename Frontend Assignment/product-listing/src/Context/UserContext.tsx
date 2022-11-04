@@ -1,6 +1,6 @@
 import React  from 'react'
 const user = {
-    id:0,
+    id:1,
     firstName:""
 }
 const UserContext = React.createContext({user,setCurrentUser:(e:any)=>{}})

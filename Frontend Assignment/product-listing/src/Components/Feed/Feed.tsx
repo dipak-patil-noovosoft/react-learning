@@ -40,14 +40,13 @@ function Feed() {
         setCategory(e.target.value);
     }
     const changeUser = (e:React.ChangeEvent<HTMLSelectElement>)=>{
-        console.log(e.target.value)
         setCurrentUser(parseInt(e.target.value))
     }
     return (
         <div>
             <NavBar  searchItem={searchProduct}  onSearch={handleSearch}  changeCategory={handleCategory}
                      user = {user}
-                     usersNames = {users}
+                     userList = {users}
                      cart={cart}
                      changeUser ={changeUser}
             ></NavBar>
