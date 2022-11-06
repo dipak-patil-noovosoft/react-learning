@@ -29,9 +29,12 @@ const  Product :React.FC<IProductProps> = (props) =>{
             <div className="productsPagination">
 
             <button type="submit" onClick={()=>{
-                if (paginateCount>1) setPaginateCount(paginateCount-5)
+                if (paginateCount > 1) setPaginateCount(paginateCount-5)
             }}>Preveus </button>
-            <button type="submit" onClick={()=>setPaginateCount(paginateCount+5)} >Next</button>
+            <button type="submit" onClick={()=>{
+                if ((paginateCount + 5) < products.length)
+                setPaginateCount(paginateCount+5)
+            }} >Next</button>
             </div>
         </div>
     );

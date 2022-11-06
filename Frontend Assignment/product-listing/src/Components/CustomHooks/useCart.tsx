@@ -23,6 +23,23 @@ const useCart = (id: number) =>{
             getUserCart()
     }, [id])
 
+    const createUserCart = async (productId:number) =>{
+        const response = await fetch('https://dummyjson.com/carts/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                userId: 1,
+                products: [{id:productId}]
+
+            })
+        })
+        const data = await response.json();
+        setCartID(data.id);
+        setCart([...cart,...data.products]);
+        localStorage.setItem(JSON.stringify(id), JSON.stringify({cartId: data.id,
+            cartItems :[...cart, ...data.products]}))
+    }
+
     const addToCart = async (productId:number) =>{
         if (cartID && cartID!==21){
             const response = await fetch(`https://dummyjson.com/carts/${cartID}`, {
@@ -45,21 +62,7 @@ const useCart = (id: number) =>{
             }
         }
         else{
-            const response = await fetch('https://dummyjson.com/carts/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    userId: 1,
-                    products: [{id:productId}]
-
-                })
-            })
-            const data = await response.json();
-            setCartID(data.id);
-            setCart([...cart,...data.products]);
-            localStorage.setItem(JSON.stringify(id), JSON.stringify({cartId: data.id,
-                cartItems :[...cart, ...data.products]}))
-
+            createUserCart(productId);
         }
 
     }

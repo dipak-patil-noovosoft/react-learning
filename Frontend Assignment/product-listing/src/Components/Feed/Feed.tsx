@@ -25,9 +25,9 @@ function Feed() {
         getAllUsers();
     }, []);
 
-
     const user = useUser(currentUser);
     const {addToCart,removeFromCard} = useCart(user.id);
+
     useEffect(() => {
         userCont.setCurrentUser(user);
     }, [user]);

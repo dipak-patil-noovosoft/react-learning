@@ -9,3 +9,12 @@
 .homeLink{
     text-decoration: none;
 }
+.cartItemsPagination{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+.cartItemsPagination button {
+    width: 10%;
+}
