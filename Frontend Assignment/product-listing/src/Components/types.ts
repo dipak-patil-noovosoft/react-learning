@@ -13,7 +13,7 @@ export interface IProduct{
     "images": string[]
 }
 // cart
-export interface ICartProducts{
+export interface ICartProducts{ //extends
     "id": number,
     "title": string,
     "price": number,
@@ -32,10 +32,23 @@ export interface ICart{
     userId :number
 }
 // response
-export  interface ICardFetch{
+export  interface ICardFetch{ //
     // array of carts
     carts :ICart[],
     total :number,
     skip : number,
     limit: number
+}
+//
+export interface IReducerState{
+    search:string,category:string
+}
+export interface IUser{
+ id:number,firstName:string
+}
+export interface IUsers{
+    users:[],
+    "total": number,
+    "skip": number,
+    "limit": number
 }

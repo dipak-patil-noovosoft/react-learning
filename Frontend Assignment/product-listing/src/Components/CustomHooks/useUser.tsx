@@ -5,7 +5,7 @@ interface Iuser {
     firstName:string
 }
 const useUser = (id:number)=>{
-    const userCon = useContext(UserContext);
+    // const userCon = useContext(UserContext);
 
     const [user, setUser] = useState<Iuser>({id:id,firstName:""});
 

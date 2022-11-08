@@ -1,40 +1,51 @@
 import React from 'react';
-import './product.css'
-import  {IProduct} from '../types'
+import {IProduct} from "../types";
+import './item.css'
+import {useLocation} from "react-router-dom";
 interface IProductProp{
     product : IProduct
     status :boolean;
-    addToCart :(id:number)=>void;
+    addToCart? :(id:number)=>void;
     removeFromCard : (id:number)=>void;
-    user : {id:number, firstName :string}
 }
-function ProductsItems(props :IProductProp) {
-    const {id,title,description,price,category,thumbnail,discountPercentage} = props.product;
-    const {status,addToCart,removeFromCard,user} = props;
+
+const  Item : React.FC<IProductProp> = (props) => {
+    const {id,title,brand,description,price,category,thumbnail,discountPercentage} = props.product;
+    const {status,addToCart,removeFromCard} = props;
     const discountPrice = ( price- (discountPercentage/100)*price).toFixed(2);
     const btnStatus = "btnStatus"+status;
-    const handleCartClick = (e:any) =>{
-        if (!status)addToCart(id);
-        else removeFromCard(id);
-
+    const {pathname} = useLocation();
+    let isVisible = true;
+    if(pathname === '/cart') isVisible = false;
+    const handleCartClick = (e:React.MouseEvent<HTMLButtonElement>) =>{
+        if (!status) {
+            if (addToCart) {
+                addToCart(id);
+            }
+        }
+        else {
+            console.log("here1 ")
+            removeFromCard(id);
+        }
     }
     return (
         <div>
             <div className="card">
-                <h4>{title}</h4>
+                <h4>{title} ({brand})</h4>
                 <div className="cardItems">
                     <div className="cardItemsLeft">
                         <img src={thumbnail} alt="Loading"/>
                     </div>
                     <div className="cardItemsMidd">
-                        {/*<span > Name : {} </span>*/}
                         <span> <b>Price</b> : {`$ ${ discountPrice }`} <i>  <s> ({price})</s></i></span>
                         <span><b>category</b> : {category}</span>
-                        <span> <b>description</b> : {description}</span>
+                        {   isVisible &&
+                            <span> <b>description</b> : {description}</span>
+                        }
                     </div>
                     <div className={"cardItemsRight "} >
                         <button type="submit" className={"btnCart "+(btnStatus)}
-                            onClick={handleCartClick}
+                                onClick={handleCartClick}
                         >
                             {status?`remove`: 'Add to cart'} </button>
                     </div>
@@ -44,6 +55,7 @@ function ProductsItems(props :IProductProp) {
             </div>
         </div>
     );
+
 }
 
-export default ProductsItems;
+export default Item;
