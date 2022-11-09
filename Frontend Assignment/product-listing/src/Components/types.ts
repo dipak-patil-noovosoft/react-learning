@@ -13,7 +13,7 @@ export interface IProduct{
     "images": string[]
 }
 // cart
-export interface ICartProducts{ //extends
+export interface ICartProducts{
     "id": number,
     "title": string,
     "price": number,
@@ -22,19 +22,19 @@ export interface ICartProducts{ //extends
     "discountPercentage": number,
     "discountedPrice": number
 }
-export interface ICart{
-    id:number,
-    // array of products
-    products : ICartProducts[],
-    total:number,
-    totalProducts :number,
-    totalQuantity:number,
-    userId :number
-}
+// export interface ICart{
+//     id:number,
+//     // array of products
+//     products : ICartProducts[],
+//     total:number,
+//     totalProducts :number,
+//     totalQuantity:number,
+//     userId :number
+// }
 // response
-export  interface ICardFetch{ //
+export  interface IProduct{ //
     // array of carts
-    carts :ICart[],
+    products :IProduct[],
     total :number,
     skip : number,
     limit: number
@@ -51,4 +51,9 @@ export interface IUsers{
     "total": number,
     "skip": number,
     "limit": number
+}
+
+export interface ILocalStorageCart{
+    cartId : number,
+    cartItems : ICartProducts[]
 }

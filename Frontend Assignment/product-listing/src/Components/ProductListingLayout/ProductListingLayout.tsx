@@ -1,7 +1,10 @@
 import React, {Dispatch, useContext, useReducer} from 'react';
 import {Outlet} from "react-router-dom";
 import {NavBar} from "../NavBar/NavBar";
-import {IReducerState} from "../types";
+import {ICartProducts, IReducerState} from "../types";
+import userContext from "../../Context/UserContext";
+import useCart from "../CustomHooks/useCart";
+import cart from "../Cart/Cart";
 
 enum ReducerActions {
     searchProduct = 'searchProduct',
@@ -27,20 +30,22 @@ const reducer:React.Reducer<IReducerState, IActions> = (state,action) => {
 export interface IOutletContext {
     state: IReducerState
     dispatch: Dispatch<ReducerActions>
+    cart : ReturnType<typeof useCart>
 }
 
-function Main() {
+function ProductListingLayout() {
     const [state, dispatch] = useReducer(reducer, {search:'',category:'All'});
-
+    const {user} = useContext(userContext);
+    const cart = useCart(user.id);
     return (
         <>
             <NavBar
                 state={state}
                 dispatch={dispatch}
             />
-            <Outlet context={{state,dispatch}}/>
+            <Outlet context={{state,dispatch,cart}}/>
         </>
     );
 }
 
-export default Main;
+export default ProductListingLayout;

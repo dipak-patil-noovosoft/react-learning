@@ -1,64 +1,51 @@
 import {useEffect, useState} from "react";
 import {ICartProducts, IProduct} from "../types";
 
-const useCart = (id: number) =>{ //userID
-    const [cart, setCart] = useState<ICartProducts[]>([]);
+const useCart = (userID: number) =>{ //userID
+    const [cartItems, setCartItems] = useState<ICartProducts[]>([]);
     const [cartID, setCartID] = useState(0);
-
     useEffect(() => {
         const getUserCart = async ()=>{
-            const response = await fetch(`https://dummyjson.com/carts/user/${id}`);
+            const response = await fetch(`https://dummyjson.com/carts/user/${userID}`);
             let data = await response.json();
 
-            const cartDetails = localStorage.getItem("cartDetails");
+            const cartData = {[userID]:{cartId:data.carts[0]?.id ?? 0,cartItems: data.carts[0]?.products ?? [] } }
 
-            if(cartDetails){
-                const cartData = JSON.parse(cartDetails);
-                let obj :any = {};
-                setCartID(data.carts[0]?.id)
-                setCart(data.carts[0]?.products??[]);// refactor setCartItems
-                obj[id] = {cartId: data.carts[0]?.id ?? 0, cartItems: data.carts[0]?.products ?? []}
-                localStorage.setItem("cartDetails",JSON.stringify({...cartData, ...obj}))
+            setCartID(data.carts[0]?.id ?? 0)
+            setCartItems(data.carts[0]?.products ?? []);
+            saveToLocalStorage(cartData)
+        }
+        const localStorageCartData = localStorage.getItem('cartDetails');
+        if (localStorageCartData){
+            const cartsInfo = JSON.parse(localStorageCartData)
+            if(cartsInfo[userID]){
+                setCartID(cartsInfo[userID].cartId);
+                setCartItems(cartsInfo[userID].cartItems);
                 return;
             }
-            let obj :any = {};
-            obj[id] = {cartId: data.carts[0]?.id ?? 0, cartItems: data.carts[0]?.products ?? []}
-            localStorage.setItem("cartDetails",JSON.stringify(obj))
-
         }
-            const localStorageCartData = localStorage.getItem('cartDetails');
-            if (localStorageCartData){
-                const isExist = JSON.parse(localStorageCartData)
-                if(isExist[id]){
-                    setCartID(isExist.cartId);
-                    setCart(isExist.cartItems);
-                    return;
-                }
-            }
-            getUserCart()
-    }, [id])
+        getUserCart()
+    }, [userID])
 
     const createUserCart = async (productId:number) =>{
         const response = await fetch('https://dummyjson.com/carts/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                userId: id,
+                userId: userID,
                 products: [{id:productId}]
             })
         })
             const data = await response.json();
-            setCartID(data.id);
-            setCart([data.products]);
             if (response.ok){
-                const cartFilterData = data.products.filter((e:IProduct)=>(e.id) === productId);
-                const cartData  = JSON.parse(localStorage.getItem("cartDetails")??'')
-                cartData[id].cartItems.push( ...cartFilterData)
-                localStorage.setItem("cartDetails",JSON.stringify(cartData));
+                console.log(data)
+                setCartItems([...cartItems,...data.products])
+                const cartData  = {[userID]:{cartId:cartID,cartItems: [...cartItems,...data.products] } }
+                saveToLocalStorage(cartData)
             }
     }
     const addToCart = async (productId:number) =>{
-        if (cartID && cartID!==21){
+        if (cartID){
             const response = await fetch(`https://dummyjson.com/carts/${cartID}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -67,18 +54,17 @@ const useCart = (id: number) =>{ //userID
                         {
                             id : productId,
                         },
-                        ...cart
+                        ...cartItems
                     ]
                 })
             })
             if (response.ok){
                 const data = await response.json();
                 const cartFilterData = data.products.filter((e:IProduct)=>(e.id) === productId);
-                setCart([...cart,...cartFilterData]);
-                const cartData  = JSON.parse(localStorage.getItem("cartDetails")??'')
-                cartData[id].cartItems = [...cart,...cartFilterData]
-                localStorage.setItem("cartDetails",JSON.stringify(cartData));
-                // localStorage.setItem(JSON.stringify(id), JSON.stringify({cartId: cartID,cartItems :[...cart,...cartFilterData]}))
+                setCartItems([...cartItems,...cartFilterData]);
+                setCartID(data.id)
+                const cartData  = {[userID]:{cartId:cartID,cartItems: [...cartItems,...cartFilterData] } }
+                saveToLocalStorage(cartData);
             }
         }
         else{
@@ -87,38 +73,39 @@ const useCart = (id: number) =>{ //userID
     }
 
     const removeFromCard = async (productId:number) =>{
+
         const cartData  = JSON.parse(localStorage.getItem("cartDetails")??'')
-        console.log("here")
-        const cartFilterData = cartData?.[id].cartItems.filter((e:IProduct)=>(e.id)!== productId);
-        setCart(cartFilterData);
-        console.log(cartFilterData);
-        cartData[id].cartItems = cartFilterData;
+        const cartFilterData = cartData?.[userID].cartItems.filter((e:IProduct)=>(e.id)!== productId);
+
+        const response = await fetch(`https://dummyjson.com/carts/${cartID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                products: cartFilterData ,
+            })
+        })
+        const data = await response.json();
+        console.log(data)
+        setCartItems(cartFilterData);
+        cartData[userID].cartItems = cartFilterData;
         localStorage.setItem("cartDetails",JSON.stringify(cartData));
-
-
-        // localStorage.setItem((id).toString(),JSON.stringify({cartId: cartID,cartItems:cartFilterData}))
-
-
-        // // const response = await fetch(`https://dummyjson.com/carts/${cartID}`, {
-        // //     method: 'PUT',
-        // //     headers: { 'Content-Type': 'application/json' },
-        // //     body: JSON.stringify({
-        // //         products: cartFilterData,
-        // //     })
-        // // })
-        // // const delData = await response.json();
     }
-    return {cart,addToCart,removeFromCard}
+
+
+    const saveToLocalStorage = (data :any) =>{
+        const cartDetails = localStorage.getItem("cartDetails");
+        let prevData = {};
+        if (cartDetails){
+            prevData = JSON.parse(cartDetails);
+            console.log(data)
+        }
+        localStorage.setItem('cartDetails',JSON.stringify({
+
+            ...prevData,
+            ...data
+            }
+        ))
+    }
+    return {cartItems,addToCart,removeFromCard}
 }
 export  default useCart;
-
-
-
-// [count,setCount] = useState("");
-//
-// <Custom tile ="dad" handle={increment}>
-//
-// </Custom>
-// <Custom tile ="dad" >
-//
-// </Custom>

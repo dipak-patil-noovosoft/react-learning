@@ -17,14 +17,13 @@ const  Item : React.FC<IProductProp> = (props) => {
     const {pathname} = useLocation();
     let isVisible = true;
     if(pathname === '/cart') isVisible = false;
-    const handleCartClick = (e:React.MouseEvent<HTMLButtonElement>) =>{
+    const handleCartClick = () =>{
         if (!status) {
             if (addToCart) {
                 addToCart(id);
             }
         }
         else {
-            console.log("here1 ")
             removeFromCard(id);
         }
     }
@@ -43,7 +42,7 @@ const  Item : React.FC<IProductProp> = (props) => {
                             <span> <b>description</b> : {description}</span>
                         }
                     </div>
-                    <div className={"cardItemsRight "} >
+                    <div className="cardItemsRight " >
                         <button type="submit" className={"btnCart "+(btnStatus)}
                                 onClick={handleCartClick}
                         >

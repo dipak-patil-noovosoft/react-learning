@@ -1,31 +1,95 @@
 .navBar{
     width: 100%;
-    height: 50px;
+    height: auto;
     background: #999999;
     display: flex;
-    align-items: center;
+    /*align-items: center;*/
 }
-.searchInput{
-    margin: 10px;
-    /*flex-grow: ;*/
+.navItems{
+    align-items: center;
+    display: flex;
+    width: 100%;
+}
+.homeLink{
+    width: auto;
+    flex-grow: 1 ;
+}
+.homeLink h2 {
+
+}
+.searchItem{
+    flex-grow: 1 ;
+    width: auto;
+    display: flex;
+}
+.searchInputLabel{
+}
+.searchInput input{
+    width: 60%;
 }
 .categories{
+    flex-grow: 1 ;
     margin: 10px;
-    flex-grow: 5;
+    width: auto;
+    display: flex;
+}
+.categories select{
+    flex-grow: 1 ;
+    width: 80%;
 }
 .cart{
-    flex-grow: 0.1;
-    height: 50px;
+    flex-grow: 1;
     border: 1px solid black;
-    text-align: start;
-    /*position: absolute;*/
-    /*right: 0;*/
+    /*text-align: start;*/
     margin: 10px;
+    width: auto;
 }
+.cart h4,span{
+    /*font-size: 50%;*/
+    /*width: 80%;*/
+}
+
 .usersDropDown{
+    flex-grow: 1;
     margin: 10px;
-    width: 100px;
+    width: auto;
+    display: flex;
 }
+
 .usersDropDown select{
-    width: 90px;
+    width: 80%;
+}
+@media only screen and (max-width: 900px) {
+    *{
+        margin: 0;
+    }
+    .navItems{
+        flex-direction: column;
+    }
+    .searchItem, .categories,.cart, .usersDropDown{
+        margin: 2px;
+        width: 100%;
+        height: auto;
+    }
+    .searchInputLabel,.categoriesLabel,.usersDropDownLabel{
+        width: 30%;
+    }
+    .searchInput, .categoriesSelect, .usersDropDownSelect{
+        width: 70%;
+    }
+    .searchInput input, .categoriesSelect select, .usersDropDownSelect select{
+        width: 95%;
+    }
+    .cart{
+        display: flex;
+        justify-content: space-around;
+    }
+    label{
+        width: 30px;
+        font-weight: bold;
+    }
+
+    /*.cart h4, span {*/
+    /*    font-size: 5%;*/
+    /*}*/
 }

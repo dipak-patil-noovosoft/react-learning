@@ -1,6 +1,5 @@
 import React, {useMemo, useState} from 'react';
 import UserContext from "./UserContext";
-import useUser from "../Components/CustomHooks/useUser";
 import {useFetch} from "../Components/CustomHooks/useFetch";
 import {IUser} from "../Components/types";
 

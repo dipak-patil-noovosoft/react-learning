@@ -1,15 +1,15 @@
 import './App.css';
-import Feed from "./Components/Feed/Feed";
 import UserContextProvider from "./Context/UserContextProvider";
 import Cart from "./Components/Cart/Cart";
 import {createBrowserRouter,RouterProvider} from 'react-router-dom'
-import Main from "./Components/Main/main";
+import ProductListingLayout from "./Components/ProductListingLayout/ProductListingLayout";
+import Product from "./Components/Product/Product";
 
 const  router = createBrowserRouter([{
-        element  : <Main/>,
+        element  : <ProductListingLayout/>,
         children :[{
             path : '/',
-            element : (<Feed/>)
+            element : (<Product/>)
         },
         {
             path : '/cart',

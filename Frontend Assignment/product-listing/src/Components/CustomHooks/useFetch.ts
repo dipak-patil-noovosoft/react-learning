@@ -9,6 +9,7 @@ export const useFetch = <Type = unknown> (endpoint:string,initialSate:any = []) 
 
     useEffect(() => {
         if (!endpoint) return
+
         if(cache.current[endpoint]){
             setState(cache.current[endpoint])
             return;
