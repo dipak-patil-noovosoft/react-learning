@@ -1,6 +1,5 @@
 import {makeObservable, observable, action ,autorun,computed} from 'mobx'
 import React,{createContext} from "react";
-import todo from "../Compnents/Todo";
 export type TTodos = {
     id :number,
     task: string,
@@ -39,11 +38,11 @@ export  default class TodoStore{
     }
 }
 const todoStore = new TodoStore();
-export const TodoStoreContext = createContext({todoStore});
 
-export const TodoStoreProvider = (props : any) =>{
+export const TodoStoreContext = createContext({todoStore});
+export const TodoStoreProvider = (props: any) =>{
     return(
-        <TodoStoreContext.Provider value={{todoStore}}>
+        <TodoStoreContext.Provider  value={{todoStore}}>
             {props.children}
         </TodoStoreContext.Provider>
     )

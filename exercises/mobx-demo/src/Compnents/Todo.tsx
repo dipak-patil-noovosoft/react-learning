@@ -15,7 +15,7 @@ function Todo() {
     return (
         <div>
             <h1>Todo List</h1>
-            <h2> Taks {completedTodosCount + "/"+ todos.length }</h2>
+            <h2> Task {completedTodosCount + "/"+ todos.length }</h2>
             <div className='addTodoSection'>
                 <div>
                     <input type="text" onChange={action((e)=>(todoText.text = e.target.value))}/>

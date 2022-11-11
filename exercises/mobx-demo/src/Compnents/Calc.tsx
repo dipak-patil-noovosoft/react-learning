@@ -16,11 +16,11 @@ function Calc() {
         <>
 
             <>
-                Total : {toJS(total)}
+                Product of numbers : {toJS(total)}
             </>
             <br/>
             <input type="number" placeholder='Enter Amount 1' onChange={action((e:any)=>calcSate.amount1 = e.target.value)}/>
-            <input type="text"  placeholder='Enter Amount2' onChange={action((e:any)=>calcSate.amount2 = e.target.value)}/>
+            <input type="number"  placeholder='Enter Amount2' onChange={action((e:any)=>calcSate.amount2 = e.target.value)}/>
 
         </>
     );

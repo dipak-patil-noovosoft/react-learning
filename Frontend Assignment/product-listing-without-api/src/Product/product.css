@@ -1,0 +1,37 @@
+.productCard{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: 20px auto auto;
+    border: 2px solid black;
+    border-radius: 22px;
+}
+.productTitle{
+    align-self: center;
+    background-color: red;
+}
+.productDetails{
+    /*background-color: #999999;*/
+    width: 90%;
+    margin: auto ;
+}
+
+.productCategory, .productPrice, .productDescription{
+    width: 90%;
+    /*background-color: antiquewhite;*/
+    height: 50px;
+    display: flex;
+    margin: 0;
+}
+.left {
+    width: 15%;
+}
+.right {
+    width: 90%;
+}
+
+.productQuantityCount{
+    width: 100%;
+    flex-direction: row-reverse;
+    margin: 0;
+}
