@@ -1,6 +1,7 @@
 import React from 'react';
 import {observer} from 'mobx-react'
 import {action, computed, observable, toJS} from "mobx";
+
 type TCalcState = {
     amount1: number,
     amount2 : number,

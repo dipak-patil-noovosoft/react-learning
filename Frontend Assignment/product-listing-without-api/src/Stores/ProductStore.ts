@@ -9,11 +9,6 @@ export class ProductStore {
     constructor(rootStore) {
         makeAutoObservable(this)
         this.rootStore = rootStore;
-        autorun(()=>console.log("Length : ",this.productCount))
-    }
-
-    @computed get productCount(){
-        return this.products.length;
     }
 
     @action addProduct(product:Omit<IProduct,'id'>){
@@ -25,7 +20,19 @@ export class ProductStore {
 
     @action  addToCart(id:number){
         this.rootStore.cartStore.addToCart(
-        this.products.find((e)=>e.id===id)
+            this.products.find((e)=>e.id===id)
         )
+    }
+
+    getProductQuantity(productID){
+        const data = this.products.find((e)=>e.id===productID);
+        if (data) return  data.quantity;
+        return  0;
+    }
+
+    @action removeFromCart(id:number){
+        console.log('remove')
+        this.rootStore.cartStore.removeFromCart(id);
+        this.products.map((e)=>e);
     }
 }

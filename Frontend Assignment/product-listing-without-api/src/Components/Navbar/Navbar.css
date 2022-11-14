@@ -1,0 +1,28 @@
+.navBar{
+    width: 100%;
+    height: 50px;
+    background-color: #999999;
+    display: flex;
+    align-items: center;
+    /*justify-content: center;*/
+}
+.navItem{
+    width: 100%;
+    height: 100%;
+    border: 2px solid black;
+    background-color:floralwhite ;
+}
+.navItem p{
+    width: 100%;
+    height: 100%;
+    font-size: 30px;
+}
+.link{
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: black;
+}
+@media only screen and (max-width: 600px) {
+
+}

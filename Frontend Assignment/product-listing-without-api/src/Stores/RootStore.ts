@@ -4,10 +4,10 @@ import {CartStore} from "./CartStore";
 export class RootStore{
     cartStore;
     productStore;
-    rootStore;
-    constructor(rootSore) {
+    routerStore;
+    constructor(routerStore) {
         this.cartStore = new CartStore(this);
         this.productStore = new ProductStore(this);
-        this.rootStore = rootSore;
+        this.routerStore = routerStore;
     }
 }

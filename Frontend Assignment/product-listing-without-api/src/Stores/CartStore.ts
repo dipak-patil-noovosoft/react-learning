@@ -1,4 +1,4 @@
-import {action, autorun, computed, makeAutoObservable, observable} from 'mobx'
+import {action , makeAutoObservable, observable} from 'mobx'
 import {ICartProduct} from "../types";
 import {RootStore} from "./RootStore";
 export class CartStore{
@@ -9,15 +9,32 @@ export class CartStore{
         makeAutoObservable(this);
         this.cartProducts = [];
         this.rootStore = rootStore;
-        autorun(()=>console.log("cart length : ",this.cartCount))
     }
 
-    @computed get cartCount(){
-        return this.cartProducts.length;
-    }
-    @action addToCart(cartProduct:ICartProduct){
-        this.cartProducts.push(cartProduct);
+    getCartQuantity(CartItemID){
+        const data = this.cartProducts.find((e)=>e.id===CartItemID);
+        if (data) return  data.quantity;
+        return  0;
     }
 
-
+    @action addToCart(ID:Number){
+        const check = this.cartProducts.find((e)=>e.id===ID);
+        if (!check){
+            const product = this.rootStore.productStore.products.find((e)=>e.id===ID);
+            const {description,...rest} = product;
+            rest['quantity'] = 1;
+            this.cartProducts.push(<ICartProduct>rest)
+        }
+        else{
+            this.cartProducts.find((e)=>e.id===ID).quantity++;
+        }
+    }
+    @action removeFromCart(ID:Number){
+        const data = this.cartProducts.find((e)=>e.id===ID);
+        if (data.quantity>1) {
+            this.cartProducts.find((e) => e.id === ID).quantity--;
+            return;
+        }
+        this.cartProducts.splice(this.cartProducts.findIndex(e => e.id === ID) , 1)
+    }
 }

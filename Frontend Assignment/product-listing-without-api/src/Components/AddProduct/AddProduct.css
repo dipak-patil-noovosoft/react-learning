@@ -18,14 +18,20 @@
 .addProduct-btn{
     display: flex;
     width: 90%;
-    /*background-color: #999999;*/
     margin: 15px;
 }
 label{
-    width: 10%;
+    width: 20%;
 }
-input,textarea{
+input,textarea,select{
     width: 90%;
+}
+.productQuantity input{
+    width: 50%;
+}
+button{
+    width: 20%;
+    margin: auto 5px auto;
 }
 
 .addProduct-btn button{

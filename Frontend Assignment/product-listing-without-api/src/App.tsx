@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css'
 import {RouterContext, RouterView} from "mobx-state-router";
-import {initRouter} from "./Stores/initRouter";
-import {viewMap} from "./Stores/viewmap";
+import {initRouter} from "./Routing/initRouter";
+import {viewMap} from "./Routing/viewmap";
 import {StoreContextProvider} from "./Components/StoreContext";
+import NavBar from "./Components/Navbar/NavBar";
 
 class App extends React.Component<{}, {}> {
     routerStore
@@ -17,6 +18,7 @@ class App extends React.Component<{}, {}> {
         return (
             <StoreContextProvider rootStore={this.routerStore}>
                 <RouterContext.Provider value={this.routerStore}>
+                    <NavBar/>
                     <RouterView viewMap={viewMap} />
                 </RouterContext.Provider>
             </StoreContextProvider>
