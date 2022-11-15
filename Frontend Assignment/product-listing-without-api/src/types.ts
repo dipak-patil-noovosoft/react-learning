@@ -8,5 +8,5 @@ export interface ICartProduct{
 
 export interface IProduct extends ICartProduct{
     category: string,
-    description: string
+    description: string,
 }

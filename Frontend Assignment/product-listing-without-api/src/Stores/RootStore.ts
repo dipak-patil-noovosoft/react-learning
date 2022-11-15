@@ -1,7 +1,7 @@
 import {ProductStore} from "./ProductStore";
 import {CartStore} from "./CartStore";
 
-export class RootStore{
+export  default class RootStore{
     cartStore;
     productStore;
     routerStore;

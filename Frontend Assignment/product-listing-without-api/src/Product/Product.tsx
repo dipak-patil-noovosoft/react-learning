@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './product.css'
 import {ICartProduct, IProduct} from "../types";
-import {StoreContext} from "../Components/StoreContext";
+import {StoreContext} from "../StoreContext/StoreContext";
 import {observer} from "mobx-react";
 interface IProductProps {
     product : IProduct | ICartProduct

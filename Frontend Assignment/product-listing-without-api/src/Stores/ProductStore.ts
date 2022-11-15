@@ -11,9 +11,16 @@ export class ProductStore {
         this.rootStore = rootStore;
     }
 
+    getProductQuantity(productID){
+        const data = this.products.find((e)=>e.id===productID);
+        if (data) return  data.quantity;
+        return  0;
+    }
+
     @action addProduct(product:Omit<IProduct,'id'>){
-        this.products.push({
-            id:this.id++,
+        console.log(toJS(product))
+        this.products.push(<IProduct>{
+            id: this.id++,
             ...product
         })
     }
@@ -22,12 +29,6 @@ export class ProductStore {
         this.rootStore.cartStore.addToCart(
             this.products.find((e)=>e.id===id)
         )
-    }
-
-    getProductQuantity(productID){
-        const data = this.products.find((e)=>e.id===productID);
-        if (data) return  data.quantity;
-        return  0;
     }
 
     @action removeFromCart(id:number){

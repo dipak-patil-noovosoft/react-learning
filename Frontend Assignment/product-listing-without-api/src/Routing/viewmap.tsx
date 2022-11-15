@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from "../Components/Home";
+import Home from "../Components/Home/Home";
 import Cart from "../Components/Cart/Cart";
 import AddProduct from "../Components/AddProduct/AddProduct";
 

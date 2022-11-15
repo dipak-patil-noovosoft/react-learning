@@ -3,12 +3,11 @@ import './App.css'
 import {RouterContext, RouterView} from "mobx-state-router";
 import {initRouter} from "./Routing/initRouter";
 import {viewMap} from "./Routing/viewmap";
-import {StoreContextProvider} from "./Components/StoreContext";
+import {StoreContextProvider} from "./StoreContext/StoreContext";
 import NavBar from "./Components/Navbar/NavBar";
 
 class App extends React.Component<{}, {}> {
     routerStore
-
     constructor(props) {
         super(props);
         this.routerStore = initRouter();

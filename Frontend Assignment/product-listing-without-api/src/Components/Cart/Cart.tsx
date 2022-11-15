@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StoreContext} from "../StoreContext";
+import {StoreContext} from "../../StoreContext/StoreContext";
 import Product from "../../Product/Product";
 import {observer} from "mobx-react";
 

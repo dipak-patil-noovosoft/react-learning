@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {StoreContext} from "./StoreContext";
+import {StoreContext} from "../../StoreContext/StoreContext";
 import {observer} from "mobx-react";
-import Product from "../Product/Product";
+import Product from "../../Product/Product";
 
 @observer
 class Home extends Component<{}, {}> {
