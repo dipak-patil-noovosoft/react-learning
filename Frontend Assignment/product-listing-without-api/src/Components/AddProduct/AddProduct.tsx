@@ -6,20 +6,18 @@ import {observer} from "mobx-react";
 import {StoreContext} from "../../StoreContext/StoreContext";
 
 
-
-
 @observer
 class AddProduct extends Component<{}, {}> {
 
     static contextType = StoreContext;
-    formState: Omit<IProduct,'id'> &{errorMessage : string} = observable({
+    formState: Omit<IProduct, 'id'> & { errorMessage: string } = observable({
         productName: "",
         price: 0,
         discountedPrice: 0,
         quantity: 0,
         category: 'mobile',
         description: '',
-        errorMessage : ''
+        errorMessage: ''
     })
 
     //Clear Form function after submitting form
@@ -27,22 +25,23 @@ class AddProduct extends Component<{}, {}> {
         this.formState = {
             productName: "", price: 0, discountedPrice: 0,
             quantity: 0, category: 'mobile', description: ''
-            , errorMessage : ''
+            , errorMessage: ''
         }
     })
     //Form Validation
+
     validateForm = () => {
         if ((/^$/).test(this.formState.productName) || (/^$/).test(String(this.formState.price)) ||
             (/^$/).test(String(this.formState.discountedPrice)) || (/^$/).test(this.formState.description)) {
             this.formState.errorMessage = 'Please fill all the fields'
             return true;
         }
-        if (!(/^[+]?([0-9]+(?:[\][0-9]*)?|\.[0-9]+)$/).test(String(this.formState.price))) {
+        if (!(/^0*?[1-9]\d*$/).test(String(this.formState.price))) {
             this.formState.errorMessage = 'Negative value not accepted'
             return true;
         }
-        if (this.formState.price < this.formState.discountedPrice) {
-            this.formState.errorMessage = 'Discounted Price should not be less than actual price'
+        if ((this.formState.price) < (this.formState.discountedPrice)) {
+            this.formState.errorMessage = 'Discounted Price should not be greater than actual price'
             return true;
         }
         if (this.formState.quantity === 0) {
@@ -52,15 +51,22 @@ class AddProduct extends Component<{}, {}> {
         return false;
     }
 
-    handleClick = (store, routerStore) => {
+    handleClick = action((store, routerStore) => {
         if (this.validateForm()) {
             return;
         }
-        const {errorMessage,...rest} = this.formState;
+        const {errorMessage, ...rest} = this.formState;
         store.addProduct(rest)
         routerStore.goTo('home')
         this.clearForm();
-    }
+    })
+
+    handleOnChange = action((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const key  = e.target.name;
+        let value: number|string = e.target.value;
+        if (['price','discountedPrice','quantity'].some((name) =>name === key)){value = parseInt(value)}
+        this.formState[e.target.name] = value;
+    })
 
     render() {
         const context = this.context;
@@ -73,16 +79,14 @@ class AddProduct extends Component<{}, {}> {
                         <label htmlFor="">Name </label>
                         <input type="text"
                                name='productName'
-                                   value={this.formState.productName}
-                               placeholder='Name' onChange={
-                                action((e:React.ChangeEvent<HTMLInputElement>) => {
-                                    this.formState[e.target.name] = e.target.value;
-                                })
-                        }/>
+                               placeholder='Name'
+                               value={this.formState.productName}
+                               onChange={this.handleOnChange}
+                        />
                     </div>
                     <div className='productCategory'>
                         <label htmlFor="">Category </label>
-                        <select name="category" onChange={(e) => this.formState.category = (e.target.value)}>
+                        <select name="category" onChange={this.handleOnChange}>
                             <option value="mobile">Mobile</option>
                             <option value="laptop">Laptop</option>
                             <option value="style-fashion">Style & Fashion</option>
@@ -91,24 +95,23 @@ class AddProduct extends Component<{}, {}> {
                     <div className='productPrice'>
                         <label htmlFor="">Price </label>
                         <input type="number" placeholder='Price'
+                               name='price'
                                value={this.formState.price}
-                               onChange={action((e) => {
-                                   this.formState.price = Number(e.target.value);
-                               })}/>
+                               onChange={this.handleOnChange}
+                        />
                     </div>
                     <div className='productDiscountedPrice'>
                         <label htmlFor="">DiscountedPrice </label>
                         <input type="number"
+                               name='discountedPrice'
                                value={this.formState.discountedPrice}
                                placeholder='DiscountedPrice'
-                               onChange={action((e) => {
-                                   this.formState.discountedPrice = Number(e.target.value);
-                               })}
+                               onChange={this.handleOnChange}
                         />
                     </div>
                     <div className='productQuantity'>
                         <label htmlFor="">Quantity </label>
-                        <button disabled={this.formState.quantity == 0}
+                        <button disabled={this.formState.quantity === 0}
                                 type="button"
                                 onClick={action(() => {
                                     this.formState.quantity--
@@ -116,10 +119,9 @@ class AddProduct extends Component<{}, {}> {
                         </button>
                         <input type="number" placeholder='Quantity'
                                min={1}
+                               name='quantity'
                                value={this.formState.quantity}
-                               onChange={action((e) => {
-                                   this.formState.quantity = Number(e.target.value);
-                               })}
+                               onChange={this.handleOnChange}
                         />
                         <button type="button"
                                 onClick={action(() => {
@@ -130,12 +132,11 @@ class AddProduct extends Component<{}, {}> {
                     <div className='productDescription'>
                         <label htmlFor="">Description </label>
                         <textarea placeholder='Description'
-                                  value={toJS(this.formState.description)}
-                                  onChange={action((e) => {
-                                      this.formState.description = e.target.value;
-                                  })}> </textarea>
+                                  name='description'
+                                  value={this.formState.description}
+                                  onChange={this.handleOnChange}> </textarea>
                     </div>
-                    <p style={{color:"red"}}>{this.formState.errorMessage}</p>
+                    <p style={{color: "red"}}>{this.formState.errorMessage}</p>
                     <div className='addProduct-btn'>
                         <button onClick={(e) => {
                             e.preventDefault()

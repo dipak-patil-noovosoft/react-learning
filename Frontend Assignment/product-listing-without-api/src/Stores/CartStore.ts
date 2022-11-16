@@ -1,6 +1,6 @@
 import {action , makeAutoObservable, observable} from 'mobx'
 import {ICartProduct} from "../types";
-import {RootStore} from "./RootStore";
+import RootStore from "./RootStore";
 export class CartStore{
     rootStore:RootStore;
     @observable cartProducts:ICartProduct[] ;

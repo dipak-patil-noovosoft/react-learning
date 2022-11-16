@@ -18,7 +18,7 @@ class Product extends Component<IProductProps, {}>  {
     render() {
         const context = this.context;
 
-        const {id,productName,category,price,description,discountedPrice,quantity} = this.props.product;
+        const {id, productName, category, price,description,discountedPrice,quantity} = this.props.product;
         const{isCart} =  this.props;
         return (
 

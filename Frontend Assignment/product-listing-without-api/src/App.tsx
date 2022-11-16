@@ -15,7 +15,7 @@ class App extends React.Component<{}, {}> {
 
     render() {
         return (
-            <StoreContextProvider rootStore={this.routerStore}>
+            <StoreContextProvider routerStore={this.routerStore}>
                 <RouterContext.Provider value={this.routerStore}>
                     <NavBar/>
                     <RouterView viewMap={viewMap} />
