@@ -61,11 +61,8 @@ class AddProduct extends Component<{}, {}> {
         this.clearForm();
     })
 
-    handleOnChange = action((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const key  = e.target.name;
-        let value: number|string = e.target.value;
-        if (['price','discountedPrice','quantity'].some((name) =>name === key)){value = parseInt(value)}
-        this.formState[e.target.name] = value;
+    handleOnChange = action((key: string ,value: string | number) => {
+        this.formState[key] = value;
     })
 
     render() {
@@ -81,12 +78,12 @@ class AddProduct extends Component<{}, {}> {
                                name='productName'
                                placeholder='Name'
                                value={this.formState.productName}
-                               onChange={this.handleOnChange}
+                               onChange={(e) =>this.handleOnChange(e.target.name,e.target.value)}
                         />
                     </div>
                     <div className='productCategory'>
                         <label htmlFor="">Category </label>
-                        <select name="category" onChange={this.handleOnChange}>
+                        <select name="category" onChange={(e)=>this.handleOnChange(e.target.name,e.target.value)}>
                             <option value="mobile">Mobile</option>
                             <option value="laptop">Laptop</option>
                             <option value="style-fashion">Style & Fashion</option>
@@ -97,7 +94,7 @@ class AddProduct extends Component<{}, {}> {
                         <input type="number" placeholder='Price'
                                name='price'
                                value={this.formState.price}
-                               onChange={this.handleOnChange}
+                               onChange={(e) => this.handleOnChange(e.target.name,Number(e.target.value))}
                         />
                     </div>
                     <div className='productDiscountedPrice'>
@@ -106,7 +103,7 @@ class AddProduct extends Component<{}, {}> {
                                name='discountedPrice'
                                value={this.formState.discountedPrice}
                                placeholder='DiscountedPrice'
-                               onChange={this.handleOnChange}
+                               onChange={(e)=>this.handleOnChange(e.target.name,Number(e.target.value))}
                         />
                     </div>
                     <div className='productQuantity'>
@@ -121,7 +118,7 @@ class AddProduct extends Component<{}, {}> {
                                min={1}
                                name='quantity'
                                value={this.formState.quantity}
-                               onChange={this.handleOnChange}
+                               onChange={(e)=>this.handleOnChange(e.target.name,Number(e.target.value))}
                         />
                         <button type="button"
                                 onClick={action(() => {
@@ -134,7 +131,7 @@ class AddProduct extends Component<{}, {}> {
                         <textarea placeholder='Description'
                                   name='description'
                                   value={this.formState.description}
-                                  onChange={this.handleOnChange}> </textarea>
+                                  onChange={(e)=>this.handleOnChange(e.target.name,e.target.value)}> </textarea>
                     </div>
                     <p style={{color: "red"}}>{this.formState.errorMessage}</p>
                     <div className='addProduct-btn'>
