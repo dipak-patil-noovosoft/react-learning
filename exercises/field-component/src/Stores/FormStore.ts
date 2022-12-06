@@ -12,4 +12,8 @@ export default class FormStore<T extends object> {
     @action setValue<K extends keyof T>(key: K, value: T[K]) {
         this.data[key] = value as T[K];
     }
+
+    getValue<K extends keyof T>(key: K) {
+        return this.data[key];
+    }
 }
