@@ -16,4 +16,8 @@ export default class FormStore<T extends object> {
     getValue<K extends keyof T>(key: K) {
         return this.data[key];
     }
+
+    isChecked<K extends keyof T>(key: K, val: T[K]) {
+        return this.getValue(key) === val
+    }
 }

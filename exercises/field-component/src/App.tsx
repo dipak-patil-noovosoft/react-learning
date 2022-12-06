@@ -6,7 +6,7 @@ import FormComponent from "./Components/FormComponent";
 import {Input} from "reactstrap";
 import {toJS} from "mobx";
 
-const formStoreData = {email: '', name: '', box1: '', box2: ''}
+const formStoreData = {email: '', name: '', box1: '', box2: '', gender: ''}
 
 const formStore = new FormStore(formStoreData);
 
@@ -62,8 +62,7 @@ function App() {
                             type='checkbox'
                             required={required}
                             onChange={onChange}
-                            checked={formStore.getValue('box1') === 'box1'}
-
+                            checked={formStore.isChecked('box1', 'on')}
                         />
                     }
                 />
@@ -76,11 +75,46 @@ function App() {
                             type='checkbox'
                             required={required}
                             onChange={onChange}
-                            checked={formStore.getValue('box2') === 'box2'}
+                            checked={formStore.isChecked('box2', 'on')}
                         />
                     }
                 />
 
+                <h4>Radio Buttons</h4>
+                <Field
+                    name='gender'
+                    label="Male"
+                    required={false}
+                    render={(onChange, value, required) => {
+                        return (<>
+                            <Input
+                                type='radio'
+                                required={required}
+                                onChange={onChange}
+                                name='male'
+                                checked={formStore.isChecked('gender', 'male')}
+                            />
+                        </>)
+                    }
+                    }
+                />
+                <Field
+                    name='gender'
+                    label="Female"
+                    required={false}
+                    render={(onChange, value, required) => {
+                        return (<>
+                            <Input
+                                type='radio'
+                                required={required}
+                                onChange={onChange}
+                                name='female'
+                                checked={formStore.isChecked('gender', 'female')}
+                            />
+                        </>)
+                    }
+                    }
+                />
             </FormComponent>
         </div>
     )

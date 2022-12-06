@@ -2,13 +2,12 @@ import React, {useContext} from 'react';
 import FormStore from "../../Stores/FormStore";
 import {observer} from "mobx-react-lite";
 import {FormStoreContext} from "../../Stores/FormStoreContext/FormStoreContext";
-import {toJS} from "mobx";
 
 interface IFieldProps<T extends object> {
     formStore?: FormStore<T>,
     name: keyof T,
     label: string,
-    onChange?: (val: string | number) => void,
+    onChange?: (val: string) => void,
     required: boolean,
     render: (
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -27,7 +26,11 @@ const Field = <T extends object>(props: IFieldProps<T>) => {
         if (e.target.type === 'text') formStore.setValue(name as keyof T, e.target.value as T[keyof T]);
         if (e.target.type === 'checkbox') {
             const value = formStore.getValue(name)
-            formStore.setValue(name as keyof T, ((value.length===0) ? name : '' as T[keyof T]));
+            formStore.setValue(name as keyof T, ((value !== 'on') ? e.target.value : '' as T[keyof T]));
+        }
+        if (e.target.type === 'radio') {
+            const value = formStore.getValue(name)
+            formStore.setValue(name as keyof T, e.target.name as T[keyof T]);
         }
     }
     return (
