@@ -6,7 +6,7 @@ import FormComponent from "./Components/FormComponent";
 import {Input} from "reactstrap";
 import {toJS} from "mobx";
 
-const formStoreData = {email: '', name: '', box1: '', box2: '', gender: ''}
+const formStoreData = {email: '', name: '', box1: false, box2: false, gender: '', select: 'A'}
 
 const formStore = new FormStore(formStoreData);
 
@@ -18,7 +18,7 @@ function App() {
         console.log(toJS(data))
     }
     return (
-        <div className="App">
+        <div className="App card">
             <FormComponent
                 formStore={formStore}
                 showSubmitButton={true}
@@ -30,25 +30,27 @@ function App() {
                     label={'Email'}
                     formStore={formStore}
                     required={true}
-                    render={(onChange, value, required) =>
+                    render={(onChange, value, required, isDisabled) =>
                         <Input
                             type='text'
-                            value={value}
+                            value={value as string}
                             onChange={onChange}
                             required={required}
+                            disabled={isDisabled}
                         />
                     }
                 />
                 <Field
                     name='name'
                     label='Name'
-                    required={false}
-                    render={(onChange, value, required) =>
+                    required={true}
+                    render={(onChange, value, required, isDisabled) =>
                         <Input
                             type='text'
-                            value={value}
+                            value={value as string}
                             required={required}
                             onChange={onChange}
+                            disabled={isDisabled}
                         />
                     }
                 />
@@ -61,8 +63,9 @@ function App() {
                         <Input
                             type='checkbox'
                             required={required}
+                            value={value}
                             onChange={onChange}
-                            checked={formStore.isChecked('box1', 'on')}
+                            checked={value}
                         />
                     }
                 />
@@ -75,7 +78,7 @@ function App() {
                             type='checkbox'
                             required={required}
                             onChange={onChange}
-                            checked={formStore.isChecked('box2', 'on')}
+                            checked={value}
                         />
                     }
                 />
@@ -112,6 +115,25 @@ function App() {
                                 checked={formStore.isChecked('gender', 'female')}
                             />
                         </>)
+                    }
+                    }
+                />
+                <Field
+                    name='select'
+                    label='Select'
+                    required={false}
+                    render={(onChange, value, required, isDisabled) => {
+                        return <Input
+                            type='select'
+                            onChange={onChange}
+                            value={value}
+                            disabled={isDisabled}
+                        >
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </Input>
                     }
                     }
                 />

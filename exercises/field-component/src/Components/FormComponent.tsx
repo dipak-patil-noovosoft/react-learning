@@ -22,7 +22,10 @@ const FormComponent = <T extends object>(props: IFromComponentProps<T>) => {
                     onClick={
                         (e) => {
                             e.preventDefault();
+                            const check = formStore.onSubmit();
+                            if (!check) return;
                             onSubmit(formStore.data)
+                            formStore.setIsDisabled(true);
                         }
                     }
                 >
