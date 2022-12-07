@@ -25,14 +25,16 @@ export default class FormStore<T extends object> {
     @action setErrorField = <K extends keyof T>(key: K, error: string) => this.errorFields[key] = error;
 
     isValidate = () => {
+        let flag = true;
         for (let key in this.requiredFields) {
             let currentKey = key as keyof T;
             if (this.requiredFields[key] && this.getValue(currentKey) === '') {
                 this.setErrorField(currentKey, "Field Should not be empty")
-                return false;
+                flag = false;
             }
         }
-        return true;
+
+        return flag;
     }
 
     onSubmit() {

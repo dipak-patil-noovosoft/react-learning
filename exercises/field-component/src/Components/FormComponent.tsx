@@ -19,6 +19,7 @@ const FormComponent = <T extends object>(props: IFromComponentProps<T>) => {
             {children}
             {showSubmitButton &&
                 <Button
+                    className='my-2'
                     color="primary"
                     disabled={formStore.isDisabled}
                     onClick={
