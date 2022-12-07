@@ -2,6 +2,7 @@ import React from 'react';
 import FormStore from "../Stores/FormStore";
 import {FormStoreContext} from "../Stores/FormStoreContext/FormStoreContext";
 import {Button} from "reactstrap";
+import {observer} from "mobx-react-lite";
 
 interface IFromComponentProps<T extends object> {
     children: React.ReactNode[],
@@ -19,6 +20,7 @@ const FormComponent = <T extends object>(props: IFromComponentProps<T>) => {
             {showSubmitButton &&
                 <Button
                     color="primary"
+                    disabled={formStore.isDisabled}
                     onClick={
                         (e) => {
                             e.preventDefault();
@@ -36,4 +38,4 @@ const FormComponent = <T extends object>(props: IFromComponentProps<T>) => {
     );
 }
 
-export default FormComponent;
+export default observer(FormComponent);

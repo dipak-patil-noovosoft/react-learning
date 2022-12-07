@@ -32,7 +32,7 @@ function App() {
                     required={true}
                     render={(onChange, value, required, isDisabled) =>
                         <Input
-                            type='text'
+                            type='email'
                             value={value as string}
                             onChange={onChange}
                             required={required}
