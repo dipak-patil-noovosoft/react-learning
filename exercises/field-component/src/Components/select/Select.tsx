@@ -2,10 +2,10 @@ import React from 'react';
 import {Input} from "reactstrap";
 
 interface IRenderProps<T extends object> {
-    onChange: (e: React.ChangeEvent<HTMLInputElement >) => void,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     value: string,
     isDisabled?: boolean,
-    options: string[];
+    options: { key: string, value: string }[];
 }
 
 const Select = <T extends object>(props: IRenderProps<T>) => {
@@ -19,7 +19,7 @@ const Select = <T extends object>(props: IRenderProps<T>) => {
                 disabled={isDisabled}
             >{
                 options.map((e) => {
-                    return <option key={e}>{e}</option>
+                    return <option key={e.key} value={e.value}>{e.value}</option>
                 })
             }
             </Input>

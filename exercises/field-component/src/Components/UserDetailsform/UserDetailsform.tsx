@@ -132,7 +132,11 @@ const UserDetailsform = () => {
                             onChange={onChange}
                             value={value}
                             isDisabled={isDisabled}
-                            options={['A', 'B', 'C']}
+                            options={[
+                                {key: 'A', value: 'A'},
+                                {key: 'B', value: 'B'},
+                                {key: 'C', value: 'C'}
+                            ]}
                         />
                     }
                     }
