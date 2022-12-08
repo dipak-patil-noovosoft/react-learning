@@ -5,7 +5,7 @@ import {Button} from "reactstrap";
 import {observer} from "mobx-react-lite";
 
 interface IFromComponentProps<T extends object> {
-    children: React.ReactNode[],
+    children: React.ReactNode[] | React.ReactNode,
     formStore: FormStore<T>,
     showSubmitButton: boolean,
     buttonText?: string
