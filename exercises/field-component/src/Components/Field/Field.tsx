@@ -1,56 +1,47 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import FormStore from "../../Stores/FormStore";
 import {observer} from "mobx-react-lite";
 import {FormStoreContext} from "../../Stores/FormStoreContext/FormStoreContext";
 
 export type TRenderProps<T> = (
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    onChange: (val: any, index?: number) => void,
     value: T[keyof T],
     required: boolean,
     isDisabled: boolean,
-    index: number
+    errorMessage: (errorIndex: number) => string,
 ) => JSX.Element
 
 interface IFieldProps<T extends object> {
     formStore?: FormStore<T>,
     name: any,
     label?: string,
-    onChange?: (val: string) => void,
+    onChange?: (val: any, index?: number) => void,
     required: boolean,
-    render: TRenderProps<T>
-    index?: number
+    render: TRenderProps<T>,
 }
 
 const Field = <T extends object>(props: IFieldProps<T>) => {
-    const {render, label, name, required, index, onChange} = props;
+    const {render, label, name, required} = props;
 
     let formStore = useContext(FormStoreContext);
     if (props.formStore) formStore = props.formStore;
-    useEffect(() => {
-        if (required) formStore.setRequiredFields(name);
-    }, [])
+    if (required) formStore.setRequiredFields(name);
 
-
-    const onChangeField = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.type === 'checkbox') {
-            formStore.setValue(name as keyof T, e.target.checked as T[keyof T]);
-        } else {
-            formStore.setValue(name as keyof T, e.target.value as T[keyof T], index);
-        }
-        if (onChange) {
-            onChange("dipak")
-        }
+    const onChangeField = (value: any, index?: number) => {
+        formStore.clearErrorField(name, index);
+        formStore.setValue(name, value, index);
     }
     return (
         <div>
             <label>{label} {required && <span className='text-danger'>*</span>}</label>
             {render(
                 onChangeField,
-                formStore.getValue(name, index),
+                formStore.getValue(name),
                 required,
-                formStore.isDisabled, index as number
+                formStore.isDisabled,
+                (errorIndex) => formStore.getErrorMessage(name, errorIndex) as string,
             )}
-            {<span className='text-danger'>{formStore.getErrorMessage(name, index)}</span>}
+            {<span className='text-danger'>{formStore.getErrorMessage(name)}</span>}
         </div>
     );
 }

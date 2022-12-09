@@ -14,7 +14,6 @@ export default class FormStore<T extends object> {
 
     @action setValue<K extends keyof T>(key: K, value: T[K], index?: number) {
         if (index !== undefined) {
-            console.log(key, index, value);
             (this.data[key] as T[K][]) [index] = value as T[K];
         } else {
             this.data[key] = value as T[K];
@@ -39,7 +38,13 @@ export default class FormStore<T extends object> {
         return this.errorFields[key];
     }
     @action setRequiredFields = <K extends keyof T>(key: K) => this.requiredFields[key] = true;
-    @action clearErrorField = () => this.errorFields = {};
+    @action clearErrorField = <K extends keyof T>(key: K, index?: number) => {
+        if (index !== undefined) {
+            const newkey = (String(key) + index) as string | keyof T;
+            return delete this.errorFields[newkey]
+        }
+        this.errorFields = {}
+    };
     @action setIsDisabled = (flag: boolean) => this.isDisabled = flag;
 
     @action setErrorField = <K extends keyof T>(key: K, error: string, index?: number) => {
@@ -65,7 +70,7 @@ export default class FormStore<T extends object> {
             }
             if (this.requiredFields[key] && (this.getValue(currentKey) === '')) {
                 this.setErrorField(currentKey, "Field Required")
-                 flag = false;
+                flag = false;
 
             }
         }
@@ -73,7 +78,6 @@ export default class FormStore<T extends object> {
     }
 
     onSubmit() {
-        this.clearErrorField();
         return this.isValidate()
     }
 }

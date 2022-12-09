@@ -1,68 +1,54 @@
 import React, {useContext} from 'react';
-import {action} from "mobx";
-import Field from "../Field/Field";
 import {observer} from "mobx-react-lite";
 import {Button, Input} from "reactstrap";
-import {FormStoreContext} from "../../Stores/FormStoreContext/FormStoreContext";
 import {FaTrash} from "react-icons/fa";
+import {FormStoreContext} from "../../Stores/FormStoreContext/FormStoreContext";
 
 interface IJsonProps<T> {
     name: keyof T,
     values: T[]
     disabled: boolean
-    index: number
+    onChange: (data: any, index?: number) => void,
     requiredValue: boolean
+    errorMessage: (errorIndex: number) => string
 }
 
-const JsonInputComponent = <T, >({name, values, requiredValue, disabled}: IJsonProps<T>) => {
+const JsonInputComponent = <T, >({name, values, requiredValue, disabled, onChange, errorMessage}: IJsonProps<T>) => {
     const formStore = useContext(FormStoreContext);
-
-    const handelDelete = action((index: number) => {
-        if (formStore.data[name].length > 1) formStore.data[name].splice(index, 1);
-    })
-    const addInputField = action(() => {
-        formStore.clearErrorField();
-        formStore.data[name].push('');
-    })
     return (
         <div>
             {values.map((e: any, index: number) => {
-
                 return (
-                    <Field
-                        key={index}
-                        name={name}
-                        required={requiredValue}
-                        index={index}
-                        render={(onChange, value, required, isDisabled, index) => {
-                            return (
-                                <div className='d-flex'>
-                                    <Input
-                                        type='text'
-                                        value={value as string | number}
-                                        onChange={onChange}
-                                        required={required}
-                                        disabled={isDisabled}
-                                    />
-                                    <Button
-                                        type='button'
-                                        disabled={(values.length === 1 ? true : isDisabled)}
-                                        onClick={() => handelDelete(index)}
-                                    >
-                                        <FaTrash/>
-                                    </Button>
-                                </div>
-                            )
-                        }
-                        }
-                    />
+                    <div key={index}>
+                        <div>
+                            <div className='d-flex'>
+                                <Input
+                                    type='text'
+                                    value={values[index] as string}
+                                    onChange={(e) => onChange(e.target.value, index)}
+                                    required={requiredValue}
+                                    disabled={disabled}
+                                />
+                                <Button
+                                    type='button'
+                                    disabled={(values.length === 1 ? true : disabled)}
+                                    onClick={() => onChange(values.filter((value, I) => I != index))}
+                                >
+                                    <FaTrash/>
+                                </Button>
+                            </div>
+                            <div>
+                                {<span className='text-danger'>{errorMessage(index)}</span>}
+                            </div>
+                        </div>
+                    </div>
                 )
 
             })}
             <Button
                 type="button"
                 className='bg-dark'
-                onClick={addInputField}
+                onClick={() => onChange([...values, ''])}
                 disabled={disabled}
             >ADD</Button>
         </div>
