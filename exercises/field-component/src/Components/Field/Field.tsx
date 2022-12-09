@@ -22,7 +22,7 @@ interface IFieldProps<T extends object> {
 }
 
 const Field = <T extends object>(props: IFieldProps<T>) => {
-    const {render, label, name, required, index} = props;
+    const {render, label, name, required, index, onChange} = props;
 
     let formStore = useContext(FormStoreContext);
     if (props.formStore) formStore = props.formStore;
@@ -31,23 +31,26 @@ const Field = <T extends object>(props: IFieldProps<T>) => {
     }, [])
 
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onChangeField = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.type === 'checkbox') {
             formStore.setValue(name as keyof T, e.target.checked as T[keyof T]);
         } else {
             formStore.setValue(name as keyof T, e.target.value as T[keyof T], index);
+        }
+        if (onChange) {
+            onChange("dipak")
         }
     }
     return (
         <div>
             <label>{label} {required && <span className='text-danger'>*</span>}</label>
             {render(
-                onChange,
+                onChangeField,
                 formStore.getValue(name, index),
-                formStore.getRequiredFields(name) as boolean,
+                required,
                 formStore.isDisabled, index as number
             )}
-            {<span className='text-danger'>{formStore.getErrorMessage(name,index)}</span>}
+            {<span className='text-danger'>{formStore.getErrorMessage(name, index)}</span>}
         </div>
     );
 }

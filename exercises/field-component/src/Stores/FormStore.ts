@@ -64,7 +64,9 @@ export default class FormStore<T extends object> {
                 }
             }
             if (this.requiredFields[key] && (this.getValue(currentKey) === '')) {
-                flag = false;
+                this.setErrorField(currentKey, "Field Required")
+                 flag = false;
+
             }
         }
         return flag;

@@ -9,6 +9,7 @@ import {Button} from "reactstrap";
 
 const inputs = {
     bags: [''],
+    test:[1],
 }
 const formStore = new FormStore(inputs);
 // @ts-ignore
@@ -20,10 +21,7 @@ const Inputs = () => {
     const handelDelete = action((index: number) => {
         if (formStore.data.bags.length > 1) formStore.data.bags.splice(index, 1);
     })
-    const addInputField = action(() => {
-        formStore.clearErrorField();
-        formStore.data.bags.push('');
-    })
+
     return (
         <div className='shadow-lg p-3  container  bg-opacity-25  my-5 px-5 py-5'>
             <FormComponent
@@ -42,14 +40,30 @@ const Inputs = () => {
                                 onDelete={handelDelete}
                                 name={'bags'}
                                 disabled={isDisabled}
-                                required={true}
+                                requiredValue={required}
                                 values={value}
                                 index={index}
                             />
                         </>)
                     }}
                 />
-                <Button type="button" onClick={addInputField}>ADD</Button>
+                <Field
+                    name='test'
+                    label="Test"
+                    required={false}
+                    render={(onChange, value, required, isDisabled, index) => {
+                        return (<>
+                            <JsonInputComponent
+                                onDelete={handelDelete}
+                                name={'test'}
+                                disabled={isDisabled}
+                                requiredValue={required}
+                                values={value}
+                                index={index}
+                            />
+                        </>)
+                    }}
+                />
             </FormComponent>
         </div>
     );

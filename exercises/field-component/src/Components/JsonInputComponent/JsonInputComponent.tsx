@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {toJS} from "mobx";
+import {action} from "mobx";
 import Field from "../Field/Field";
 import {observer} from "mobx-react-lite";
 import {Button, Input} from "reactstrap";
@@ -12,14 +12,16 @@ interface IJsonProps<T> {
     values: T[]
     disabled: boolean
     index: number
-    required: boolean
+    requiredValue: boolean
 }
 
-const JsonInputComponent = <T, >({onDelete, name, values, required}: IJsonProps<T>) => {
+const JsonInputComponent = <T, >({onDelete, name, values, requiredValue, disabled}: IJsonProps<T>) => {
     const formStore = useContext(FormStoreContext);
-    const onSubmit = (data: any) => {
-        console.log(toJS(data))
-    }
+
+    const addInputField = action(() => {
+        console.log(name)
+        formStore.data[name].push('');
+    })
     return (
         <div>
             {values.map((e: any, index: number) => {
@@ -28,7 +30,7 @@ const JsonInputComponent = <T, >({onDelete, name, values, required}: IJsonProps<
                     <Field
                         key={index}
                         name={name}
-                        required={required}
+                        required={requiredValue}
                         index={index}
                         render={(onChange, value, required, isDisabled, index) => {
                             return (
@@ -53,7 +55,14 @@ const JsonInputComponent = <T, >({onDelete, name, values, required}: IJsonProps<
                         }
                     />
                 )
+
             })}
+            <Button
+                type="button"
+                className='bg-dark'
+                onClick={addInputField}
+                disabled={disabled}
+            >ADD</Button>
         </div>
     );
 }

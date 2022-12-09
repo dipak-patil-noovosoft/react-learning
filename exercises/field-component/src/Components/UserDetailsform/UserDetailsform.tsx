@@ -28,7 +28,6 @@ const UserDetailsform = () => {
                 <Field
                     name='email'
                     label={'Email'}
-                    formStore={formStore}
                     required={true}
                     render={(onChange, value, required, isDisabled) =>
                         <Input
