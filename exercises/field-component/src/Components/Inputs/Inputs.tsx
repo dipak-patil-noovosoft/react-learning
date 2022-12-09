@@ -18,9 +18,7 @@ const Inputs = () => {
     const onSubmit = (data: any) => {
         console.log(toJS(data))
     }
-    const handelDelete = action((index: number) => {
-        if (formStore.data.bags.length > 1) formStore.data.bags.splice(index, 1);
-    })
+
 
     return (
         <div className='shadow-lg p-3  container  bg-opacity-25  my-5 px-5 py-5'>
@@ -37,7 +35,6 @@ const Inputs = () => {
                     render={(onChange, value, required, isDisabled, index) => {
                         return (<>
                             <JsonInputComponent
-                                onDelete={handelDelete}
                                 name={'bags'}
                                 disabled={isDisabled}
                                 requiredValue={required}
@@ -54,7 +51,6 @@ const Inputs = () => {
                     render={(onChange, value, required, isDisabled, index) => {
                         return (<>
                             <JsonInputComponent
-                                onDelete={handelDelete}
                                 name={'test'}
                                 disabled={isDisabled}
                                 requiredValue={required}

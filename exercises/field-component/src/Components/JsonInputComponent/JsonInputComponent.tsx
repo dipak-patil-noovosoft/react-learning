@@ -7,19 +7,21 @@ import {FormStoreContext} from "../../Stores/FormStoreContext/FormStoreContext";
 import {FaTrash} from "react-icons/fa";
 
 interface IJsonProps<T> {
-    onDelete: (index: number) => void
-    name: string,
+    name: keyof T,
     values: T[]
     disabled: boolean
     index: number
     requiredValue: boolean
 }
 
-const JsonInputComponent = <T, >({onDelete, name, values, requiredValue, disabled}: IJsonProps<T>) => {
+const JsonInputComponent = <T, >({name, values, requiredValue, disabled}: IJsonProps<T>) => {
     const formStore = useContext(FormStoreContext);
 
+    const handelDelete = action((index: number) => {
+        if (formStore.data[name].length > 1) formStore.data[name].splice(index, 1);
+    })
     const addInputField = action(() => {
-        console.log(name)
+        formStore.clearErrorField();
         formStore.data[name].push('');
     })
     return (
@@ -45,7 +47,7 @@ const JsonInputComponent = <T, >({onDelete, name, values, requiredValue, disable
                                     <Button
                                         type='button'
                                         disabled={(values.length === 1 ? true : isDisabled)}
-                                        onClick={() => onDelete(index)}
+                                        onClick={() => handelDelete(index)}
                                     >
                                         <FaTrash/>
                                     </Button>
