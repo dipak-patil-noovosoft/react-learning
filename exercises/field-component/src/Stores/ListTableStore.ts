@@ -17,7 +17,6 @@ export default class ListTableStore<T extends unknown> {
     }
 
     @action setData(fun: (n: number) => Promise<T>) {
-        console.log('1')
         fun(this.page).then(data => this.setList(data));
     }
 

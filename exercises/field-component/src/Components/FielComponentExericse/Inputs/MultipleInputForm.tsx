@@ -12,9 +12,6 @@ const multipleInputForm = {
     test: [''],
 }
 const formStore = new FormStore(multipleInputForm);
-// @ts-ignore
-window.__getDat = () => toJS(formStore);
-
 const Inputs = () => {
     const onSubmit = (data: any) => {
         console.log(toJS(data))

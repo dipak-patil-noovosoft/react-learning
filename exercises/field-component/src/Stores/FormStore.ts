@@ -13,10 +13,10 @@ export default class FormStore<T extends object> {
     }
 
     @action setValue = <K extends keyof T>(key: K, value: T[K]) => this.data[key] = value as T[K];
-    getValue = <K extends keyof T>(key: K) => this.data[key];
-    isChecked = <K extends keyof T>(key: K, val: T[K]) => this.getValue(key) === val;
     @action setRequiredFields = <K extends keyof T>(key: K) => this.requiredFields[key] = true;
     @action setIsDisabled = (flag: boolean) => this.isDisabled = flag;
+    getValue = <K extends keyof T>(key: K) => this.data[key];
+    isChecked = <K extends keyof T>(key: K, val: T[K]) => this.getValue(key) === val;
 
     getErrorMessage = <k extends keyof T>(key: k, index?: number) => {
         if (index !== undefined) {
@@ -27,7 +27,6 @@ export default class FormStore<T extends object> {
     }
     @action clearErrorField = <K extends keyof T>(key: K, index?: number) => {
         if (index !== undefined) return delete this.errorFields[(key as string) + index.toString()]
-        console.log(key)
         for (let errorKey in this.errorFields) {
             if (errorKey.includes(key as string)) delete this.errorFields[errorKey];
         }
