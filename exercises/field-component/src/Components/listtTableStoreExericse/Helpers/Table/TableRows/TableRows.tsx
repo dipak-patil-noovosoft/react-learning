@@ -1,24 +1,19 @@
 import React from 'react';
-import { observer } from "mobx-react-lite";
-import { useContext } from "react";
-import { RootStoreContext } from "../../../../../../../../../../SQL_WEB/src/Context/RootStoreContext";
-import type RootStore from "../../../../../../../../../../SQL_WEB/src/Stores/RootStore";
+import {observer} from "mobx-react-lite";
+import {Columns} from "../../../../../Types";
 
 interface ITableRowProps<T> {
     data: T,
-    tableCol: {
-        heading: string,
-        selector: (data: T, rootStore: RootStore) => React.ReactNode
-    }[];
+    tableCol: Columns<T>[];
 }
 
-function TableRows<T extends { id: string | number }>(props: ITableRowProps<T>) {
-    const rootStore = useContext(RootStoreContext);
-    const { data, tableCol } = props;
+function TableRows<T extends { id: number | string }>(props: ITableRowProps<T>) {
+    const {data, tableCol} = props;
     return (
         <tr>
             {tableCol.map((e, index) => {
-                return <td key={data.id.toString() + index.toString()} className='py-1'>{e.selector(data, rootStore)}</td>
+                return <td key={data.id.toString() + index.toString()}
+                           className='py-1'>{e.selector(data)}</td>
             })}
         </tr>
     );

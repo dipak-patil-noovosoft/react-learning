@@ -1,18 +1,23 @@
 import React from 'react';
-import {IProduct} from "../../Types";
-import ProductStore from "../../Stores/ProductStore";
+import {observer} from "mobx-react";
+import Table from "./Helpers/Table/Table";
+import {Columns} from "../../Types";
 
-interface IListProps {
-    list: IProduct[] | null,
-    store: ProductStore
+interface IListProps<T> {
+    list: T[]
+    tableFormat: Columns<T>[]
 }
 
-class List extends React.Component<IListProps, any> {
-
+@observer
+class List<T extends { id: string | number }> extends React.Component<IListProps<T>, any> {
     render() {
+        const {list, tableFormat} = this.props;
+        if (list === null) return <>loading...</>
         return (
             <div>
-
+                <ul>
+                    <Table tableCol={tableFormat} tableContent={list}/>
+                </ul>
             </div>
         );
     }

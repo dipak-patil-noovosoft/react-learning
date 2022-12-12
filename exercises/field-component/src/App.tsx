@@ -8,8 +8,8 @@ import ProductList from "./Components/listtTableStoreExericse/ProductList";
 function App() {
     return (
         <RootStoreContextProvider>
-            <MultipleInputForm/>
-            {/*<ProductList/>*/}
+            {/*<MultipleInputForm/>*/}
+            <ProductList/>
         </RootStoreContextProvider>
     )
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import TableRows from "./TableRows/TableRows";
 import {observer} from "mobx-react-lite";
-import RootStore from '../../../../../../../../../SQL_WEB/src/Stores/RootStore';
+import {Columns} from "../../../../Types";
 
 interface ITableProps<T> {
     tableContent: T[];
-    tableCol: { heading: string, selector: (arg: T, rootStore: RootStore) =>  React.ReactNode }[];
+    tableCol: Columns<T>[];
 }
 
 

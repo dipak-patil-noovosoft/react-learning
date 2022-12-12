@@ -11,3 +11,8 @@ export interface IProduct {
     "thumbnail": string,
     "images": string[]
 }
+
+export  type Columns<T> = {
+    heading: string,
+    selector: (data: T) => React.ReactNode
+}
