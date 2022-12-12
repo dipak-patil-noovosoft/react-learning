@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import FormStore from "../../../Stores/FormStore";
 import {observer} from "mobx-react-lite";
-import {FormStoreContext} from "../../../context/FormStoreContext/FormStoreContext";
+import {FormStoreContext} from "../../../Context/FormStoreContext/FormStoreContext";
 
 export type TRenderProps<T> = (
     onChange: (val: T[keyof T], index?: number) => void,

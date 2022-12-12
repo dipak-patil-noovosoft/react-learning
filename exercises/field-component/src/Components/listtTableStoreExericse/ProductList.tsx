@@ -1,7 +1,6 @@
 import React from 'react';
-import {RootStoreContext} from "../../context/StoreContext/RootStoreContext";
+import {RootStoreContext} from "../../Context/StoreContext/RootStoreContext";
 import {observer} from "mobx-react";
-import {toJS} from "mobx";
 import MyList from "./MyList";
 
 @observer
@@ -13,7 +12,7 @@ class ProductList extends React.Component<any, any> {
     render() {
         if (!this.context) return null
         const productStore = this.context.productStore;
-        console.log(toJS(productStore.listTableStore.list))
+        if (!productStore.listTableStore.list) return null;
         return (
             <div>
                 <h1>Dipak</h1>

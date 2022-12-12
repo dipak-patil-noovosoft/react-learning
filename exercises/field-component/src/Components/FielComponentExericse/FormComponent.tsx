@@ -1,6 +1,6 @@
 import React from 'react';
 import FormStore from "../../Stores/FormStore";
-import {FormStoreContext} from "../../context/FormStoreContext/FormStoreContext";
+import {FormStoreContext} from "../../Context/FormStoreContext/FormStoreContext";
 import {Button} from "reactstrap";
 import {observer} from "mobx-react-lite";
 

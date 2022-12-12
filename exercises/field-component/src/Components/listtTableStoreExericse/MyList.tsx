@@ -7,14 +7,13 @@ interface IListProps {
     store: ProductStore
 }
 
-class List extends React.Component<any, any> {
-    constructor(props: IListProps) {
-        super(props);
-    }
+class List extends React.Component<IListProps, any> {
 
     render() {
         return (
-            <div>ok</div>
+            <div>
+
+            </div>
         );
     }
 }
