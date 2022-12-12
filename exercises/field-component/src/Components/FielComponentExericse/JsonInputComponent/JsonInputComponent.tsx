@@ -4,7 +4,6 @@ import {Button, Input} from "reactstrap";
 import {FaTrash} from "react-icons/fa";
 
 interface IJsonProps<T> {
-    name: keyof T,
     values: T[]
     disabled: boolean
     onChange: (data: T[keyof T], index?: number) => void,
@@ -12,7 +11,7 @@ interface IJsonProps<T> {
     errorMessage: (errorIndex: number) => string
 }
 
-const JsonInputComponent = <T, >({name, values, requiredValue, disabled, onChange, errorMessage}: IJsonProps<T>) => {
+const JsonInputComponent = <T, >({values, requiredValue, disabled, onChange, errorMessage}: IJsonProps<T>) => {
     return (
         <div>
             {values.map((e, index: number) => {
@@ -23,7 +22,9 @@ const JsonInputComponent = <T, >({name, values, requiredValue, disabled, onChang
                                 <Input
                                     type='text'
                                     value={values[index] as string}
-                                    onChange={(e) => onChange(e.target.value as T[keyof T], index)}
+                                    onChange={(e) => {
+                                        return onChange(values.map((val, i) => (i === index) ? e.target.value : val) as T[keyof T], index);
+                                    }}
                                     required={requiredValue}
                                     disabled={disabled}
                                 />

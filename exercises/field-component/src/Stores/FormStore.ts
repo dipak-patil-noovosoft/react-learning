@@ -12,45 +12,30 @@ export default class FormStore<T extends object> {
         this.data = data;
     }
 
-    @action setValue<K extends keyof T>(key: K, value: T[K], index?: number) {
-        if (index !== undefined) {
-            (this.data[key] as T[K][]) [index] = value as T[K];
-        } else {
-            this.data[key] = value as T[K];
-        }
-    }
-
-    getValue = <K extends keyof T>(key: K, index?: number) => {
-        if (index !== undefined) {
-            return (this.data[key] as T[K][])[index]
-        } else {
-            return this.data[key];
-        }
-    }
-
+    @action setValue = <K extends keyof T>(key: K, value: T[K]) => this.data[key] = value as T[K];
+    getValue = <K extends keyof T>(key: K) => this.data[key];
     isChecked = <K extends keyof T>(key: K, val: T[K]) => this.getValue(key) === val;
-    getRequiredFields = <K extends keyof T>(key: K) => this.requiredFields[key]
+    @action setRequiredFields = <K extends keyof T>(key: K) => this.requiredFields[key] = true;
+    @action setIsDisabled = (flag: boolean) => this.isDisabled = flag;
+
     getErrorMessage = <k extends keyof T>(key: k, index?: number) => {
         if (index !== undefined) {
-            const newkey = (String(key) + index) as string;
-            return this.errorFields[newkey];
+            const errorKey = (String(key) + index) as string;
+            return this.errorFields[errorKey];
         }
         return this.errorFields[key];
     }
-    @action setRequiredFields = <K extends keyof T>(key: K) => this.requiredFields[key] = true;
     @action clearErrorField = <K extends keyof T>(key: K, index?: number) => {
-        if (index !== undefined) {
-            const newkey = (String(key) + index) as string | keyof T;
-            return delete this.errorFields[newkey]
+        if (index !== undefined) return delete this.errorFields[(key as string) + index.toString()]
+        console.log(key)
+        for (let errorKey in this.errorFields) {
+            if (errorKey.includes(key as string)) delete this.errorFields[errorKey];
         }
-        this.errorFields = {}
     };
-    @action setIsDisabled = (flag: boolean) => this.isDisabled = flag;
-
     @action setErrorField = <K extends keyof T>(key: K, error: string, index?: number) => {
         if (index !== undefined) {
-            const newkey = (String(key) + index) as string | keyof T;
-            return this.errorFields[newkey] = error;
+            const errorKey = (String(key) + index) as string | keyof T;
+            return this.errorFields[errorKey] = error;
         }
         return this.errorFields[key] = error;
     }

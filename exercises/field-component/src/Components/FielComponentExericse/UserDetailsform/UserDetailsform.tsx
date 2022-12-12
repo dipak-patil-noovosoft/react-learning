@@ -11,9 +11,6 @@ const formStoreData = {email: '', name: '', box1: false, box2: false, gender: ''
 const formStore = new FormStore(formStoreData);
 
 const UserDetailsform = () => {
-    const onChange = () => {
-
-    }
     const onSubmit = (data: any) => {
         console.log(toJS(data))
     }

@@ -4,7 +4,7 @@ import {observer} from "mobx-react-lite";
 import {FormStoreContext} from "../../../context/FormStoreContext/FormStoreContext";
 
 export type TRenderProps<T> = (
-    onChange: (val: any, index?: number) => void,
+    onChange: (val: T[keyof T], index?: number) => void,
     value: T[keyof T],
     required: boolean,
     isDisabled: boolean,
@@ -25,11 +25,12 @@ const Field = <T extends object>(props: IFieldProps<T>) => {
 
     let formStore = useContext(FormStoreContext);
     if (props.formStore) formStore = props.formStore;
+
     if (required) formStore.setRequiredFields(name);
 
     const onChangeField = (value: T[keyof T], index?: number) => {
+        formStore.setValue(name, value);
         formStore.clearErrorField(name, index);
-        formStore.setValue(name, value, index);
     }
     return (
         <div>
