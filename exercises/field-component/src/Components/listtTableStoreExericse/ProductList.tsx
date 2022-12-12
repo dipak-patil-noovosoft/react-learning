@@ -4,7 +4,9 @@ import {observer} from "mobx-react";
 import MyList from "./MyList";
 import {Columns, IProduct} from "../../Types";
 import ProductStore from "../../Stores/ProductStore";
-import {Button} from "reactstrap";
+import {Button, Input} from "reactstrap";
+import FormStore from "../../Stores/FormStore";
+import Field from "../FielComponentExericse/Field/Field";
 
 const column: Columns<IProduct>[] = [
     {
@@ -21,6 +23,10 @@ const column: Columns<IProduct>[] = [
     }
 ]
 
+const productListFormData = {query: ''}
+
+const formStore = new FormStore(productListFormData);
+
 @observer
 class ProductList extends React.Component<any, any> {
 
@@ -34,6 +40,24 @@ class ProductList extends React.Component<any, any> {
         if (productList === null) return <>Loading...</>
         return (
             <div>
+                <Field
+                    name='query'
+                    label="Search"
+                    formStore={formStore}
+                    required={true}
+                    render={(onChange, value, required, isDisabled, errorMessage) => {
+                        return (<>
+                            <Input
+                                value={value}
+                                onChange={(e) => {
+                                    onChange(e.target.value as never)
+                                    productStore.listTableStore.setSearchQuery(e.target.value);
+                                }
+                                }
+                            />
+                        </>)
+                    }}
+                />
                 <MyList<IProduct>
                     list={productList}
                     tableFormat={column}

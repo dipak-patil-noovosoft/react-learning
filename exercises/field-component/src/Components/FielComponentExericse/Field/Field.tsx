@@ -4,7 +4,7 @@ import {observer} from "mobx-react-lite";
 import {FormStoreContext} from "../../../Context/FormStoreContext/FormStoreContext";
 
 export type TRenderProps<T> = (
-    onChange: (val: T[keyof T], index?: number) => void,
+    onChange: (value: T[keyof T], index?: number) => void,
     value: T[keyof T],
     required: boolean,
     isDisabled: boolean,
@@ -15,7 +15,7 @@ interface IFieldProps<T extends object> {
     formStore?: FormStore<T>,
     name: any,
     label?: string,
-    onChange?: (val: T[keyof T], index?: number) => void,
+    onChange?: (value: T[keyof T], index?: number) => void,
     required: boolean,
     render: TRenderProps<T>,
 }

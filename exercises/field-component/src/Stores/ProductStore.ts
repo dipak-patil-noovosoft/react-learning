@@ -22,10 +22,10 @@ export default class ProductStore {
         this.listTableStore = new ListTableStore(this.fetchProduct);
     }
 
-    fetchProduct = async (page: number) => {
+    fetchProduct = async (page: number, searchQuery: string) => {
         // https://dummyjson.com/products?limit=10&skip=32
         const data = await Networking.getData<IFetchResponse>(
-            `products/search?q=&limit=${10}&skip=${page * 10}`
+            `products/search?q=${searchQuery}&limit=${10}&skip=${page * 10}`
         );
 
         return data.products;
