@@ -50,7 +50,6 @@ export default class ProductStore {
             total: data.length,
             skip: 0,
             limit: 0
-
         } as IFetcherResponse<string>
     }
 }

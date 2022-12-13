@@ -24,7 +24,7 @@ class ListPagination<T extends { listTableStore: ListTableStore<unknown> }> exte
                 </Button>
                 <Button
                     className='mx-2 btn-success'
-                    disabled={store.listTableStore.page === store.listTableStore.totalPages - 1}
+                    disabled={store.listTableStore.page >= store.listTableStore.totalPages - 1}
                     onClick={() => {
                         store.listTableStore.setPage(store.listTableStore.page + 1)
                     }}> +
