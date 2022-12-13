@@ -91,7 +91,6 @@ class ProductList extends React.Component<any, any> {
                         list={productList}
                         tableFormat={column}
                     />
-
                 </ListPagination>
             </div>
         );

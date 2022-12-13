@@ -26,7 +26,7 @@ export default class ProductStore {
     @action setCategories = (data: string[]) => this.categories = data;
 
     fetchProduct = async (page: number, searchQuery: string, filter: string) => {
-        const limit  = 10;
+        const limit = 10;
         let url = `products/search?q=${searchQuery}&limit=${limit}&skip=${page * limit}`
         if (searchQuery.length) {
             url = `products/search?q=${searchQuery}&limit=${limit}&skip=${0}`

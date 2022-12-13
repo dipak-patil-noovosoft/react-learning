@@ -5,7 +5,7 @@ import ListTableStore from "../../../Stores/ListTableStore";
 
 interface IPaginationProps<T> {
     store: T
-    children:React.ReactNode;
+    children: React.ReactNode;
 }
 
 @observer
