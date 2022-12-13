@@ -23,7 +23,7 @@ const JsonInputComponent = <T, >({values, requiredValue, disabled, onChange, err
                                     type='text'
                                     value={values[index] as string}
                                     onChange={(e) => {
-                                         onChange(values.map((val, i) => (i === index) ? e.target.value : val) as T[keyof T], index);
+                                        onChange(values.map((val, i) => (i === index) ? e.target.value : val) as T[keyof T], index);
                                     }}
                                     required={requiredValue}
                                     disabled={disabled}
@@ -31,7 +31,7 @@ const JsonInputComponent = <T, >({values, requiredValue, disabled, onChange, err
                                 <Button
                                     type='button'
                                     disabled={(values.length === 1 ? true : disabled)}
-                                    onClick={() => onChange(values.filter((value, I) => I != index) as T[keyof T])}
+                                    onClick={() => onChange(values.filter((value, I) => I !== index) as T[keyof T])}
                                 >
                                     <FaTrash/>
                                 </Button>

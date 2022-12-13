@@ -1,26 +1,28 @@
 import {action, autorun, makeObservable, observable} from "mobx";
-import type {IListStore} from "../Types";
+import type {IFetcherResponse} from "../Types";
 
 export default class ListTableStore<T extends unknown> {
     @observable list: T[] | null = null;
     @observable page: number = 0;
-    @observable total: number = 0;
+    @observable totalPages: number = 0;
     @observable searchQuery: string = ''
     @observable filter: string = ''
+    @observable limit: number = 10;
 
-    constructor(public fetch: (page: number, searchQuery: string, filter: string) => Promise<IListStore<T>>) {
+    constructor(public fetcher: (page: number, limit: number, searchQuery: string, filter: string) => Promise<IFetcherResponse<T>>) {
         makeObservable(this);
         autorun(() => {
-            fetch(this.page, this.searchQuery, this.filter)
-                .then((data) => this.setList(data))
+            fetcher(this.page, this.limit, this.searchQuery, this.filter)
+                .then((data: IFetcherResponse<T>) => this.setList(data))
                 .catch(e => console.log(e))
         })
     }
 
-    @action setList(data: IListStore<T>) {
+    @action setList(data: IFetcherResponse<T>) {
         this.list = data.list;
-        this.total = data.total;
+        this.totalPages = Math.ceil(data.total / this.limit);
     }
+
 
     @action setSearchQuery = (value: string) => this.searchQuery = value;
     @action setPage = (value: number) => this.page = value;

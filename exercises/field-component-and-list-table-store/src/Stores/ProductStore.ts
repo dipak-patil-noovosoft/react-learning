@@ -1,10 +1,10 @@
-import {action, makeObservable, observable} from "mobx";
+import {makeObservable, observable} from "mobx";
 import Networking from "../Networking/Networking";
-import {IProduct} from "../Types";
+import {IFetcherResponse, IProduct} from "../Types";
 import RootStore from "./rootStore";
 import ListTableStore from "./ListTableStore";
 
-interface IFetchResponse {
+interface IProductResponse {
     products: IProduct[],
     total: number,
     skip: number,
@@ -13,7 +13,7 @@ interface IFetchResponse {
 
 export default class ProductStore {
     @observable productList: IProduct[] | null = null;
-    @observable categories: string[] | null = null;
+    @observable categories: ListTableStore<string>;
     rootStore;
     public listTableStore: ListTableStore<IProduct>;
 
@@ -21,12 +21,11 @@ export default class ProductStore {
         makeObservable(this);
         this.rootStore = rootStore;
         this.listTableStore = new ListTableStore(this.fetchProduct);
+        this.categories = new ListTableStore(this.fetchAllCategories);
     }
 
-    @action setCategories = (data: string[]) => this.categories = data;
 
-    fetchProduct = async (page: number, searchQuery: string, filter: string) => {
-        const limit = 10;
+    fetchProduct = async (page: number, limit: number, searchQuery: string, filter: string) => {
         let url = `products/search?q=${searchQuery}&limit=${limit}&skip=${page * limit}`
         if (searchQuery.length) {
             url = `products/search?q=${searchQuery}&limit=${limit}&skip=${0}`
@@ -34,15 +33,24 @@ export default class ProductStore {
         if (filter.length && filter !== 'All') {
             url = `products/category/${filter}`;
         }
-        const data = await Networking.getData<IFetchResponse>(url);
+        const data = await Networking.getData<IProductResponse>(url);
+
         return {
             list: data.products,
-            total: data.total / 10,
-        };
+            limit: data.limit,
+            skip: data.skip,
+            total: data.total
+        } as IFetcherResponse<IProduct>
     };
 
     fetchAllCategories = async () => {
         const data = await Networking.getData<string[]>('products/categories');
-        this.setCategories(data)
+        return {
+            list: data,
+            total: data.length,
+            skip: 0,
+            limit: 0
+
+        } as IFetcherResponse<string>
     }
 }

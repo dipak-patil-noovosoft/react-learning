@@ -19,7 +19,9 @@ export  type Columns<T> = {
     selector: (data: T) => React.ReactNode
 }
 
-export interface IListStore<T> {
+export interface IFetcherResponse<T> {
     list: T[],
-    total: number
+    total: number,
+    skip: number,
+    limit: number
 }
