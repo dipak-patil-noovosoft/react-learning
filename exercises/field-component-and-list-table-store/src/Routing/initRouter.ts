@@ -11,7 +11,7 @@ export const routes = [
     },
     {
         name: "listTableStore",
-        pattern: "/list-input-form"
+        pattern: "/list-table-store"
     }
 ]
 const notFound = createRouterState('notFound');

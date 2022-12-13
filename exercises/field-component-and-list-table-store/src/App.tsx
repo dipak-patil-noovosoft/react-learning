@@ -11,7 +11,6 @@ export const routerStore = initRouter();
 function App() {
     return (
         <RootStoreContextProvider>
-            {/*<MultipleInputForm/>*/}
             <RouterContext.Provider value={routerStore}>
                 <RouterView viewMap={viewMap}/>
             </RouterContext.Provider>
