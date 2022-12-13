@@ -1,7 +1,7 @@
 import React from 'react';
 import {RootStoreContext} from "../../Context/StoreContext/RootStoreContext";
 import {observer} from "mobx-react";
-import MyList from "./MyList";
+import MyList from "./ItemListing";
 import {Columns, IProduct} from "../../Types";
 import ProductStore from "../../Stores/ProductStore";
 import {Input} from "reactstrap";
