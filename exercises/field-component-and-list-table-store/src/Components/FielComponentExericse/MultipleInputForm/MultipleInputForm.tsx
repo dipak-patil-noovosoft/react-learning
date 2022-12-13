@@ -29,7 +29,7 @@ const Inputs = () => {
                     label="Bag"
                     required={true}
                     render={(onChange, value, required, isDisabled, errorMessage) => {
-                        return (<>
+                        return (
                             <JsonInputComponent
                                 disabled={isDisabled}
                                 requiredValue={required}
@@ -37,7 +37,7 @@ const Inputs = () => {
                                 values={value}
                                 errorMessage={errorMessage}
                             />
-                        </>)
+                        )
                     }}
                 />
                 <Field
@@ -45,7 +45,7 @@ const Inputs = () => {
                     label="Test"
                     required={false}
                     render={(onChange, value, required, isDisabled, errorMessage) => {
-                        return (<>
+                        return (
                             <JsonInputComponent
                                 disabled={isDisabled}
                                 requiredValue={required}
@@ -53,7 +53,7 @@ const Inputs = () => {
                                 values={value}
                                 errorMessage={errorMessage}
                             />
-                        </>)
+                        )
                     }}
                 />
             </FormComponent>

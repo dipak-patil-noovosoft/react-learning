@@ -1,7 +1,6 @@
 import React from 'react';
 import {RootStoreContext} from "../../Context/StoreContext/RootStoreContext";
 import {observer} from "mobx-react";
-import MyList from "./ItemListing";
 import {Columns, IProduct} from "../../Types";
 import ProductStore from "../../Stores/ProductStore";
 import {Input} from "reactstrap";
@@ -9,6 +8,7 @@ import FormStore from "../../Stores/FormStore";
 import Field from "../FielComponentExericse/Field/Field";
 import Select from "../FielComponentExericse/select/Select";
 import ListPagination from "./Pagination/ListPagination";
+import ListTable from "./ItemListing";
 
 const column: Columns<IProduct>[] = [
     {
@@ -58,10 +58,9 @@ class ProductList extends React.Component<any, any> {
                                 value={value}
                                 required={required}
                                 onChange={(e) => {
-                                    onChange(e.target.value as never)
+                                    onChange(e.target.value as string)
                                     productStore.listTableStore.setSearchQuery(e.target.value);
-                                }
-                                }
+                                }}
                             />
                         </>)
                     }}
@@ -83,11 +82,10 @@ class ProductList extends React.Component<any, any> {
                                 })
                             }
                         />
-                    }
-                    }
+                    }}
                 />
                 <ListPagination<ProductStore> store={productStore}>
-                    <MyList<IProduct>
+                    <ListTable<IProduct>
                         list={productList}
                         tableFormat={column}
                     />

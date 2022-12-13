@@ -9,7 +9,7 @@ interface IListProps<T> {
 }
 
 @observer
-class List<T extends { id: string | number }> extends React.Component<IListProps<T>, any> {
+class ListTable<T extends { id: string | number }> extends React.Component<IListProps<T>, any> {
     render() {
         const {list, tableFormat} = this.props;
         if (list === null) return <>loading...</>
@@ -23,4 +23,4 @@ class List<T extends { id: string | number }> extends React.Component<IListProps
     }
 }
 
-export default List;
+export default ListTable;

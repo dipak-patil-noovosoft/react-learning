@@ -23,7 +23,7 @@ const JsonInputComponent = <T, >({values, requiredValue, disabled, onChange, err
                                     type='text'
                                     value={values[index] as string}
                                     onChange={(e) => {
-                                        return onChange(values.map((val, i) => (i === index) ? e.target.value : val) as T[keyof T], index);
+                                         onChange(values.map((val, i) => (i === index) ? e.target.value : val) as T[keyof T], index);
                                     }}
                                     required={requiredValue}
                                     disabled={disabled}
