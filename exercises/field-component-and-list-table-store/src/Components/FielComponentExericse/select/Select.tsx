@@ -6,16 +6,22 @@ interface IRenderProps<T extends object> {
     value: string,
     isDisabled?: boolean,
     options: { key: string, value: string }[];
+    onSearch?: (value: string) => void
 }
 
 const Select = <T extends object>(props: IRenderProps<T>) => {
-    const {onChange, value, isDisabled, options} = props;
+    const {onChange, value, isDisabled, options, onSearch} = props;
     return (
         <div>
             <Input
                 type="select"
                 value={value}
-                onChange={() => onChange(options as T[keyof T])}
+                onChange={(e) => {
+                    onChange(e.target.value as T[keyof T])
+                    if (onSearch) {
+                        onSearch(e.target.value)
+                    }
+                }}
                 disabled={isDisabled}
             >{
                 options.map((e) => {

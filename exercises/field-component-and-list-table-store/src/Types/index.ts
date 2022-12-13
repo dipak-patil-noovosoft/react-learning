@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface IProduct {
     "id": number,
     "title": string,
@@ -15,4 +17,9 @@ export interface IProduct {
 export  type Columns<T> = {
     heading: string,
     selector: (data: T) => React.ReactNode
+}
+
+export interface IListStore<T> {
+    list: T[],
+    total: number
 }

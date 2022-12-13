@@ -4,9 +4,11 @@ import {observer} from "mobx-react";
 import MyList from "./MyList";
 import {Columns, IProduct} from "../../Types";
 import ProductStore from "../../Stores/ProductStore";
-import {Button, Input} from "reactstrap";
+import {Input} from "reactstrap";
 import FormStore from "../../Stores/FormStore";
 import Field from "../FielComponentExericse/Field/Field";
+import Select from "../FielComponentExericse/select/Select";
+import ListPagination from "./Pagination/ListPagination";
 
 const column: Columns<IProduct>[] = [
     {
@@ -23,7 +25,7 @@ const column: Columns<IProduct>[] = [
     }
 ]
 
-const productListFormData = {query: ''}
+const productListFormData = {query: '', select: "All"}
 
 const formStore = new FormStore(productListFormData);
 
@@ -33,11 +35,16 @@ class ProductList extends React.Component<any, any> {
     context: React.ContextType<typeof RootStoreContext> | undefined
     static contextType = RootStoreContext;
 
+    componentDidMount() {
+        this.context?.productStore.fetchAllCategories();
+    }
+
     render() {
         if (!this.context) return null
         const productStore: ProductStore = this.context.productStore;
         const productList = productStore.listTableStore.list;
         if (productList === null) return <>Loading...</>
+        const productCategory = productStore.categories ?? [];
         return (
             <div>
                 <Field
@@ -45,10 +52,11 @@ class ProductList extends React.Component<any, any> {
                     label="Search"
                     formStore={formStore}
                     required={true}
-                    render={(onChange, value, required, isDisabled, errorMessage) => {
+                    render={(onChange, value, required) => {
                         return (<>
                             <Input
                                 value={value}
+                                required={required}
                                 onChange={(e) => {
                                     onChange(e.target.value as never)
                                     productStore.listTableStore.setSearchQuery(e.target.value);
@@ -58,25 +66,33 @@ class ProductList extends React.Component<any, any> {
                         </>)
                     }}
                 />
-                <MyList<IProduct>
-                    list={productList}
-                    tableFormat={column}
+                <Field
+                    name='select'
+                    label='Select'
+                    required={false}
+                    formStore={formStore}
+                    render={(onChange, value, required, isDisabled) => {
+                        return <Select
+                            value={value}
+                            onChange={onChange}
+                            isDisabled={isDisabled}
+                            onSearch={productStore.listTableStore.setFilter}
+                            options={
+                                ["All", ...productCategory].map((e) => {
+                                    return {key: e, value: e}
+                                })
+                            }
+                        />
+                    }
+                    }
                 />
-                <Button
-                    className='mx-2 btn-success'
-                    disabled={productStore.listTableStore.page === 0}
-                    onClick={() => {
-                        console.log('click')
-                        productStore.listTableStore.setPage(productStore.listTableStore.page - 1)
-                    }}> -
-                </Button>
-                <Button
-                    className='mx-2 btn-success'
-                    onClick={() => {
-                        console.log('click')
-                        productStore.listTableStore.setPage(productStore.listTableStore.page + 1)
-                    }}> +
-                </Button>
+                <ListPagination<ProductStore> store={productStore}>
+                    <MyList<IProduct>
+                        list={productList}
+                        tableFormat={column}
+                    />
+
+                </ListPagination>
             </div>
         );
     }
