@@ -21,7 +21,6 @@ export default class Networking {
         }
         cacheApiCall[url] = data
 
-        console.log(cacheApiCall)
         return data as T;
     }
 
