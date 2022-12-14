@@ -49,7 +49,7 @@ class ProductList extends React.Component<any, any> {
         // @ts-ignore
         window.__lst = toJS(productStore);
         return (
-            <div>
+            <div className='container'>
                 <Field
                     name='query'
                     label="Search"

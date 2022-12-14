@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from "reactstrap";
+import {Button, Pagination, PaginationItem} from "reactstrap";
 import {observer} from "mobx-react";
 import ListTableStore from "../../../Stores/ListTableStore";
 
@@ -13,22 +13,42 @@ class ListPagination<T extends { listTableStore: ListTableStore<unknown> }> exte
     render() {
         const {store} = this.props;
         return (
-            <div>
+            <div className=''>
                 {this.props.children}
-                <Button
-                    className='mx-2 btn-success'
-                    disabled={store.listTableStore.page === 0}
-                    onClick={() => {
-                        store.listTableStore.setPage(store.listTableStore.page - 1)
-                    }}> -
-                </Button>
-                <Button
-                    className='mx-2 btn-success'
-                    disabled={store.listTableStore.page >= store.listTableStore.totalPages - 1}
-                    onClick={() => {
-                        store.listTableStore.setPage(store.listTableStore.page + 1)
-                    }}> +
-                </Button>
+                <Pagination
+                    className='my-2'
+                    aria-label="Page navigation example"
+                    size="lg"
+                >
+                    <div className='w-100 d-flex justify-content-between '>
+                        <PaginationItem>
+                            <Button
+                                color='primary'
+                                outline
+                                disabled={store.listTableStore.page === 0}
+                                onClick={() => store.listTableStore.setPage(store.listTableStore.page - 1)}
+                            >Previous
+                            </Button>
+                        </PaginationItem>
+                        <div>
+                            <Button
+                                disabled={true}
+                                color='primary'
+                                outline
+                            >Page : {store.listTableStore.page + 1}</Button>
+                        </div>
+                        <PaginationItem>
+                            <Button
+                                color='primary'
+                                outline
+                                disabled={store.listTableStore.page >= store.listTableStore.totalPages - 1}
+                                onClick={() => store.listTableStore.setPage(store.listTableStore.page + 1)}
+                            >Next
+                            </Button>
+                        </PaginationItem>
+                    </div>
+
+                </Pagination>
             </div>
         );
     }

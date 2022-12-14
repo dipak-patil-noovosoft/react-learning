@@ -2,6 +2,7 @@ import React from 'react';
 import TableRows from "./TableRows/TableRows";
 import {observer} from "mobx-react-lite";
 import {Columns} from "../../../../Types";
+import {Table} from "reactstrap";
 
 interface ITableProps<T> {
     tableContent: T[];
@@ -13,7 +14,7 @@ function TableComponent<T extends { id: string | number }>(props: ITableProps<T>
     const {tableContent, tableCol} = props;
     return (
         <div>
-            <table>
+            <Table className='w-100 m-0'  bordered hover>
                 <tbody>
                 <tr>
                     {tableCol.map((e, index) => <th key={index}>{e.heading}</th>)}
@@ -22,7 +23,7 @@ function TableComponent<T extends { id: string | number }>(props: ITableProps<T>
                     return <TableRows key={index} data={e} tableCol={tableCol}/>
                 })}
                 </tbody>
-            </table>
+            </Table>
         </div>
     );
 }

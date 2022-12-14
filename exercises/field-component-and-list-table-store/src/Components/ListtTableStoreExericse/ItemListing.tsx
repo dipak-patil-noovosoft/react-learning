@@ -14,10 +14,8 @@ class ListTable<T extends { id: string | number }> extends React.Component<IList
         const {list, tableFormat} = this.props;
         if (list === null) return <>loading...</>
         return (
-            <div>
-                <ul>
-                    <Table tableCol={tableFormat} tableContent={list}/>
-                </ul>
+            <div className='w-100'>
+                <Table tableCol={tableFormat} tableContent={list}/>
             </div>
         );
     }
