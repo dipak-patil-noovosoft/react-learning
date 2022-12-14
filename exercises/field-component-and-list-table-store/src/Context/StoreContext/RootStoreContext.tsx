@@ -1,11 +1,13 @@
 import React from "react";
 import RootStore from "../../Stores/rootStore";
+import {initRouter} from "../../Routing/initRouter";
 
 interface IRootStoreContextProps {
     children: React.ReactNode
 }
 
-const rootSore = new RootStore()
+const routerStore = initRouter();
+const rootSore = new RootStore(routerStore)
 export const RootStoreContext = React.createContext<RootStore>(rootSore);
 
 export class RootStoreContextProvider extends React.Component<IRootStoreContextProps, any> {

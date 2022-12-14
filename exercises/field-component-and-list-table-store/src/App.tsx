@@ -6,7 +6,7 @@ import {RouterContext, RouterView} from "mobx-state-router";
 import {initRouter} from "./Routing/initRouter";
 import {viewMap} from "./Routing/viewMap";
 
-export const routerStore = initRouter();
+const routerStore = initRouter();
 
 function App() {
     return (

@@ -36,10 +36,6 @@ class ProductList extends React.Component<any, any> {
     context: React.ContextType<typeof RootStoreContext> | undefined
     static contextType = RootStoreContext;
 
-    componentDidMount() {
-        this.context?.productStore.fetchAllCategories();
-    }
-
     render() {
         if (!this.context) return null
         const productStore: ProductStore = this.context.productStore;

@@ -13,7 +13,7 @@ interface IProductResponse {
 
 export default class ProductStore {
     @observable productList: IProduct[] | null = null;
-    @observable categories: ListTableStore<string>;
+    public categories: ListTableStore<string>;
     rootStore;
     public listTableStore: ListTableStore<IProduct>;
 

@@ -11,6 +11,7 @@ let cacheApiCall: Record<string, unknown> = {}
 export default class Networking {
     static async fetchData<T = unknown>(url: string, requestMethod: RequestMethod, options: RequestInit) {
         if (cacheApiCall[url]) return cacheApiCall[url] as T;
+
         const res = await fetch(`https://dummyjson.com/${url}`, {
             method: requestMethod,
             ...options

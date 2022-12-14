@@ -10,8 +10,12 @@ export const routes = [
         pattern: "/multi-input-form"
     },
     {
-        name: "listTableStore",
-        pattern: "/list-table-store"
+        name: "product",
+        pattern: "/product"
+    },
+    {
+        name: "post",
+        pattern: "/post"
     }
 ]
 const notFound = createRouterState('notFound');
