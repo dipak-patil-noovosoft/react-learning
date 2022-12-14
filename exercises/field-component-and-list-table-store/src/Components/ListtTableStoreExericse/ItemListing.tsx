@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from "mobx-react";
-import Table from "./Helpers/Table/Table";
+import Table from "./Helpers/Table/TableComponent";
 import {Columns} from "../../Types";
 
 interface IListProps<T> {

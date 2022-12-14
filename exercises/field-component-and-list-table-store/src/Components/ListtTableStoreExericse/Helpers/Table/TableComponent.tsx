@@ -9,7 +9,7 @@ interface ITableProps<T> {
 }
 
 
-function Table<T extends { id: string | number }>(props: ITableProps<T>) {
+function TableComponent<T extends { id: string | number }>(props: ITableProps<T>) {
     const {tableContent, tableCol} = props;
     return (
         <div>
@@ -27,4 +27,4 @@ function Table<T extends { id: string | number }>(props: ITableProps<T>) {
     );
 }
 
-export default observer(Table);
+export default observer(TableComponent);
