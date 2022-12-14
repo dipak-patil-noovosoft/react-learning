@@ -5,7 +5,6 @@ import ListPagination from "./Pagination/ListPagination";
 import ListTable from "./ItemListing";
 import {Columns, IPost} from "../../Types";
 import PostStore from "../../Stores/PostStore";
-import {Button} from "reactstrap";
 
 const column: Columns<IPost>[] = [
     {

@@ -35,7 +35,6 @@ export default class ListTableStore<T extends unknown> {
         this.totalPages = Math.ceil(data.total / this.limit);
     }
 
-
     @action setSearchQuery = (value: string) => this.searchQuery = value;
     @action setPage = (value: number) => this.page = value;
     @action setFilter = (value: string) => this.filter = value;

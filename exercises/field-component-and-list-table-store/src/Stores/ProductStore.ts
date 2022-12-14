@@ -23,7 +23,6 @@ export default class ProductStore {
         this.categories = new ListTableStore(this.fetchAllCategories);
     }
 
-
     fetchProduct = async (page: number, limit: number, searchQuery: string, filter: string) => {
         let url = `products/search?q=${searchQuery}&limit=${limit}&skip=${page * limit}`
         if (searchQuery.length) {

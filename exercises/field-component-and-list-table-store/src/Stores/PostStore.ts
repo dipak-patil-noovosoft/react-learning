@@ -37,7 +37,7 @@ export default class PostStore {
             const userName: string = userData.firstName + ' ' + userData.lastName;
             return [...acc, {...cur, userName: userName}];
         }, []);
-        
+
         return {
             list: mergedData,
             limit: post.limit,
