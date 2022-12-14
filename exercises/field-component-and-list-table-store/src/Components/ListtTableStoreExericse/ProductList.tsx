@@ -63,6 +63,7 @@ class ProductList extends React.Component<any, any> {
                                 onChange={(e) => {
                                     onChange(e.target.value as string)
                                     productStore.listTableStore.setSearchQuery(e.target.value);
+                                    productStore.listTableStore.setPage(0);
                                 }}
                             />
                         </>)
