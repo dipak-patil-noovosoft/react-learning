@@ -9,7 +9,6 @@ import Field from "../FielComponentExericse/Field/Field";
 import Select from "../FielComponentExericse/select/Select";
 import ListPagination from "./Pagination/ListPagination";
 import ListTable from "./ItemListing";
-import {toJS} from "mobx";
 
 const column: Columns<IProduct>[] = [
     {
@@ -42,10 +41,9 @@ class ProductList extends React.Component<any, any> {
         const productList = productStore.listTableStore.list;
         if (productList === null) return <>Loading...</>
         const productCategory = productStore.categories.list ?? [];
-        // @ts-ignore
-        window.__lst = toJS(productStore);
         return (
             <div className='container'>
+                <h1 className='text-center'>Product</h1>
                 <Field
                     name='query'
                     label="Search"

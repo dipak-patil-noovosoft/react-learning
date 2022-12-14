@@ -5,6 +5,7 @@ import ListPagination from "./Pagination/ListPagination";
 import ListTable from "./ItemListing";
 import {Columns, IPost} from "../../Types";
 import PostStore from "../../Stores/PostStore";
+import {Button} from "reactstrap";
 
 const column: Columns<IPost>[] = [
     {
@@ -12,7 +13,7 @@ const column: Columns<IPost>[] = [
         selector: (data) => data.title
     },
     {
-        heading: "User",
+        heading: "User Id",
         selector: (data) => data.userId
     },
     {
@@ -33,7 +34,7 @@ class PostList extends Component<{}, {}> {
         if (postList === null) return <>Loading...</>
         return (
             <div className='container'>
-                <h1>Post</h1>
+                <h1 className='text-center'>Post</h1>
                 <ListPagination<PostStore> store={postStore}>
                     <ListTable<IPost>
                         list={postList}

@@ -28,15 +28,16 @@ export default class PostStore {
         this.listTableStore = new ListTableStore(this.fetchPost)
     }
 
-    fetchPost = async (page: number, limit: number, searchQuery: string, filter: string) => {
+    fetchPost = async (page: number, limit: number, searchQuery: string) => {
         const post = await Networking.getData<IPostResponse>(`posts/search?q=${searchQuery}&limit=${limit}&skip=${page * limit}`);
         const user = await Networking.getData<IUserResponse>(`users?limit=100`);
 
         const mergedData = post.posts.reduce((acc: any, cur) => {
-            const userData = user.users.find(u => u.id === cur.userId);
-            const userName: string | undefined = userData?.firstName + ' ' + userData?.lastName;
-            return [...acc, {...cur, userName: userName ?? undefined}];
+            const userData = user.users.find(u => u.id === cur.userId)!;
+            const userName: string = userData.firstName + ' ' + userData.lastName;
+            return [...acc, {...cur, userName: userName}];
         }, []);
+        
         return {
             list: mergedData,
             limit: post.limit,

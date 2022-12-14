@@ -1,4 +1,4 @@
-import {makeObservable, observable} from "mobx";
+import {makeAutoObservable} from "mobx";
 import Networking from "../Networking/Networking";
 import {IFetcherResponse, IProduct} from "../Types";
 import RootStore from "./rootStore";
@@ -12,13 +12,12 @@ interface IProductResponse {
 }
 
 export default class ProductStore {
-    @observable productList: IProduct[] | null = null;
     public categories: ListTableStore<string>;
     rootStore;
     public listTableStore: ListTableStore<IProduct>;
 
     constructor(rootStore: RootStore) {
-        makeObservable(this);
+        makeAutoObservable(this);
         this.rootStore = rootStore;
         this.listTableStore = new ListTableStore(this.fetchProduct);
         this.categories = new ListTableStore(this.fetchAllCategories);

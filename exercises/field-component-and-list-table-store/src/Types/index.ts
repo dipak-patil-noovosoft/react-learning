@@ -23,7 +23,6 @@ export interface IPost {
     reactions: number
     userName?: string
 }
-
 export  type Columns<T> = {
     heading: string,
     selector: (data: T) => React.ReactNode
