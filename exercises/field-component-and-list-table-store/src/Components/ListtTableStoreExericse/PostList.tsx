@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {RootStoreContext} from "../../Context/StoreContext/RootStoreContext";
 import {observer} from "mobx-react";
 import ListPagination from "./Pagination/ListPagination";
-import ListTable from "./ItemListing";
+import ListTable from "./ListTable";
 import {Columns, IPost} from "../../Types";
 import PostStore from "../../Stores/PostStore";
 

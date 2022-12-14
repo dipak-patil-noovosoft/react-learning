@@ -8,7 +8,7 @@ import FormStore from "../../Stores/FormStore";
 import Field from "../FielComponentExericse/Field/Field";
 import Select from "../FielComponentExericse/select/Select";
 import ListPagination from "./Pagination/ListPagination";
-import ListTable from "./ItemListing";
+import ListTable from "./ListTable";
 
 const column: Columns<IProduct>[] = [
     {
