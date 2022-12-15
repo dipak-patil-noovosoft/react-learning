@@ -20,9 +20,9 @@ export default class PostStore {
         makeObservable(this);
         this.rootStore = rootStore;
         this.listTableStore = new ListTableStore(this.fetchPost)
-        autorun(() => this.listTableStore.list?.posts.map((e) =>
-            this.getUser(e.userId).then(user => {
-                this.appendUsernameToPost(e, user);
+        autorun(() => this.listTableStore.list?.posts.map((post) =>
+            this.getUser(post.userId).then(user => {
+                this.appendUsernameToPost(post, user);
             })
         ))
     }
