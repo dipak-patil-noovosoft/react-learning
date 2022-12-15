@@ -23,18 +23,11 @@ export interface IPost {
     reactions: number
     userName?: string
 }
+
 export  type Columns<T> = {
     heading: string,
     selector: (data: T) => React.ReactNode
 }
-
-export interface IFetcherResponse<T> {
-    list: T[],
-    total: number,
-    skip: number,
-    limit: number
-}
-
 
 export interface IUser {
     id: number;

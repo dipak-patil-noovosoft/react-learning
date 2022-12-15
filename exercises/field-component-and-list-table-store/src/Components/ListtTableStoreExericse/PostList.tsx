@@ -29,14 +29,13 @@ class PostList extends Component<{}, {}> {
     render() {
         if (!this.context) return null
         const postStore = this.context.postStore;
-        const postList = postStore.listTableStore.list;
-        if (postList === null) return <>Loading...</>
+        const product = postStore.postWithUsername;
         return (
             <div className='container'>
                 <h1 className='text-center'>Post</h1>
                 <ListPagination<PostStore> store={postStore}>
                     <ListTable<IPost>
-                        list={postList}
+                        list={product}
                         tableFormat={column}
                     />
                 </ListPagination>

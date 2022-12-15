@@ -1,10 +1,10 @@
 import {makeAutoObservable} from "mobx";
 import Networking from "../Networking/Networking";
-import {IFetcherResponse, IProduct} from "../Types";
+import {IProduct} from "../Types";
 import RootStore from "./rootStore";
 import ListTableStore from "./ListTableStore";
 
-interface IProductResponse {
+export interface IProductResponse {
     products: IProduct[],
     total: number,
     skip: number,
@@ -12,9 +12,9 @@ interface IProductResponse {
 }
 
 export default class ProductStore {
-    public categories: ListTableStore<string>;
+    public categories: ListTableStore<string[]>;
     rootStore;
-    public listTableStore: ListTableStore<IProduct>;
+    public listTableStore: ListTableStore<IProductResponse>;
 
     constructor(rootStore: RootStore) {
         makeAutoObservable(this);
@@ -23,7 +23,7 @@ export default class ProductStore {
         this.categories = new ListTableStore(this.fetchAllCategories);
     }
 
-    fetchProduct = async (page: number, limit: number, searchQuery: string, filter: string) => {
+    fetchProduct = (page: number, limit: number, searchQuery: string, filter: string) => {
         let url = `products/search?q=${searchQuery}&limit=${limit}&skip=${page * limit}`
         if (searchQuery.length) {
             url = `products/search?q=${searchQuery}&limit=${limit}&skip=${page * limit}`
@@ -31,23 +31,10 @@ export default class ProductStore {
         if (filter.length && filter !== 'All') {
             url = `products/category/${filter}`;
         }
-        const data = await Networking.getData<IProductResponse>(url);
-
-        return {
-            list: data.products,
-            limit: data.limit,
-            skip: data.skip,
-            total: data.total
-        } as IFetcherResponse<IProduct>
+        return Networking.getData<IProductResponse>(url);
     };
 
-    fetchAllCategories = async () => {
-        const data = await Networking.getData<string[]>('products/categories');
-        return {
-            list: data,
-            total: data.length,
-            skip: 0,
-            limit: 0
-        } as IFetcherResponse<string>
+    fetchAllCategories = () => {
+        return Networking.getData<string[]>('products/categories');
     }
 }

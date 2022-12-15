@@ -1,38 +1,25 @@
-import {action, makeObservable, observable, reaction} from "mobx";
-import type {IFetcherResponse} from "../Types";
+import {action, autorun, makeObservable, observable} from "mobx";
 
-export default class ListTableStore<T extends unknown> {
-    @observable list: T[] | null = null;
+export default class ListTableStore<T extends { total: number, skip: number, limit: number } | unknown> {
+    @observable list: T | null = null;
     @observable page: number = 0;
     @observable totalPages: number = 0;
     @observable searchQuery: string = ''
     @observable filter: string = ''
     @observable limit: number = 10;
 
-    constructor(public fetcher: (page: number, limit: number, searchQuery: string, filter: string) => Promise<IFetcherResponse<T>>) {
+    constructor(public fetcher: (page: number, limit: number, searchQuery: string, filter: string) => Promise<T>) {
         makeObservable(this);
-        //Testing purpose
-
-        // autorun(() => {
-        //     fetcher(this.page, this.limit, this.searchQuery, this.filter)
-        //         .then((data: IFetcherResponse<T>) => this.setList(data))
-        //         .catch(e => console.log(e))
-        // })
-        reaction(
-            () => [this.page, this.filter, this.searchQuery],
-            () => {
-                fetcher(this.page, this.limit, this.searchQuery, this.filter)
-                    .then((data: IFetcherResponse<T>) => this.setList(data))
-                    .catch(e => console.log(e))
-            }, {
-                fireImmediately: true
-            }
-        )
+        autorun(() => {
+            fetcher(this.page, this.limit, this.searchQuery, this.filter)
+                .then((data: T) => this.setList(data))
+                .catch(e => console.log(e))
+        })
     }
 
-    @action setList(data: IFetcherResponse<T>) {
-        this.list = data.list;
-        this.totalPages = Math.ceil(data.total / this.limit);
+    @action setList(data: T) {
+        this.list = data;
+        if ((data as { total: number }).total) this.totalPages = Math.ceil((data as { total: number }).total / this.limit);
     }
 
     @action setSearchQuery = (value: string) => this.searchQuery = value;

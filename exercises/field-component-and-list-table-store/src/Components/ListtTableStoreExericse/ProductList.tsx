@@ -9,6 +9,7 @@ import Field from "../FielComponentExericse/Field/Field";
 import Select from "../FielComponentExericse/select/Select";
 import ListPagination from "./Pagination/ListPagination";
 import ListTable from "./ListTable";
+import {toJS} from "mobx";
 
 const column: Columns<IProduct>[] = [
     {
@@ -38,9 +39,13 @@ class ProductList extends React.Component<any, any> {
     render() {
         if (!this.context) return null
         const productStore: ProductStore = this.context.productStore;
+        // @ts-ignore
+        window.___lst = toJS(productStore)
         const productList = productStore.listTableStore.list;
+        const category = productStore.categories.list;
         if (productList === null) return <>Loading...</>
-        const productCategory = productStore.categories.list ?? [];
+        if (category === null) return <>Loading...</>
+        const product = productList.products;
         return (
             <div className='container'>
                 <h1 className='text-center'>Product</h1>
@@ -75,7 +80,7 @@ class ProductList extends React.Component<any, any> {
                             isDisabled={isDisabled}
                             onSearch={productStore.listTableStore.setFilter}
                             options={
-                                ["All", ...productCategory].map((e) => {
+                                ["All", ...category].map((e) => {
                                     return {key: e, value: e}
                                 })
                             }
@@ -84,7 +89,7 @@ class ProductList extends React.Component<any, any> {
                 />
                 <ListPagination<ProductStore> store={productStore}>
                     <ListTable<IProduct>
-                        list={productList}
+                        list={product}
                         tableFormat={column}
                     />
                 </ListPagination>

@@ -9,7 +9,7 @@ interface IPaginationProps<T> {
 }
 
 @observer
-class ListPagination<T extends { listTableStore: ListTableStore<unknown> }> extends React.Component<IPaginationProps<T>, any> {
+class ListPagination<T extends { listTableStore: ListTableStore<{ total: number; skip: number; limit: number }> }> extends React.Component<IPaginationProps<T>, any> {
     render() {
         const {store} = this.props;
         return (
@@ -35,7 +35,7 @@ class ListPagination<T extends { listTableStore: ListTableStore<unknown> }> exte
                                 disabled={true}
                                 color='primary'
                                 outline
-                            >Page : {store.listTableStore.page + 1}</Button>
+                            >Page : {store.listTableStore.page + 1}/{store.listTableStore.totalPages} </Button>
                         </div>
                         <PaginationItem>
                             <Button
