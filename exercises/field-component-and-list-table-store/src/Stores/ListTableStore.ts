@@ -1,4 +1,4 @@
-import {action, autorun, makeObservable, observable} from "mobx";
+import {action, makeObservable, observable} from "mobx";
 
 export default class ListTableStore<T extends { total: number, skip: number, limit: number } | unknown> {
     @observable list: T | null = null;
@@ -10,11 +10,6 @@ export default class ListTableStore<T extends { total: number, skip: number, lim
 
     constructor(public fetcher: (page: number, limit: number, searchQuery: string, filter: string) => Promise<T>) {
         makeObservable(this);
-        autorun(() => {
-            fetcher(this.page, this.limit, this.searchQuery, this.filter)
-                .then((data: T) => this.setList(data))
-                .catch(e => console.log(e))
-        })
     }
 
     @action setList(data: T) {
@@ -22,7 +17,22 @@ export default class ListTableStore<T extends { total: number, skip: number, lim
         if ((data as { total: number }).total) this.totalPages = Math.ceil((data as { total: number }).total / this.limit);
     }
 
-    @action setSearchQuery = (value: string) => this.searchQuery = value;
-    @action setPage = (value: number) => this.page = value;
-    @action setFilter = (value: string) => this.filter = value;
+    fetchData = () => {
+        this.fetcher(this.page, this.limit, this.searchQuery, this.filter)
+            .then((data: T) => this.setList(data))
+            .catch(e => console.log(e))
+    }
+
+    @action setSearchQuery = (value: string) => {
+        this.searchQuery = value;
+        this.fetchData();
+    }
+    @action setPage = (value: number) => {
+        this.page = value;
+        this.fetchData();
+    }
+    @action setFilter = (value: string) => {
+        this.filter = value;
+        this.fetchData();
+    }
 }

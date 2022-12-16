@@ -12,7 +12,7 @@ interface IPostResponse {
 }
 
 export default class PostStore {
-    @observable listTableStore: ListTableStore<IPostResponse>
+    public listTableStore: ListTableStore<IPostResponse>
     @observable postWithUsername: (IPost)[] = [];
     rootStore
 
@@ -27,8 +27,8 @@ export default class PostStore {
         ))
     }
 
-    @action fetchPost = (page: number, limit: number, searchQuery: string) => {
-        this.postWithUsername = [];
+    fetchPost = (page: number, limit: number, searchQuery: string) => {
+        this.clearPostWithUsername();
         return Networking.getData<IPostResponse>(`posts/search?q=${searchQuery}&limit=${limit}&skip=${page * limit}`);
     }
 
@@ -36,6 +36,7 @@ export default class PostStore {
         return Networking.getData<IUser>(`users/${userId}`);
     }
 
+    @action clearPostWithUsername = () => this.postWithUsername = [];
     @action appendUsernameToPost = (post: IPost, user: IUser) => {
         this.postWithUsername = [...this.postWithUsername, {...post, userName: user.firstName}]
     }

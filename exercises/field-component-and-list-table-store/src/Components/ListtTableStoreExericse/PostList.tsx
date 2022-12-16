@@ -26,6 +26,11 @@ class PostList extends Component<{}, {}> {
     context: React.ContextType<typeof RootStoreContext> | undefined
     static contextType = RootStoreContext;
 
+    componentDidMount() {
+        if (!this.context) return null;
+        this.context.postStore.listTableStore.fetchData();
+    }
+
     render() {
         if (!this.context) return null
         const postStore = this.context.postStore;
