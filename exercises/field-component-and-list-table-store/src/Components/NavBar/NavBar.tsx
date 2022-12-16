@@ -13,6 +13,9 @@ class NavBar extends Component<{}, {}> {
                     <RouterLink className='mx-2 text-decoration-none' routeName='post'>
                         Post
                     </RouterLink>
+                    <RouterLink className='mx-2 text-decoration-none' routeName='filterPicker'>
+                        FilterPicker
+                    </RouterLink>
                     <RouterLink className='mx-2 text-decoration-none' routeName='multiInputForm'>
                         JsonInput
                     </RouterLink>

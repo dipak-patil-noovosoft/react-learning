@@ -16,6 +16,10 @@ export const routes = [
     {
         name: "post",
         pattern: "/post"
+    },
+    {
+        name: "filterPicker",
+        pattern: "/filterPicker"
     }
 ]
 const notFound = createRouterState('notFound');
