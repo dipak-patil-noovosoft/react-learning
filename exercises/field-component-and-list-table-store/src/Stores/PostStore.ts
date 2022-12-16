@@ -1,4 +1,4 @@
-import RootStore from "./rootStore";
+import RootStore from "./RootStore";
 import {action, makeObservable, observable, reaction} from "mobx";
 import {IPost, IUser} from "../Types";
 import Networking from "../Networking/Networking";

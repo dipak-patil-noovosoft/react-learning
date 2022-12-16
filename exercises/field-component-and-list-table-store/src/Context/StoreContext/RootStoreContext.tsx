@@ -1,5 +1,5 @@
 import React from "react";
-import RootStore from "../../Stores/rootStore";
+import RootStore from "../../Stores/RootStore";
 import {initRouter} from "../../Routing/initRouter";
 
 interface IRootStoreContextProps {

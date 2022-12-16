@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import Networking from "../Networking/Networking";
 import {IProduct} from "../Types";
-import RootStore from "./rootStore";
+import RootStore from "./RootStore";
 import ListTableStore from "./ListTableStore";
 
 export interface IProductResponse {
