@@ -37,10 +37,6 @@ class PostList extends Component<{}, {}> {
     render() {
         if (!this.context) return null
         const postStore = this.context.postStore;
-        //@ts-ignore
-        window.__lst = toJS(postStore);
-
-        // const product = postStore.listTableStore?.list?.posts ?? [];
         const postWithUsername = postStore.postWithUsername;
         const product = Object.values(postWithUsername);
         return (
