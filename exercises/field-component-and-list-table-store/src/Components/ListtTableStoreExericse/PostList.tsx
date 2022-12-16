@@ -5,6 +5,7 @@ import ListPagination from "./Pagination/ListPagination";
 import ListTable from "./ListTable";
 import {Columns, IPost} from "../../Types";
 import PostStore from "../../Stores/PostStore";
+import {toJS} from "mobx";
 
 const column: Columns<IPost>[] = [
     {
@@ -17,7 +18,9 @@ const column: Columns<IPost>[] = [
     },
     {
         heading: "userName",
-        selector: (data) => data.userName
+        selector: (data) => {
+            return data.userName
+        }
     }
 ]
 
@@ -34,7 +37,12 @@ class PostList extends Component<{}, {}> {
     render() {
         if (!this.context) return null
         const postStore = this.context.postStore;
-        const product = postStore.postWithUsername;
+        //@ts-ignore
+        window.__lst = toJS(postStore);
+
+        // const product = postStore.listTableStore?.list?.posts ?? [];
+        const postWithUsername = postStore.postWithUsername;
+        const product = Object.values(postWithUsername);
         return (
             <div className='container'>
                 <h1 className='text-center'>Post</h1>
