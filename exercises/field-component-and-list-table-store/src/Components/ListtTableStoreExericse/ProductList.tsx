@@ -45,8 +45,6 @@ class ProductList extends React.Component<any, any> {
     render() {
         if (!this.context) return null
         const productStore: ProductStore = this.context.productStore;
-        // @ts-ignore
-        window.___lst = toJS(productStore)
         const productList = productStore.listTableStore.list;
         const category = productStore.categories.list;
         if (productList === null) return <>Loading...</>

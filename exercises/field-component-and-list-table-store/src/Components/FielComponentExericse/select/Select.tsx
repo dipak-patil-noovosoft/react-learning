@@ -1,8 +1,9 @@
 import React from 'react';
 import {Input} from "reactstrap";
+import {observer} from "mobx-react-lite";
 
 interface IRenderProps<T extends object> {
-    onChange: (val: T[keyof T], index?: number) => void,
+    onChange: (val: string, index?: number) => void,
     value: string,
     isDisabled?: boolean,
     options: { key: string, value: string }[];
@@ -17,10 +18,8 @@ const Select = <T extends object>(props: IRenderProps<T>) => {
                 type="select"
                 value={value}
                 onChange={(e) => {
-                    onChange(e.target.value as T[keyof T])
-                    if (onSearch) {
-                        onSearch(e.target.value)
-                    }
+                    onChange(e.target.value)
+                    if (onSearch) onSearch(e.target.value)
                 }}
                 disabled={isDisabled}
             >{
@@ -33,4 +32,4 @@ const Select = <T extends object>(props: IRenderProps<T>) => {
     );
 }
 
-export default Select;
+export default observer(Select);

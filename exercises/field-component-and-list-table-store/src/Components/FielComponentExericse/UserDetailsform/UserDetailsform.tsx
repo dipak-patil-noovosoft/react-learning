@@ -119,24 +119,24 @@ const UserDetailsform = () => {
                     }
                     }
                 />
-                <Field
-                    name='select'
-                    label='Select'
-                    required={false}
-                    render={(onChange, value, required, isDisabled) => {
-                        return <Select
-                            onChange={onChange}
-                            value={value}
-                            isDisabled={isDisabled}
-                            options={[
-                                {key: 'A', value: 'A'},
-                                {key: 'B', value: 'B'},
-                                {key: 'C', value: 'C'}
-                            ]}
-                        />
-                    }
-                    }
-                />
+                {/*<Field*/}
+                {/*    name='select'*/}
+                {/*    label='Select'*/}
+                {/*    required={false}*/}
+                {/*    render={(onChange, value, required, isDisabled) => {*/}
+                {/*        return <Select*/}
+                {/*            onChange={(val: string) => onChange(val as string)}*/}
+                {/*            value={value}*/}
+                {/*            isDisabled={isDisabled}*/}
+                {/*            options={[*/}
+                {/*                {key: 'A', value: 'A'},*/}
+                {/*                {key: 'B', value: 'B'},*/}
+                {/*                {key: 'C', value: 'C'}*/}
+                {/*            ]}*/}
+                {/*        />*/}
+                {/*    }*/}
+                {/*    }*/}
+                {/*/>*/}
             </FormComponent>
         </div>
     )
