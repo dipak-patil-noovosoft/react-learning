@@ -4,6 +4,7 @@ import {Button, Input, Label} from "reactstrap";
 import FilterPickerStore, {IFilter} from "../../Stores/FilterPickerStore";
 import {observer} from "mobx-react";
 import ListTableStore from "../../Stores/ListTableStore";
+import {toJS} from "mobx";
 
 
 interface IFilterPickerProps<T> {
@@ -21,6 +22,9 @@ class FilterPicker<T, > extends Component<IFilterPickerProps<T>, {}> {
 
     render() {
         const {listStore, filterPickerStore} = this.props;
+
+        //@ts-ignore
+        window._filterPickerStore = toJS(filterPickerStore);
 
         function selectFilter(type: string, options: any) {
             if (type === 'select') {
@@ -66,7 +70,7 @@ class FilterPicker<T, > extends Component<IFilterPickerProps<T>, {}> {
                         onChange={(value) => {
                             filterPickerStore.setCurrentFilter(value)
                         }}
-                        value={filterPickerStore.currentSelected?.name as string}
+                        value={(filterPickerStore.currentSelected as string) ?? ''}
                         options={
                             [{
                                 name: "select filter",
@@ -77,8 +81,8 @@ class FilterPicker<T, > extends Component<IFilterPickerProps<T>, {}> {
                             }))
                         }/>
                     <Button
-                        disabled={filterPickerStore.currentSelected === null}
-                        onClick={() => filterPickerStore.addFilter(filterPickerStore.currentSelected!.name)}>Add
+                        disabled={filterPickerStore.currentSelected === null || filterPickerStore.currentSelected === 'select filter'}
+                        onClick={() => filterPickerStore.addFilter(filterPickerStore.currentSelected as string)}>Add
                     </Button>
                 </div>
                 <div>

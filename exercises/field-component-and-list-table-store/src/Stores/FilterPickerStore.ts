@@ -10,7 +10,7 @@ export interface IFilter {
 
 export default class FilterPickerStore {
     @observable filter: IFilter[] = [];
-    @observable currentSelected: IFilter | null = null;
+    @observable currentSelected: string | null = null;
     @observable selectedFilter: IFilter[] = []
 
     constructor() {
@@ -19,7 +19,7 @@ export default class FilterPickerStore {
 
     getCurrentValue = (type: string) => this.filter.find(filter => filter.type === type)!.value
     @action setFilterList = (data: IFilter[]) => this.filter = data;
-    @action setCurrentFilter = (key: string) => this.currentSelected = this.filter.find((e) => e.name === key)!;
+    @action setCurrentFilter = (key: string) => this.currentSelected = key!;
     @action setCurrentSelectedOption = (key: string, value: string | number | boolean) => this.filter.find(filter => filter.type === key)!.value = value;
 
     @action addFilter = (key: string) => {
