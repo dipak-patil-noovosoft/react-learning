@@ -1,35 +1,32 @@
 import React, {Component} from 'react';
 import Select from "../FielComponentExericse/select/Select";
 import {Button, Input, Label} from "reactstrap";
-import {toJS} from "mobx";
-import FilterPickerStore from "../../Stores/FilterPickerStore";
+import FilterPickerStore, {IFilter} from "../../Stores/FilterPickerStore";
 import {observer} from "mobx-react";
 import ListTableStore from "../../Stores/ListTableStore";
 
 
-interface IFilterPickerProps {
-    changeRange: (value: number) => void
-    changeFlag: () => void
-    listStore: ListTableStore<any>
-    filterList: { type: string, name: string, options?: any[] }[];
+interface IFilterPickerProps<T> {
+    listStore: ListTableStore<T>
+    filterList: Omit<IFilter, 'isSelected'>[];
+    filterPickerStore: FilterPickerStore
 }
 
-const filterPickerStore = new FilterPickerStore();
 
 @observer
-class FilterPicker extends Component<IFilterPickerProps, {}> {
+class FilterPicker<T, > extends Component<IFilterPickerProps<T>, {}> {
     componentDidMount() {
-        filterPickerStore.setFilterList(this.props.filterList.map((e) => ({...e, isSelected: false})))
+        this.props.filterPickerStore.setFilterList(this.props.filterList.map((e) => ({...e, isSelected: false})))
     }
 
     render() {
-        const {listStore, changeRange, changeFlag} = this.props;
+        const {listStore, filterPickerStore} = this.props;
 
         function selectFilter(type: string, options: any) {
             if (type === 'select') {
                 return <Select
-                    onChange={(value) => filterPickerStore.setCurrentSelectedOption(value)}
-                    value={filterPickerStore.currentSelectedOption}
+                    onChange={(value) => filterPickerStore.setCurrentSelectedOption('select', value)}
+                    value={filterPickerStore.getCurrentValue('select') as string}
                     onSearch={listStore.setFilter}
                     options={
                         ["All", ...options].map((e) => {
@@ -40,22 +37,27 @@ class FilterPicker extends Component<IFilterPickerProps, {}> {
             if (type === 'number')
                 return <Input
                     type='number'
+                    value={(filterPickerStore.getCurrentValue('number') as number).toString()}
                     placeholder='Enter Range'
                     onChange={(e) => {
-                        changeRange(+e.target.value)
+                        filterPickerStore.setCurrentSelectedOption('number', +e.target.value)
                     }}
                 />
 
             if (type === 'boolean') {
-                return <>
-                    <Input type="checkbox" onClick={changeFlag}/>
+                return <div>
+                    <Input
+                        type="checkbox"
+                        checked={filterPickerStore.getCurrentValue('boolean') as boolean}
+                        onChange={
+                            () =>
+                                filterPickerStore.setCurrentSelectedOption('boolean', !(filterPickerStore.getCurrentValue('boolean') as boolean))
+                        }/>
                     <Label>In Stock</Label>
-                </>
+                </div>
             }
         }
 
-        // @ts-ignore
-        window.__form = toJS(filterPickerStore);
         return (
             <div>
                 <h1>FilterPicker</h1>
@@ -75,11 +77,13 @@ class FilterPicker extends Component<IFilterPickerProps, {}> {
                             }))
                         }/>
                     <Button
-                        onClick={() => filterPickerStore.addFilter(filterPickerStore.currentSelected?.name)}>Add</Button>
+                        disabled={filterPickerStore.currentSelected === null}
+                        onClick={() => filterPickerStore.addFilter(filterPickerStore.currentSelected!.name)}>Add
+                    </Button>
                 </div>
                 <div>
                     {filterPickerStore.selectedFilter.map((filter) => {
-                        return <div key={filter.name}>{selectFilter(filter.type, filter.options)}</div>
+                        return <div key={filter.name} className='my-2'>{selectFilter(filter.type, filter.options)}</div>
                     })}
                 </div>
             </div>

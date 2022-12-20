@@ -1,36 +1,30 @@
 import {action, makeObservable, observable} from "mobx";
 
-interface IFilter {
+export interface IFilter {
     name: string,
     isSelected: boolean,
     type: string,
     options?: any[]
+    value: string | number | boolean
 }
 
 export default class FilterPickerStore {
     @observable filter: IFilter[] = [];
     @observable currentSelected: IFilter | null = null;
     @observable selectedFilter: IFilter[] = []
-    @observable currentSelectedOption = '';
 
     constructor() {
         makeObservable(this)
     }
 
-    @action setFilterList(data: IFilter[]) {
-        this.filter = data;
-    }
+    getCurrentValue = (type: string) => this.filter.find(filter => filter.type === type)!.value
+    @action setFilterList = (data: IFilter[]) => this.filter = data;
+    @action setCurrentFilter = (key: string) => this.currentSelected = this.filter.find((e) => e.name === key)!;
+    @action setCurrentSelectedOption = (key: string, value: string | number | boolean) => this.filter.find(filter => filter.type === key)!.value = value;
 
-    @action setCurrentFilter = (key: string) => {
-        this.currentSelected = this.filter.find((e) => e.name === key)!;
-    }
-    @action setCurrentSelectedOption = (key: string) => {
-        this.currentSelectedOption = key;
-    }
-
-    @action addFilter = (key: string | undefined) => {
-        if (key === undefined) return null;
+    @action addFilter = (key: string) => {
         this.selectedFilter.push(this.filter.find((e) => e.name === key)!);
         this.filter.find((e) => e.name === key)!.isSelected = true
+        this.currentSelected = null;
     }
 }

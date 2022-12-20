@@ -1,12 +1,12 @@
 import React, {PureComponent} from 'react';
 import {Columns, IProduct} from "../../Types";
 import {RootStoreContext} from "../../Context/StoreContext/RootStoreContext";
-import ProductStore from "../../Stores/ProductStore";
+import ProductStore, {IProductResponse} from "../../Stores/ProductStore";
 import ListTable from "./ListTable";
 import ListPagination from "./Pagination/ListPagination";
 import {observer} from "mobx-react";
 import FilterPicker from "../FilterPicker/FilterPicker";
-import {action, makeObservable, observable} from "mobx";
+import FilterPickerStore from "../../Stores/FilterPickerStore";
 
 const column: Columns<IProduct>[] = [
     {
@@ -31,22 +31,10 @@ const column: Columns<IProduct>[] = [
     }
 ]
 
-class TestStore {
-    @observable range: number = 0;
-    @observable isAvailable: boolean = false;
-
-    constructor() {
-        makeObservable(this)
-    }
-
-    @action setRange = (value: number) => this.range = value;
-    @action changeFlag = () => this.isAvailable = !this.isAvailable;
-}
-
-const testStore = new TestStore();
+const filterPickerStore = new FilterPickerStore();
 
 @observer
-class FilterPickerList extends PureComponent<{}, {}> {
+class FilterPickerList extends PureComponent {
 
     context: React.ContextType<typeof RootStoreContext> | undefined
     static contextType = RootStoreContext;
@@ -60,32 +48,36 @@ class FilterPickerList extends PureComponent<{}, {}> {
     render() {
         if (!this.context) return null
         const productStore: ProductStore = this.context.productStore;
-        const listStore = productStore.listTableStore;
+        let product = productStore.listTableStore.list?.products ?? [];
         const category = productStore.categories.list;
         if (category === null) return <>Loading...</>
-        let product = listStore.list?.products ?? [];
-        product = product.filter((e) => e.price > testStore.range);
-        console.log(testStore.isAvailable)
-        if (testStore.isAvailable) product = product.filter((e) => e.stock > 50);
+
+        //Filtering COZ: Dummy-API
+        if (filterPickerStore.filter.length) {
+            product = product.filter((product) => (filterPickerStore.getCurrentValue('number')) ? product.price < (filterPickerStore.getCurrentValue('number')) : true)
+            if (filterPickerStore.getCurrentValue('boolean')) product = product.filter(product => product.stock > 50);
+        }
         return (
             <div className='container'>
-                <FilterPicker
-                    changeRange={testStore.setRange}
-                    changeFlag={testStore.changeFlag}
-                    listStore={listStore}
+                <FilterPicker<IProductResponse>
+                    filterPickerStore={filterPickerStore}
+                    listStore={productStore.listTableStore}
                     filterList={[
                         {
                             type: "select",
                             name: "category",
-                            options: category
+                            options: category,
+                            value: "All"
                         },
                         {
                             type: "number",
-                            name: "price"
+                            name: "price",
+                            value: 0
                         },
                         {
                             type: "boolean",
-                            name: "stock"
+                            name: "stock",
+                            value: false
                         }
                     ]}
                 />
