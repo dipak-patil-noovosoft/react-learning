@@ -5,11 +5,11 @@ import FilterPickerStore, {IFilter} from "../../Stores/FilterPickerStore";
 import {observer} from "mobx-react";
 import ListTableStore from "../../Stores/ListTableStore";
 import {toJS} from "mobx";
-
+import './FilterPicker.css'
 
 interface IFilterPickerProps<T> {
     listStore: ListTableStore<T>
-    filterList: Omit<IFilter, 'isSelected'>[];
+    filterList: (Omit<IFilter, 'value' | 'isSelected'> & { defaultValue: string | number | boolean })[];
     filterPickerStore: FilterPickerStore
 }
 
@@ -17,7 +17,10 @@ interface IFilterPickerProps<T> {
 @observer
 class FilterPicker<T, > extends Component<IFilterPickerProps<T>, {}> {
     componentDidMount() {
-        this.props.filterPickerStore.setFilterList(this.props.filterList.map((e) => ({...e, isSelected: false})))
+        this.props.filterPickerStore.setFilterList(this.props.filterList.map(e => {
+            const {defaultValue, ...rest} = e;
+            return {...rest, isSelected: false, value: defaultValue};
+        }));
     }
 
     render() {
@@ -26,38 +29,52 @@ class FilterPicker<T, > extends Component<IFilterPickerProps<T>, {}> {
         //@ts-ignore
         window._filterPickerStore = toJS(filterPickerStore);
 
-        function selectFilter(type: string, options: any) {
+        function selectFilter(name: string, type: string, options: any) {
             if (type === 'select') {
-                return <Select
-                    onChange={(value) => filterPickerStore.setCurrentSelectedOption('select', value)}
-                    value={filterPickerStore.getCurrentValue('select') as string}
-                    onSearch={listStore.setFilter}
-                    options={
-                        ["All", ...options].map((e) => {
-                            return {key: e, value: e}
-                        })
-                    }/>
+                return <div className='w-100 d-flex'>
+                    <Label style={{width: "20%"}} >{name}</Label>
+                    <div style={{width: "80%"}}>
+                        <Select
+                            onChange={(value) => filterPickerStore.setCurrentSelectedOption('select', value)}
+                            value={filterPickerStore.getCurrentValue('select') as string}
+                            onSearch={listStore.setFilter}
+                            options={
+                                ["All", ...options].map((e) => {
+                                    return {key: e, value: e}
+                                })
+                            }/>
+                    </div>
+                </div>
             }
             if (type === 'number')
-                return <Input
-                    type='number'
-                    value={(filterPickerStore.getCurrentValue('number') as number).toString()}
-                    placeholder='Enter Range'
-                    onChange={(e) => {
-                        filterPickerStore.setCurrentSelectedOption('number', +e.target.value)
-                    }}
-                />
+                return <div className='w-100 d-flex'>
+                    <Label style={{width: "20%"}}>{name}</Label>
+                    <div style={{width: "80%"}}>
+
+                        <Input
+                            type='number'
+                            value={(filterPickerStore.getCurrentValue('number') as number).toString()}
+                            placeholder='Enter Range'
+                            onChange={(e) => {
+                                filterPickerStore.setCurrentSelectedOption('number', +e.target.value)
+                            }}
+                        />
+                    </div>
+                </div>
 
             if (type === 'boolean') {
-                return <div>
-                    <Input
-                        type="checkbox"
-                        checked={filterPickerStore.getCurrentValue('boolean') as boolean}
-                        onChange={
-                            () =>
-                                filterPickerStore.setCurrentSelectedOption('boolean', !(filterPickerStore.getCurrentValue('boolean') as boolean))
-                        }/>
-                    <Label>In Stock</Label>
+                return <div className='w-100 d-flex'>
+                    <Label style={{width: "20%"}}>{name}</Label>
+                    <div style={{width: "80%"}}>
+                        <Input
+                            type="checkbox"
+                            checked={filterPickerStore.getCurrentValue('boolean') as boolean}
+                            onChange={
+                                () =>
+                                    filterPickerStore.setCurrentSelectedOption('boolean', !(filterPickerStore.getCurrentValue('boolean') as boolean))
+                            }/>
+                        <Label>In Stock</Label>
+                    </div>
                 </div>
             }
         }
@@ -87,7 +104,8 @@ class FilterPicker<T, > extends Component<IFilterPickerProps<T>, {}> {
                 </div>
                 <div>
                     {filterPickerStore.selectedFilter.map((filter) => {
-                        return <div key={filter.name} className='my-2'>{selectFilter(filter.type, filter.options)}</div>
+                        return <div key={filter.name}
+                                    className='my-2'>{selectFilter(filter.name, filter.type, filter.options)}</div>
                     })}
                 </div>
             </div>

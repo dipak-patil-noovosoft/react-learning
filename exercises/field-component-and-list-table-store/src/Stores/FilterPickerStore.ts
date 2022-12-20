@@ -1,4 +1,4 @@
-import {action, makeObservable, observable} from "mobx";
+import {action, makeObservable, observable, toJS} from "mobx";
 
 export interface IFilter {
     name: string,
@@ -23,6 +23,7 @@ export default class FilterPickerStore {
     @action setCurrentSelectedOption = (key: string, value: string | number | boolean) => this.filter.find(filter => filter.type === key)!.value = value;
 
     @action addFilter = (key: string) => {
+        console.log(toJS(this.filter.find((e) => e.name === key)!), key)
         this.selectedFilter.push(this.filter.find((e) => e.name === key)!);
         this.filter.find((e) => e.name === key)!.isSelected = true
         this.currentSelected = null;

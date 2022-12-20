@@ -7,6 +7,7 @@ import ListPagination from "./Pagination/ListPagination";
 import {observer} from "mobx-react";
 import FilterPicker from "../FilterPicker/FilterPicker";
 import FilterPickerStore from "../../Stores/FilterPickerStore";
+import {toJS} from "mobx";
 
 const column: Columns<IProduct>[] = [
     {
@@ -66,18 +67,18 @@ class FilterPickerList extends PureComponent {
                         {
                             type: "select",
                             name: "category",
-                            options: category,
-                            value: "All"
+                            options: toJS(category),
+                            defaultValue: "All"
                         },
                         {
                             type: "number",
                             name: "price",
-                            value: 0
+                            defaultValue: 0
                         },
                         {
                             type: "boolean",
                             name: "stock",
-                            value: false
+                            defaultValue: false
                         }
                     ]}
                 />
